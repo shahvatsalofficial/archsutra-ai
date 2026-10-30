@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Technical specification | ArchSutra AI</title>
+<meta name="description" content="Module-by-module description of the implementation, data structures, algorithms, limits and extension points.">
+<link rel="canonical" href="https://shahvatsalofficial.github.io/archsutra-ai/handbook/03-technical-specification.html">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Technical specification | ArchSutra AI">
+<meta property="og:description" content="Module-by-module description of the implementation, data structures, algorithms, limits and extension points.">
+<meta property="og:url" content="https://shahvatsalofficial.github.io/archsutra-ai/handbook/03-technical-specification.html">
+<meta property="og:site_name" content="ArchSutra AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Technical specification | ArchSutra AI">
+<meta name="twitter:description" content="Module-by-module description of the implementation, data structures, algorithms, limits and extension points.">
+<meta name="author" content="Vatsal Shah">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<script>try{var t=localStorage.getItem('as-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Technical specification","description":"Module-by-module description of the implementation, data structures, algorithms, limits and extension points.","author":{"@type":"Person","name":"Vatsal Shah"},"inLanguage":"en","isPartOf":{"@type":"WebSite","name":"ArchSutra AI","url":"https://shahvatsalofficial.github.io/archsutra-ai"}}</script>
+</head>
+<body class="doc">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">Menu</button>
+    <a class="brand" href="../index.html" aria-label="ArchSutra AI home"><svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor" opacity=".12"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ArchSutra <b>AI</b></span></a>
+    <nav class="top-links" aria-label="Primary"><a href="../handbook/index.html">Handbook</a><a href="../handbook/05-user-guide.html">Get started</a><a href="../handbook/08-testing-and-proof.html">Proof</a><a href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">GitHub</a></nav>
+    <button class="theme-btn" type="button" aria-label="Toggle color theme"><span class="sun" aria-hidden="true">Light</span><span class="moon" aria-hidden="true">Dark</span></button>
+  </div>
+</header>
+<div class="layout">
+  <aside id="sidebar" class="sidebar" aria-label="Documentation"><div class="nav-group"><p class="nav-title">Handbook</p><ul><li><a href="../handbook/index.html">Overview</a></li><li><a href="../handbook/01-executive-summary.html">Executive summary</a></li><li><a href="../handbook/02-functional-specification.html">Functional specification</a></li><li><a href="../handbook/03-technical-specification.html" aria-current="page">Technical specification</a></li><li><a href="../handbook/04-architecture.html">Architecture</a></li><li><a href="../handbook/05-user-guide.html">User guide</a></li><li><a href="../handbook/06-cli-reference.html">CLI reference</a></li><li><a href="../handbook/07-security-privacy-legal.html">Security, privacy and legal</a></li><li><a href="../handbook/08-testing-and-proof.html">Testing and proof</a></li><li><a href="../handbook/09-compatibility-and-roadmap.html">Compatibility and roadmap</a></li><li><a href="../handbook/10-contributor-guide.html">Contributor guide</a></li><li><a href="../handbook/11-glossary-and-faq.html">Glossary and FAQ</a></li><li><a href="../handbook/12-rule-catalog.html">Audit rule catalog</a></li></ul></div><div class="nav-group"><p class="nav-title">Reference</p><ul><li><a href="../architecture/overview.html">Architecture overview</a></li><li><a href="../architecture/threat-model.html">Threat model (ArchSutra CLI and skills)</a></li><li><a href="../compatibility/matrix.html">Compatibility matrix</a></li><li><a href="../rfc/0001-archsutra-v0.1.html">RFC 0001: ArchSutra AI v0.1</a></li><li><a href="../decisions/ADR-0001-deterministic-cli-plus-ide-skills.html">ADR-0001: Deterministic CLI plus IDE-native skills</a></li></ul></div></aside>
+  <main id="main" class="content"><article class="prose"><p class="crumbs"><a href="../index.html">ArchSutra AI</a> / Handbook</p><h1 id="technical-specification">Technical specification</h1>
+<p class="lede">Module-by-module description of the implementation, data structures, algorithms, limits and extension points.</p><p class="meta">Version 0.1.0 &middot; Source: <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/docs/handbook/03-technical-specification.md" rel="noopener">docs/handbook/03-technical-specification.md</a></p>
+<h2 id="1-stack">1. Stack<a class="anchor" href="#1-stack" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Aspect</th><th scope="col">Choice</th></tr></thead><tbody><tr><td>Language</td><td>TypeScript 5.x, <code>strict: true</code></td></tr><tr><td>Module system</td><td>ESM (<code>&quot;type&quot;: &quot;module&quot;</code>, <code>NodeNext</code>)</td></tr><tr><td>Runtime</td><td>Node.js &gt;= 20</td></tr><tr><td>Runtime dependencies</td><td>none</td></tr><tr><td>Dev dependencies</td><td><code>typescript</code>, <code>@types/node</code></td></tr><tr><td>Test runner</td><td>built-in <code>node --test</code></td></tr><tr><td>Build</td><td><code>tsc</code> to <code>dist/</code>; <code>prepare</code> builds on install from Git</td></tr><tr><td>Entry point</td><td><code>dist/cli.js</code> (bin <code>archsutra</code>)</td></tr></tbody></table></div>
+<h2 id="2-repository-layout">2. Repository layout<a class="anchor" href="#2-repository-layout" aria-label="Link to this section">#</a></h2>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre><code class="language-text">src/            TypeScript source (8 modules + cli)
+skills/         canonical Agent Skills (SKILL.md + references/)
+agents/         canonical agent role contracts
+schemas/        findings.schema.json
+templates/      ADR template
+fixtures/       labeled fixtures for evaluation (brownfield-monolith, clean-service)
+examples/       committed sample outputs
+scripts/        eval.mjs, build-docs.mjs
+test/           archsutra.test.mjs, eval.test.mjs
+docs/           handbook (source), generated HTML site, RFC, ADRs, proof
+install/        thin install.sh / install.ps1 / install.cmd wrappers around npx
+.github/        CI, CodeQL, Pages, templates, Dependabot</code></pre></div>
+<h2 id="3-modules">3. Modules<a class="anchor" href="#3-modules" aria-label="Link to this section">#</a></h2>
+<h3 id="31-typests">3.1 <code>types.ts</code><a class="anchor" href="#31-typests" aria-label="Link to this section">#</a></h3>
+<p>Shared types: <code>Finding</code>, <code>Evidence</code>, <code>Corpus</code>, <code>ArchMap</code>, <code>AuditResult</code>, <code>ScoreEntry</code>, <code>Severity</code>, <code>Confidence</code>, <code>EvidenceKind</code>.</p>
+<h3 id="32-fsutilts">3.2 <code>fsutil.ts</code><a class="anchor" href="#32-fsutilts" aria-label="Link to this section">#</a></h3>
+<ul><li><code>walk(root, opts)</code>: breadth-limited recursive directory read. Skips ignored directories (<code>node_modules</code>, <code>.git</code>, <code>dist</code>, <code>build</code>, <code>target</code>, <code>vendor</code>, <code>.venv</code>, <code>coverage</code>, <code>.terraform</code>, ...), binary extensions, files over <code>maxFileBytes</code>, and <strong>all symlinks</strong> (uses <code>Dirent.isSymbolicLink</code>, never <code>stat</code> on links). Stops at <code>maxFiles</code> or <code>timeBudgetMs</code> and sets <code>truncated</code>.</li><li><code>safeJoin(root, rel)</code>: resolves and rejects any path outside <code>root</code>.</li><li><code>readLines(file)</code>: reads once, caches, returns <code>null</code> for binary (NUL byte) or unreadable files.</li></ul>
+<p>Defaults: 5000 files, 512 KiB per file, 15 000 ms.</p>
+<h3 id="33-redactts">3.3 <code>redact.ts</code><a class="anchor" href="#33-redactts" aria-label="Link to this section">#</a></h3>
+<p>Pattern set: AWS access key, GitHub tokens (<code>gh[pousr]_</code>, <code>github_pat_</code>), <code>sk-</code> style keys, Slack tokens, Google API keys, private key headers, and quoted credential assignments (<code>password</code>, <code>secret</code>, <code>api_key</code>, <code>token</code>, <code>access_key</code>). <code>detectSecrets(line)</code> returns kinds only. <code>redact(text)</code> masks values. <code>excerpt(line, max)</code> redacts then truncates. Every evidence excerpt goes through <code>excerpt</code>.</p>
+<h3 id="34-mapts">3.4 <code>map.ts</code><a class="anchor" href="#34-mapts" aria-label="Link to this section">#</a></h3>
+<ul><li><code>moduleOf(rel)</code>: module name is <code>group/name</code> for <code>packages|apps|services|libs|modules|internal|cmd</code>, <code>src/name</code> for <code>src/&lt;dir&gt;/...</code>, else the top directory, else <code>(root)</code>.</li><li>Imports: JS/TS relative specifiers via regex on <code>from</code>, <code>import()</code>, <code>require()</code>; Python absolute imports whose first segment matches a module. Edges are aggregated per module pair with a count and a first-seen example (path, line, redacted excerpt).</li><li><code>findCycles</code>: Tarjan strongly connected components; components with more than one module are cycles.</li><li>Manifest parsing: <code>package.json</code> (frameworks, datastores, main), <code>requirements.txt</code> and <code>pyproject.toml</code> (package names).</li><li>Output <code>ArchMap</code> includes ecosystems (sorted by file count), frameworks, datastores, infra, entry points, modules (sorted by lines), edges, cycles, blind spots, coverage.</li></ul>
+<h3 id="35-auditts">3.5 <code>audit.ts</code><a class="anchor" href="#35-auditts" aria-label="Link to this section">#</a></h3>
+<p>Single pass over files for line rules, then structural checks. Rule evaluation order is irrelevant; findings are sorted by severity then rule ID, and IDs are assigned as <code>&lt;RULE&gt;#&lt;NNN&gt;</code> by final position. Full rule list: <a href="12-rule-catalog.html">rule catalog</a>.</p>
+<p>Design notes:</p>
+<ul><li>Test and fixture paths (<code>test/</code>, <code>tests/</code>, <code>__tests__/</code>, <code>fixtures/</code>, <code>*.test.*</code>, <code>*.spec.*</code>, <code>*_test.go|py</code>) are excluded from injection, TLS, IaC and secret rules to reduce false positives.</li><li>Documentation files (<code>.md</code>, <code>.txt</code>) are excluded from line rules.</li><li>A private-key header counts only when base64 key material follows, so documentation strings and regex literals do not trigger it.</li><li>Credential lines containing <code>example</code>, <code>placeholder</code>, <code>changeme</code>, <code>your_</code>, <code>xxxx</code>, <code>process.env</code>, <code>os.environ</code> or <code>getenv</code> are ignored.</li><li>Scorecard: <code>critical</code> if any critical, <code>weak</code> if any high, <code>adequate</code> if any medium, else <code>strong</code>; Reliability, Performance, Scalability, Data integrity and Cost are always <code>not assessed</code>.</li></ul>
+<h3 id="36-reportts">3.6 <code>report.ts</code><a class="anchor" href="#36-reportts" aria-label="Link to this section">#</a></h3>
+<p>Pure functions that render Markdown, Mermaid (<code>flowchart</code>), findings JSON (<code>schemaVersion: &quot;1.0.0&quot;</code>), SARIF 2.1.0 (rule list plus one result per evidence location, severity mapped critical/high to <code>error</code>, medium to <code>warning</code>, low/info to <code>note</code>), and the artifact register with SHA-256.</p>
+<h3 id="37-verifyts">3.7 <code>verify.ts</code><a class="anchor" href="#37-verifyts" aria-label="Link to this section">#</a></h3>
+<p>Parses frontmatter (simple <code>key: value</code>), validates skills and agents, resolves relative links outside code fences, checks Mermaid structure, validates <code>findings.json</code>.</p>
+<h3 id="38-adaptersts">3.8 <code>adapters.ts</code><a class="anchor" href="#38-adaptersts" aria-label="Link to this section">#</a></h3>
+<ul><li><code>HOSTS</code>: declarative host table (skills directory, agents directory and suffix, <code>AGENTS.md</code> block flag, notes, docs link, support level).</li><li><code>planInstall</code>: loads canonical content, renders per-host agent files, classifies each target file as create / update / unchanged / conflict using the install manifest hashes.</li><li><code>install</code>: writes files, backs up conflicts under <code>.archsutra/backup/&lt;timestamp&gt;/</code>, updates the manifest.</li><li><code>uninstall</code>: removes a file only if its current SHA-256 equals the recorded one; prunes empty directories; removes the managed block in <code>AGENTS.md</code> delimited by `<code> and </code>`.</li><li><code>doctor</code>: Node version, target existence, detected hosts, manifest drift/missing, canonical skills present, duplicate <code>AGENTS.md</code> blocks.</li><li><code>renderAgent</code>: Claude gets <code>name</code>, <code>description</code>, <code>tools: Read, Grep, Glob</code>. Copilot gets <code>description</code> and <code>tools: ['read', 'search']</code>. No other keys are ever written.</li></ul>
+<h3 id="39-clits">3.9 <code>cli.ts</code><a class="anchor" href="#39-clits" aria-label="Link to this section">#</a></h3>
+<p>Hand-written argument parser (flags with values: <code>output</code>, <code>host</code>, <code>target</code>, <code>fail-on</code>). Commands dispatch to the modules above. Exit codes: 0 ok, 1 findings or conflict or failed doctor, 2 usage, 3 needs a model, 4 verification failed, 5 internal error. See the <a href="06-cli-reference.html">CLI reference</a>.</p>
+<h2 id="4-data-formats">4. Data formats<a class="anchor" href="#4-data-formats" aria-label="Link to this section">#</a></h2>
+<h3 id="41-finding-json">4.1 Finding (JSON)<a class="anchor" href="#41-finding-json" aria-label="Link to this section">#</a></h3>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;AS-SEC-006#003&quot;,
+  &quot;rule&quot;: &quot;AS-SEC-006&quot;,
+  &quot;title&quot;: &quot;TLS certificate verification disabled&quot;,
+  &quot;status&quot;: &quot;open&quot;,
+  &quot;category&quot;: &quot;security&quot;,
+  &quot;severity&quot;: &quot;high&quot;,
+  &quot;confidence&quot;: &quot;high&quot;,
+  &quot;evidence&quot;: [{ &quot;path&quot;: &quot;src/services/http.ts&quot;, &quot;startLine&quot;: 2, &quot;endLine&quot;: 2, &quot;kind&quot;: &quot;observed&quot;, &quot;excerpt&quot;: &quot;...&quot; }],
+  &quot;impact&quot;: &quot;...&quot;, &quot;whyItMatters&quot;: &quot;...&quot;, &quot;fix&quot;: &quot;...&quot;, &quot;verification&quot;: &quot;...&quot;,
+  &quot;acceptanceCriteria&quot;: &quot;...&quot;, &quot;effort&quot;: &quot;S&quot;, &quot;ownerType&quot;: &quot;application developer&quot;,
+  &quot;caveats&quot;: &quot;...&quot;, &quot;references&quot;: [&quot;https://owasp.org/Top10/...&quot;]
+}</code></pre></div>
+<p>Schema: <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/schemas/findings.schema.json" rel="noopener"><code>schemas/findings.schema.json</code></a>. Stable key is <code>rule</code>; the numeric suffix reflects position in one run and may change between runs.</p>
+<h3 id="42-install-manifest">4.2 Install manifest<a class="anchor" href="#42-install-manifest" aria-label="Link to this section">#</a></h3>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre><code class="language-json">{ &quot;version&quot;: 1, &quot;installs&quot;: { &quot;claude&quot;: { &quot;files&quot;: { &quot;.claude/skills/threat-modeling/SKILL.md&quot;: &quot;&lt;sha256&gt;&quot; }, &quot;agentsMd&quot;: false, &quot;at&quot;: &quot;&lt;ISO time&gt;&quot; } } }</code></pre></div>
+<h2 id="5-algorithms-and-complexity">5. Algorithms and complexity<a class="anchor" href="#5-algorithms-and-complexity" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Step</th><th scope="col">Complexity</th><th scope="col">Notes</th></tr></thead><tbody><tr><td>Walk</td><td>O(files)</td><td>bounded by <code>maxFiles</code></td></tr><tr><td>Line scan</td><td>O(total lines x rules)</td><td>lines over 2000 chars skipped</td></tr><tr><td>Import graph</td><td>O(lines)</td><td>regex per line</td></tr><tr><td>Cycle detection</td><td>O(V + E)</td><td>Tarjan on module graph</td></tr><tr><td>Install planning</td><td>O(files in skills + agents)</td><td>hashes only changed targets</td></tr></tbody></table></div>
+<p>Memory: file contents are cached per run (bounded by 5000 x 512 KiB worst case, in practice far less). <code>clearTextCache</code> exists for long-lived processes.</p>
+<h2 id="6-error-handling">6. Error handling<a class="anchor" href="#6-error-handling" aria-label="Link to this section">#</a></h2>
+<ul><li>Unreadable directories/files are skipped silently and do not abort the scan.</li><li>Unparseable <code>package.json</code> is reported in <code>failedChecks</code>.</li><li>Fatal errors print <code>archsutra: &lt;message&gt;</code> and return exit code 5; <code>--verbose</code> adds the stack.</li></ul>
+<h2 id="7-extension-points">7. Extension points<a class="anchor" href="#7-extension-points" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">To add</th><th scope="col">Touch</th><th scope="col">Required tests</th></tr></thead><tbody><tr><td>Audit rule</td><td><code>src/audit.ts</code> (and <a href="12-rule-catalog.html">rule catalog</a>)</td><td>seeded true positive, false-positive case, fixture expectation</td></tr><tr><td>Language import graph</td><td><code>src/map.ts</code></td><td>map test with cycle</td></tr><tr><td>Host adapter</td><td><code>HOSTS</code> in <code>src/adapters.ts</code></td><td>install/uninstall roundtrip (automatic for every host)</td></tr><tr><td>Agent</td><td><code>agents/&lt;id&gt;.md</code></td><td><code>verify</code> enforces headings</td></tr><tr><td>Skill</td><td><code>skills/&lt;name&gt;/SKILL.md</code></td><td><code>verify</code> enforces frontmatter</td></tr><tr><td>Output format</td><td><code>src/report.ts</code> and <code>export</code> in <code>src/cli.ts</code></td><td>schema/structure test</td></tr></tbody></table></div>
+<h2 id="8-build-test-release">8. Build, test, release<a class="anchor" href="#8-build-test-release" aria-label="Link to this section">#</a></h2>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre><code class="language-bash">npm ci
+npm run typecheck
+npm test            # build + node --test (20 tests)
+npm run verify      # archsutra verify .
+node scripts/eval.mjs
+node scripts/build-docs.mjs</code></pre></div>
+<p>CI runs the same on Ubuntu, Windows and macOS for Node 20 and 22, then a self-audit with <code>--fail-on high</code> and a check that production dependencies are empty.</p></article></main>
+  <aside class="rail"><nav class="toc" aria-label="On this page"><p class="nav-title">On this page</p><ul><li class="l2"><a href="#1-stack">1. Stack</a></li><li class="l2"><a href="#2-repository-layout">2. Repository layout</a></li><li class="l2"><a href="#3-modules">3. Modules</a></li><li class="l3"><a href="#31-typests">3.1 types.ts</a></li><li class="l3"><a href="#32-fsutilts">3.2 fsutil.ts</a></li><li class="l3"><a href="#33-redactts">3.3 redact.ts</a></li><li class="l3"><a href="#34-mapts">3.4 map.ts</a></li><li class="l3"><a href="#35-auditts">3.5 audit.ts</a></li><li class="l3"><a href="#36-reportts">3.6 report.ts</a></li><li class="l3"><a href="#37-verifyts">3.7 verify.ts</a></li><li class="l3"><a href="#38-adaptersts">3.8 adapters.ts</a></li><li class="l3"><a href="#39-clits">3.9 cli.ts</a></li><li class="l2"><a href="#4-data-formats">4. Data formats</a></li><li class="l3"><a href="#41-finding-json">4.1 Finding (JSON)</a></li><li class="l3"><a href="#42-install-manifest">4.2 Install manifest</a></li><li class="l2"><a href="#5-algorithms-and-complexity">5. Algorithms and complexity</a></li><li class="l2"><a href="#6-error-handling">6. Error handling</a></li><li class="l2"><a href="#7-extension-points">7. Extension points</a></li><li class="l2"><a href="#8-build-test-release">8. Build, test, release</a></li></ul></nav></aside>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <p><strong>ArchSutra AI</strong> v0.1.0. Design. Audit. Evolve. Created by <a href="https://github.com/shahvatsalofficial" rel="noopener">Vatsal Shah</a>. Licensed under <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>
+    <p class="fine">Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Not affiliated with Anthropic, OpenAI, Cursor, GitHub or Google; product names belong to their owners. <a href="../handbook/07-security-privacy-legal.html">Legal details</a>.</p>
+  </div>
+</footer>
+<script src="../assets/site.js" type="module"></script>
+</body>
+</html>

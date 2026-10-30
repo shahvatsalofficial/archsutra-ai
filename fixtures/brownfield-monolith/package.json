@@ -1,0 +1,1 @@
+{ "name": "brownfield-monolith", "version": "1.0.0", "dependencies": { "express": "latest", "pg": "^8.11.0" } }

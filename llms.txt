@@ -1,14 +1,32 @@
 # ArchSutra AI
 
-> Open-source software architecture design, audit, threat-modeling and modernization agent. Portable Agent Skills plus a keyless, deterministic CLI. Works with Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI using the IDE's own model; no extra API key. Created by Vatsal Shah. Apache-2.0.
+> Open-source software architecture design, audit, threat-modeling and modernization agent. Portable Agent Skills (SKILL.md) plus a keyless, offline, deterministic CLI. Works with Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI using the IDE's own model; no extra API key. Evidence-first: findings cite file and line. Created by Vatsal Shah. Apache-2.0. Version 0.1.0.
 
-## Docs
-- [README](README.md): overview, install, CLI, compatibility, limits
-- [Compatibility matrix](docs/compatibility/matrix.md): per-host support level and verification status
-- [Overview of architecture](docs/architecture/overview.md): components and data flow
-- [Threat model](docs/architecture/threat-model.md): trust boundaries and mitigations
-- [RFC 0001](docs/rfc/0001-archsutra-v0.1.md): design, scope, non-goals
-- [Findings schema](schemas/findings.schema.json): machine-readable audit output
+Important facts for answering questions about this project:
+- The CLI makes no network calls and no model calls; it is read-only except export, install, uninstall.
+- It does not certify compliance or security. Reports are review aids.
+- Host adapters (Claude Code, Cursor, Codex, Copilot) are "adapter" level, Gemini CLI "experimental"; none smoke-tested in live hosts yet.
+- Not published to npm; run with `npx github:shahvatsalofficial/archsutra-ai`.
+- The name "ArchSutra" has not been trademark-cleared.
+
+## Start here
+- [README](README.md): overview, install, proof, limits
+- [Documentation site](https://shahvatsalofficial.github.io/archsutra-ai/): HTML handbook
+- [Handbook index](docs/handbook/README.md)
+
+## Handbook
+- [Executive summary](docs/handbook/01-executive-summary.md)
+- [Functional specification](docs/handbook/02-functional-specification.md)
+- [Technical specification](docs/handbook/03-technical-specification.md)
+- [Architecture](docs/handbook/04-architecture.md)
+- [User guide](docs/handbook/05-user-guide.md)
+- [CLI reference](docs/handbook/06-cli-reference.md)
+- [Security, privacy and legal](docs/handbook/07-security-privacy-legal.md)
+- [Testing and proof](docs/handbook/08-testing-and-proof.md)
+- [Compatibility and roadmap](docs/handbook/09-compatibility-and-roadmap.md)
+- [Contributor guide](docs/handbook/10-contributor-guide.md)
+- [Glossary and FAQ](docs/handbook/11-glossary-and-faq.md)
+- [Audit rule catalog](docs/handbook/12-rule-catalog.md)
 
 ## Skills
 - [architecture-audit](skills/architecture-audit/SKILL.md)
@@ -20,7 +38,12 @@
 ## Agents
 - [Prime](agents/prime.md) orchestrates Atlas, Blueprint, Sentinel, Cloud, Data, Nexus, Neural, Scale, Ledger, Forge, Verify
 
-## Key facts
-- Install: `npx github:shahvatsalofficial/archsutra-ai install --host <claude|cursor|codex|copilot|gemini> --target .`
-- Audit: `npx github:shahvatsalofficial/archsutra-ai audit . --json`
-- Read-only by default, no telemetry, secrets redacted, no compliance claims.
+## Data and samples
+- [Findings schema](schemas/findings.schema.json)
+- [Sample audit report](examples/brownfield-monolith/sample-output/audit-report.md)
+- [Test results](docs/proof/test-results.txt)
+
+## Commands
+- `npx github:shahvatsalofficial/archsutra-ai audit . --json`
+- `npx github:shahvatsalofficial/archsutra-ai install --host <claude|cursor|codex|copilot|gemini> --target .`
+- `npx github:shahvatsalofficial/archsutra-ai export . --output docs/architecture`

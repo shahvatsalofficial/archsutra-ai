@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/index.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/01-executive-summary.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/02-functional-specification.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/03-technical-specification.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/04-architecture.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/05-user-guide.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/06-cli-reference.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/07-security-privacy-legal.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/08-testing-and-proof.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/09-compatibility-and-roadmap.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/10-contributor-guide.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/11-glossary-and-faq.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/handbook/12-rule-catalog.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/architecture/overview.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/architecture/threat-model.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/compatibility/matrix.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/rfc/0001-archsutra-v0.1.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://shahvatsalofficial.github.io/archsutra-ai/decisions/ADR-0001-deterministic-cli-plus-ide-skills.html</loc><lastmod>2026-10-30</lastmod></url>
+</urlset>

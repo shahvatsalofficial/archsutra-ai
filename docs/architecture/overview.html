@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architecture overview | ArchSutra AI</title>
+<meta name="description" content="Architecture overview - ArchSutra AI documentation.">
+<link rel="canonical" href="https://shahvatsalofficial.github.io/archsutra-ai/architecture/overview.html">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Architecture overview | ArchSutra AI">
+<meta property="og:description" content="Architecture overview - ArchSutra AI documentation.">
+<meta property="og:url" content="https://shahvatsalofficial.github.io/archsutra-ai/architecture/overview.html">
+<meta property="og:site_name" content="ArchSutra AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Architecture overview | ArchSutra AI">
+<meta name="twitter:description" content="Architecture overview - ArchSutra AI documentation.">
+<meta name="author" content="Vatsal Shah">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<script>try{var t=localStorage.getItem('as-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Architecture overview","description":"Architecture overview - ArchSutra AI documentation.","author":{"@type":"Person","name":"Vatsal Shah"},"inLanguage":"en","isPartOf":{"@type":"WebSite","name":"ArchSutra AI","url":"https://shahvatsalofficial.github.io/archsutra-ai"}}</script>
+</head>
+<body class="doc">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">Menu</button>
+    <a class="brand" href="../index.html" aria-label="ArchSutra AI home"><svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor" opacity=".12"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ArchSutra <b>AI</b></span></a>
+    <nav class="top-links" aria-label="Primary"><a href="../handbook/index.html">Handbook</a><a href="../handbook/05-user-guide.html">Get started</a><a href="../handbook/08-testing-and-proof.html">Proof</a><a href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">GitHub</a></nav>
+    <button class="theme-btn" type="button" aria-label="Toggle color theme"><span class="sun" aria-hidden="true">Light</span><span class="moon" aria-hidden="true">Dark</span></button>
+  </div>
+</header>
+<div class="layout">
+  <aside id="sidebar" class="sidebar" aria-label="Documentation"><div class="nav-group"><p class="nav-title">Handbook</p><ul><li><a href="../handbook/index.html">Overview</a></li><li><a href="../handbook/01-executive-summary.html">Executive summary</a></li><li><a href="../handbook/02-functional-specification.html">Functional specification</a></li><li><a href="../handbook/03-technical-specification.html">Technical specification</a></li><li><a href="../handbook/04-architecture.html">Architecture</a></li><li><a href="../handbook/05-user-guide.html">User guide</a></li><li><a href="../handbook/06-cli-reference.html">CLI reference</a></li><li><a href="../handbook/07-security-privacy-legal.html">Security, privacy and legal</a></li><li><a href="../handbook/08-testing-and-proof.html">Testing and proof</a></li><li><a href="../handbook/09-compatibility-and-roadmap.html">Compatibility and roadmap</a></li><li><a href="../handbook/10-contributor-guide.html">Contributor guide</a></li><li><a href="../handbook/11-glossary-and-faq.html">Glossary and FAQ</a></li><li><a href="../handbook/12-rule-catalog.html">Audit rule catalog</a></li></ul></div><div class="nav-group"><p class="nav-title">Reference</p><ul><li><a href="../architecture/overview.html" aria-current="page">Architecture overview</a></li><li><a href="../architecture/threat-model.html">Threat model (ArchSutra CLI and skills)</a></li><li><a href="../compatibility/matrix.html">Compatibility matrix</a></li><li><a href="../rfc/0001-archsutra-v0.1.html">RFC 0001: ArchSutra AI v0.1</a></li><li><a href="../decisions/ADR-0001-deterministic-cli-plus-ide-skills.html">ADR-0001: Deterministic CLI plus IDE-native skills</a></li></ul></div></aside>
+  <main id="main" class="content"><article class="prose"><p class="crumbs"><a href="../index.html">ArchSutra AI</a> / Reference</p><h1 id="architecture-overview">Architecture overview</h1>
+<p class="meta">Version 0.1.0 &middot; Source: <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/docs/architecture/overview.md" rel="noopener">docs/architecture/overview.md</a></p>
+<p>ArchSutra has two cooperating halves:</p>
+<ol><li><strong>Skills and agents</strong> (<code>skills/</code>, <code>agents/</code>): canonical Markdown that an AI IDE loads. Reasoning runs on the IDE's own model.</li><li><strong>Deterministic CLI</strong> (<code>src/</code>): produces reproducible evidence without any model.</li></ol>
+<figure class="diagram"><pre class="mermaid">flowchart TB
+  subgraph canonical[&quot;Canonical content&quot;]
+    skills[&quot;skills/*/SKILL.md&quot;]
+    agents[&quot;agents/*.md&quot;]
+  end
+  subgraph cli[&quot;CLI (TypeScript, offline)&quot;]
+    fsutil[&quot;fsutil: bounded, symlink-safe walk&quot;]
+    map[&quot;map: modules, imports, cycles&quot;]
+    audit[&quot;audit: rules, findings, scorecard&quot;]
+    report[&quot;report: MD, Mermaid, JSON, SARIF&quot;]
+    verify[&quot;verify: skills, links, diagrams, schema&quot;]
+    adapters[&quot;adapters: plan, install, uninstall, doctor&quot;]
+  end
+  fsutil --&gt; map --&gt; audit --&gt; report
+  skills --&gt; adapters
+  agents --&gt; adapters
+  adapters --&gt; hosts[(&quot;Host folders: .claude, .cursor, .agents, .github, .gemini&quot;)]
+  verify --&gt; skills</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>
+<h2 id="module-responsibilities">Module responsibilities<a class="anchor" href="#module-responsibilities" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Module</th><th scope="col">Responsibility</th></tr></thead><tbody><tr><td><code>src/fsutil.ts</code></td><td>file walk with limits (5000 files, 512 KB each, 15 s), ignore lists, symlink skipping, path containment</td></tr><tr><td><code>src/redact.ts</code></td><td>secret detection and masking; used for every excerpt</td></tr><tr><td><code>src/map.ts</code></td><td>ecosystems, frameworks, datastores, infra, module graph, Tarjan cycle detection</td></tr><tr><td><code>src/audit.ts</code></td><td>rules to findings with evidence; scorecard with <code>not assessed</code> where evidence is absent</td></tr><tr><td><code>src/report.ts</code></td><td>Markdown, Mermaid, findings JSON (v1.0.0), SARIF 2.1.0, artifact register</td></tr><tr><td><code>src/verify.ts</code></td><td>structural validation of skills, agents, links, Mermaid, findings</td></tr><tr><td><code>src/adapters.ts</code></td><td>host specs, install plan with conflict detection, hash manifest, uninstall, doctor</td></tr><tr><td><code>src/cli.ts</code></td><td>argument parsing, exit codes, command dispatch</td></tr></tbody></table></div>
+<h2 id="key-decisions">Key decisions<a class="anchor" href="#key-decisions" aria-label="Link to this section">#</a></h2>
+<p>See <a href="https://github.com/shahvatsalofficial/archsutra-ai/tree/main/docs/decisions" rel="noopener">../decisions/</a>.</p></article></main>
+  <aside class="rail"><nav class="toc" aria-label="On this page"><p class="nav-title">On this page</p><ul><li class="l2"><a href="#module-responsibilities">Module responsibilities</a></li><li class="l2"><a href="#key-decisions">Key decisions</a></li></ul></nav></aside>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <p><strong>ArchSutra AI</strong> v0.1.0. Design. Audit. Evolve. Created by <a href="https://github.com/shahvatsalofficial" rel="noopener">Vatsal Shah</a>. Licensed under <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>
+    <p class="fine">Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Not affiliated with Anthropic, OpenAI, Cursor, GitHub or Google; product names belong to their owners. <a href="../handbook/07-security-privacy-legal.html">Legal details</a>.</p>
+  </div>
+</footer>
+<script src="../assets/site.js" type="module"></script>
+</body>
+</html>

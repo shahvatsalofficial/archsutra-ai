@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use ArchSutra AI, please cite it as below."
+title: "ArchSutra AI: evidence-first software architecture audit agent"
+type: software
+authors:
+  - family-names: Shah
+    given-names: Vatsal
+    alias: shahvatsalofficial
+version: 0.1.0
+date-released: 2026-10-31
+license: Apache-2.0
+repository-code: "https://github.com/shahvatsalofficial/archsutra-ai"
+url: "https://shahvatsalofficial.github.io/archsutra-ai/"
+keywords:
+  - software architecture
+  - architecture review
+  - agent skills
+  - threat modeling
+  - C4 model

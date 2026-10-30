@@ -1,0 +1,406 @@
+{
+  "schemaVersion": "1.0.0",
+  "tool": "archsutra",
+  "findings": [
+    {
+      "rule": "AS-SEC-004",
+      "title": "Dynamic code or shell execution",
+      "category": "security",
+      "severity": "high",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "path": "src/services/user.ts",
+          "startLine": 3,
+          "endLine": 3,
+          "kind": "observed",
+          "excerpt": "const score = eval(expr);"
+        }
+      ],
+      "impact": "If any input reaches these calls, an attacker can execute arbitrary code or commands.",
+      "whyItMatters": "Injection (OWASP A03) frequently starts at eval/exec style sinks.",
+      "fix": "Replace with a safe API (argument arrays, parsers, allowlists). Never build commands or code from strings that include external input.",
+      "verification": "Trace data flow into each call; add a unit test with hostile input.",
+      "acceptanceCriteria": "No eval/Function/shell-string execution remains, or each remaining use is documented with a proven constant input.",
+      "effort": "M",
+      "ownerType": "application developer",
+      "caveats": "Pattern match only. The call may only receive constants; confirm by data-flow review.",
+      "references": [
+        "https://owasp.org/Top10/"
+      ],
+      "id": "AS-SEC-004#001",
+      "status": "open"
+    },
+    {
+      "rule": "AS-SEC-005",
+      "title": "SQL built by string concatenation or interpolation",
+      "category": "security",
+      "severity": "high",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "path": "src/services/user.ts",
+          "startLine": 2,
+          "endLine": 2,
+          "kind": "observed",
+          "excerpt": "const rows = await db.query(`SELECT * FROM users WHERE id = ${id}`);"
+        }
+      ],
+      "impact": "Possible SQL injection and unpredictable query plans.",
+      "whyItMatters": "Parameterized queries are the primary defence against injection (OWASP A03).",
+      "fix": "Use parameterized queries or the ORM query builder. Allowlist any dynamic identifiers.",
+      "verification": "Search for the pattern again; add an injection test (e.g. a quote character in input).",
+      "acceptanceCriteria": "All queries with external input use bind parameters.",
+      "effort": "M",
+      "ownerType": "application developer",
+      "caveats": "Heuristic. Interpolated values may be constants or already validated.",
+      "references": [
+        "https://owasp.org/Top10/",
+        "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html"
+      ],
+      "id": "AS-SEC-005#002",
+      "status": "open"
+    },
+    {
+      "rule": "AS-SEC-006",
+      "title": "TLS certificate verification disabled",
+      "category": "security",
+      "severity": "high",
+      "confidence": "high",
+      "evidence": [
+        {
+          "path": "src/services/http.ts",
+          "startLine": 2,
+          "endLine": 2,
+          "kind": "observed",
+          "excerpt": "export const agent = new https.Agent({ rejectUnauthorized: false });"
+        }
+      ],
+      "impact": "Connections can be intercepted by a man-in-the-middle.",
+      "whyItMatters": "Disabled verification removes the authenticity guarantee of TLS.",
+      "fix": "Enable verification. For private CAs, trust the CA bundle explicitly instead of disabling checks.",
+      "verification": "Connect to a host with an invalid cert and confirm the call fails.",
+      "acceptanceCriteria": "No production code path disables certificate verification.",
+      "effort": "S",
+      "ownerType": "application developer",
+      "caveats": "May be limited to a local dev profile; confirm it cannot reach production.",
+      "references": [
+        "https://owasp.org/Top10/A02_2021-Cryptographic_Failures/"
+      ],
+      "id": "AS-SEC-006#003",
+      "status": "open"
+    },
+    {
+      "rule": "AS-ARC-001",
+      "title": "Circular dependency between modules (src/api <-> src/db)",
+      "category": "architecture",
+      "severity": "medium",
+      "confidence": "high",
+      "evidence": [
+        {
+          "path": "src/api/routes.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "kind": "observed",
+          "excerpt": "import { findUser } from '../db/repo.js';"
+        },
+        {
+          "path": "src/db/repo.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "kind": "observed",
+          "excerpt": "import { getUser } from '../api/routes.js';"
+        }
+      ],
+      "impact": "Cyclic modules cannot be understood, tested, versioned or deployed independently.",
+      "whyItMatters": "Acyclic dependencies keep change local and make extraction (e.g. to a service) feasible.",
+      "fix": "Extract the shared concept into a lower-level module or invert one dependency behind an interface.",
+      "verification": "Re-run `archsutra map`; cycles list must be empty. Add the check to CI.",
+      "acceptanceCriteria": "archsutra map reports zero module cycles.",
+      "effort": "M",
+      "ownerType": "tech lead",
+      "caveats": "Module = top-level directory heuristic; a cycle between sub-folders of one deliberate unit may be acceptable.",
+      "references": [
+        "https://en.wikipedia.org/wiki/Acyclic_dependencies_principle"
+      ],
+      "id": "AS-ARC-001#004",
+      "status": "open"
+    },
+    {
+      "rule": "AS-ARC-002",
+      "title": "Lower layer depends on a higher layer",
+      "category": "architecture",
+      "severity": "medium",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "path": "src/db/repo.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "kind": "observed",
+          "excerpt": "import { getUser } from '../api/routes.js';"
+        }
+      ],
+      "impact": "Data or service code that imports presentation code inverts the intended dependency direction and blocks reuse.",
+      "whyItMatters": "Layer direction is what keeps business and data logic independent of delivery mechanisms.",
+      "fix": "Move shared types down, or introduce an interface owned by the lower layer and implemented above.",
+      "verification": "Add a dependency-direction fitness test (e.g. dependency-cruiser, ArchUnit) and run it in CI.",
+      "acceptanceCriteria": "No import from data/service layers into presentation layers.",
+      "effort": "M",
+      "ownerType": "tech lead",
+      "caveats": "Layers are inferred from folder names (controllers, services, repositories...). Verify your real layering.",
+      "references": [
+        "https://c4model.com/"
+      ],
+      "id": "AS-ARC-002#005",
+      "status": "open"
+    },
+    {
+      "rule": "AS-OPS-001",
+      "title": "No CI pipeline configuration found",
+      "category": "operability",
+      "severity": "medium",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "path": ".",
+          "kind": "unknown",
+          "excerpt": "No GitHub Actions, GitLab CI, Azure Pipelines, Jenkins or CircleCI files found"
+        }
+      ],
+      "impact": "Regressions and architecture drift are not caught automatically.",
+      "whyItMatters": "Automated gates are the cheapest enforcement of architectural rules.",
+      "fix": "Add CI that builds, tests, lints and runs dependency/secret scans on every pull request.",
+      "verification": "Open a PR and confirm the pipeline runs.",
+      "acceptanceCriteria": "A required status check runs build + tests on every PR.",
+      "effort": "S",
+      "ownerType": "DevOps",
+      "caveats": "CI may live outside this repository.",
+      "references": [],
+      "id": "AS-OPS-001#006",
+      "status": "open"
+    },
+    {
+      "rule": "AS-OPS-002",
+      "title": "No test files found",
+      "category": "maintainability",
+      "severity": "medium",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "path": ".",
+          "kind": "unknown",
+          "excerpt": "No test/, tests/, __tests__, *.test.*, *.spec.* or *_test.* files found"
+        }
+      ],
+      "impact": "Refactoring and modernization are high-risk without a safety net.",
+      "whyItMatters": "Tests are the precondition for safe evolution.",
+      "fix": "Add characterization tests around critical paths before changing them.",
+      "verification": "Run the suite in CI and track coverage trend.",
+      "acceptanceCriteria": "Critical user journeys have automated tests that run in CI.",
+      "effort": "L",
+      "ownerType": "application developer",
+      "caveats": "Tests may live in another repository.",
+      "references": [],
+      "id": "AS-OPS-002#007",
+      "status": "open"
+    },
+    {
+      "rule": "AS-OPS-003",
+      "title": "Container runs as root",
+      "category": "security",
+      "severity": "medium",
+      "confidence": "high",
+      "evidence": [
+        {
+          "path": "Dockerfile",
+          "startLine": 1,
+          "endLine": 4,
+          "kind": "observed",
+          "excerpt": "no USER instruction"
+        }
+      ],
+      "impact": "A compromised process has root inside the container, easing escape and file tampering.",
+      "whyItMatters": "Non-root containers are baseline hardening.",
+      "fix": "Create an unprivileged user and add `USER <name>` before the entrypoint.",
+      "verification": "`docker run --rm image id` shows a non-zero uid.",
+      "acceptanceCriteria": "Final image stage runs as a non-root user.",
+      "effort": "S",
+      "ownerType": "DevOps",
+      "caveats": "Some build-only stages legitimately use root; only the final stage matters.",
+      "references": [
+        "https://docs.docker.com/build/building/best-practices/#user"
+      ],
+      "id": "AS-OPS-003#008",
+      "status": "open"
+    },
+    {
+      "rule": "AS-SUP-001",
+      "title": "Dependency manifest without lockfile",
+      "category": "supply-chain",
+      "severity": "medium",
+      "confidence": "high",
+      "evidence": [
+        {
+          "path": "package.json",
+          "kind": "observed",
+          "excerpt": "no lockfile next to or above this package.json"
+        }
+      ],
+      "impact": "Installs are not reproducible; a compromised new release can enter automatically.",
+      "whyItMatters": "Lockfiles pin the exact dependency tree that was tested.",
+      "fix": "Commit the lockfile and install with `npm ci` (or equivalent) in CI.",
+      "verification": "CI uses a frozen/locked install.",
+      "acceptanceCriteria": "Every manifest has a committed lockfile.",
+      "effort": "S",
+      "ownerType": "application developer",
+      "caveats": "Workspaces may keep a single lockfile at the repo root (checked).",
+      "references": [],
+      "id": "AS-SUP-001#009",
+      "status": "open"
+    },
+    {
+      "rule": "AS-SUP-002",
+      "title": "Unpinned dependency ranges (\"latest\" or \"*\")",
+      "category": "supply-chain",
+      "severity": "medium",
+      "confidence": "high",
+      "evidence": [
+        {
+          "path": "package.json",
+          "kind": "observed",
+          "excerpt": "express: latest"
+        }
+      ],
+      "impact": "Any future release, including a malicious one, is accepted.",
+      "whyItMatters": "Unbounded ranges defeat review and reproducibility.",
+      "fix": "Use a bounded semver range and rely on the lockfile plus automated update PRs.",
+      "verification": "Manifest scan shows no \"latest\" or \"*\".",
+      "acceptanceCriteria": "No dependency uses latest or *.",
+      "effort": "S",
+      "ownerType": "application developer",
+      "caveats": "None known.",
+      "references": [],
+      "id": "AS-SUP-002#010",
+      "status": "open"
+    },
+    {
+      "rule": "AS-DOC-001",
+      "title": "No README at repository root",
+      "category": "developer-experience",
+      "severity": "low",
+      "confidence": "high",
+      "evidence": [
+        {
+          "path": ".",
+          "kind": "observed",
+          "excerpt": "README* not found"
+        }
+      ],
+      "impact": "New contributors cannot find purpose, setup, or architecture overview.",
+      "whyItMatters": "Docs drift starts when the entry point is missing.",
+      "fix": "Add a README with purpose, setup, run, test, and an architecture section.",
+      "verification": "A new developer runs the project from the README alone.",
+      "acceptanceCriteria": "README exists and setup steps were validated on a clean machine.",
+      "effort": "S",
+      "ownerType": "tech lead",
+      "caveats": "None known.",
+      "references": [],
+      "id": "AS-DOC-001#011",
+      "status": "open"
+    },
+    {
+      "rule": "AS-SUP-003",
+      "title": "Container base image not pinned",
+      "category": "supply-chain",
+      "severity": "low",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "path": "Dockerfile",
+          "kind": "observed",
+          "excerpt": "base image not pinned to a version or digest"
+        }
+      ],
+      "impact": "Builds are not reproducible and can silently pick up a compromised or breaking image.",
+      "whyItMatters": "Pinning is a core supply-chain control.",
+      "fix": "Pin to a specific version tag, ideally with a digest, and update via automated PRs.",
+      "verification": "Rebuild twice and compare image digests.",
+      "acceptanceCriteria": "All FROM lines specify an explicit version or digest.",
+      "effort": "S",
+      "ownerType": "DevOps",
+      "caveats": "Multi-stage references to earlier stages are not images.",
+      "references": [],
+      "id": "AS-SUP-003#012",
+      "status": "open"
+    }
+  ],
+  "scorecard": [
+    {
+      "category": "Security",
+      "rating": "weak",
+      "basis": "4 finding(s): 0 critical, 3 high, 1 medium. Rule coverage only; absence of findings is not proof of quality."
+    },
+    {
+      "category": "Maintainability",
+      "rating": "adequate",
+      "basis": "3 finding(s): 0 critical, 0 high, 3 medium. Rule coverage only; absence of findings is not proof of quality."
+    },
+    {
+      "category": "Operability",
+      "rating": "adequate",
+      "basis": "1 finding(s): 0 critical, 0 high, 1 medium. Rule coverage only; absence of findings is not proof of quality."
+    },
+    {
+      "category": "Supply chain",
+      "rating": "adequate",
+      "basis": "3 finding(s): 0 critical, 0 high, 2 medium. Rule coverage only; absence of findings is not proof of quality."
+    },
+    {
+      "category": "Developer experience",
+      "rating": "strong",
+      "basis": "1 finding(s): 0 critical, 0 high, 0 medium. Rule coverage only; absence of findings is not proof of quality."
+    },
+    {
+      "category": "Reliability",
+      "rating": "not assessed",
+      "basis": "Needs runtime, load, data or billing evidence the static scan cannot observe. Use the architecture-audit skill with the maintainer."
+    },
+    {
+      "category": "Performance",
+      "rating": "not assessed",
+      "basis": "Needs runtime, load, data or billing evidence the static scan cannot observe. Use the architecture-audit skill with the maintainer."
+    },
+    {
+      "category": "Scalability",
+      "rating": "not assessed",
+      "basis": "Needs runtime, load, data or billing evidence the static scan cannot observe. Use the architecture-audit skill with the maintainer."
+    },
+    {
+      "category": "Data integrity",
+      "rating": "not assessed",
+      "basis": "Needs runtime, load, data or billing evidence the static scan cannot observe. Use the architecture-audit skill with the maintainer."
+    },
+    {
+      "category": "Cost",
+      "rating": "not assessed",
+      "basis": "Needs runtime, load, data or billing evidence the static scan cannot observe. Use the architecture-audit skill with the maintainer."
+    }
+  ],
+  "coverage": {
+    "filesScanned": 7,
+    "skipped": {
+      "ignoredDirs": 0,
+      "tooLarge": 0,
+      "binary": 0,
+      "symlinks": 0,
+      "overBudget": 0
+    },
+    "truncated": false
+  },
+  "blindSpots": [
+    "Runtime behaviour, deployed topology, and data volumes are not observable from source alone.",
+    "Dependency edges are module-level and based on relative imports; dynamic imports and DI wiring may be missed."
+  ],
+  "failedChecks": []
+}
