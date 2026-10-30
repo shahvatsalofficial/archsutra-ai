@@ -1,0 +1,26 @@
+# ArchSutra AI
+
+> Open-source software architecture design, audit, threat-modeling and modernization agent. Portable Agent Skills plus a keyless, deterministic CLI. Works with Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI using the IDE's own model; no extra API key. Created by Vatsal Shah. Apache-2.0.
+
+## Docs
+- [README](README.md): overview, install, CLI, compatibility, limits
+- [Compatibility matrix](docs/compatibility/matrix.md): per-host support level and verification status
+- [Overview of architecture](docs/architecture/overview.md): components and data flow
+- [Threat model](docs/architecture/threat-model.md): trust boundaries and mitigations
+- [RFC 0001](docs/rfc/0001-archsutra-v0.1.md): design, scope, non-goals
+- [Findings schema](schemas/findings.schema.json): machine-readable audit output
+
+## Skills
+- [architecture-audit](skills/architecture-audit/SKILL.md)
+- [architecture-design](skills/architecture-design/SKILL.md)
+- [architecture-modernization](skills/architecture-modernization/SKILL.md)
+- [threat-modeling](skills/threat-modeling/SKILL.md)
+- [architecture-verification](skills/architecture-verification/SKILL.md)
+
+## Agents
+- [Prime](agents/prime.md) orchestrates Atlas, Blueprint, Sentinel, Cloud, Data, Nexus, Neural, Scale, Ledger, Forge, Verify
+
+## Key facts
+- Install: `npx github:shahvatsalofficial/archsutra-ai install --host <claude|cursor|codex|copilot|gemini> --target .`
+- Audit: `npx github:shahvatsalofficial/archsutra-ai audit . --json`
+- Read-only by default, no telemetry, secrets redacted, no compliance claims.

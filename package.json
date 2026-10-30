@@ -1,0 +1,65 @@
+{
+  "name": "archsutra-ai",
+  "version": "0.1.0",
+  "description": "ArchSutra AI: open-source software architecture audit, design and threat-modeling agent skills for Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI, plus a keyless, evidence-first CLI.",
+  "keywords": [
+    "software-architecture",
+    "architecture-audit",
+    "architecture-review",
+    "ai-agent",
+    "agent-skills",
+    "claude-code",
+    "cursor",
+    "codex",
+    "github-copilot",
+    "gemini-cli",
+    "adr",
+    "c4-model",
+    "threat-modeling",
+    "mermaid",
+    "sarif",
+    "mcp",
+    "llm"
+  ],
+  "license": "Apache-2.0",
+  "author": "Vatsal Shah",
+  "homepage": "https://github.com/shahvatsalofficial/archsutra-ai#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shahvatsalofficial/archsutra-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shahvatsalofficial/archsutra-ai/issues"
+  },
+  "type": "module",
+  "bin": {
+    "archsutra": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "skills",
+    "agents",
+    "templates",
+    "schemas",
+    "docs",
+    "README.md",
+    "LICENSE",
+    "llms.txt",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "npm run build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test \"test/*.test.mjs\"",
+    "verify": "npm run build && node dist/cli.js verify .",
+    "prepublishOnly": "npm test && npm run verify"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  }
+}
