@@ -14,8 +14,7 @@ Levels: `native` (host loads ArchSutra directly, verified), `adapter` (files wri
 
 | OS | Status |
 |---|---|
-| Windows 11, Node 24 | test suite passes locally (see CHANGELOG / README) |
-| macOS, Linux | covered by the CI matrix in `.github/workflows/ci.yml`; results are on the Actions page, not claimed here |
+| Windows, macOS, Linux (GitHub Actions, Node 20 and 22) | full test suite, typecheck, verify and self-audit pass in CI |
 
 ## How to report a smoke test
 
