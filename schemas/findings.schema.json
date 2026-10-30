@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/shahvatsalofficial/archsutra-ai/schemas/findings.schema.json",
+  "title": "ArchSutra findings",
+  "type": "object",
+  "required": ["schemaVersion", "tool", "findings", "scorecard", "coverage"],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "tool": { "type": "string" },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "rule", "title", "status", "category", "severity", "confidence", "evidence", "impact", "fix", "verification", "acceptanceCriteria"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^AS-[A-Z]+-[0-9]{3}#[0-9]{3}$" },
+          "rule": { "type": "string", "pattern": "^AS-[A-Z]+-[0-9]{3}$" },
+          "title": { "type": "string" },
+          "status": { "enum": ["open"] },
+          "category": { "type": "string" },
+          "severity": { "enum": ["critical", "high", "medium", "low", "info"] },
+          "confidence": { "enum": ["high", "medium", "low"] },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["path", "kind"],
+              "properties": {
+                "path": { "type": "string" },
+                "startLine": { "type": "integer", "minimum": 1 },
+                "endLine": { "type": "integer", "minimum": 1 },
+                "kind": { "enum": ["observed", "inferred", "unknown"] },
+                "excerpt": { "type": "string" }
+              }
+            }
+          },
+          "impact": { "type": "string" },
+          "fix": { "type": "string" },
+          "verification": { "type": "string" },
+          "acceptanceCriteria": { "type": "string" }
+        }
+      }
+    },
+    "scorecard": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category", "rating", "basis"],
+        "properties": {
+          "category": { "type": "string" },
+          "rating": { "enum": ["strong", "adequate", "weak", "critical", "not assessed"] },
+          "basis": { "type": "string" }
+        }
+      }
+    },
+    "coverage": { "type": "object" }
+  }
+}
