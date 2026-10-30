@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compatibility and roadmap | ArchSutra AI</title>
+<meta name="description" content="Per-host support levels, what is verified, and the milestone plan with acceptance tests.">
+<link rel="canonical" href="https://shahvatsalofficial.github.io/archsutra-ai/handbook/09-compatibility-and-roadmap.html">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Compatibility and roadmap | ArchSutra AI">
+<meta property="og:description" content="Per-host support levels, what is verified, and the milestone plan with acceptance tests.">
+<meta property="og:url" content="https://shahvatsalofficial.github.io/archsutra-ai/handbook/09-compatibility-and-roadmap.html">
+<meta property="og:site_name" content="ArchSutra AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Compatibility and roadmap | ArchSutra AI">
+<meta name="twitter:description" content="Per-host support levels, what is verified, and the milestone plan with acceptance tests.">
+<meta name="author" content="Vatsal Shah">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<script>try{var t=localStorage.getItem('as-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Compatibility and roadmap","description":"Per-host support levels, what is verified, and the milestone plan with acceptance tests.","author":{"@type":"Person","name":"Vatsal Shah"},"inLanguage":"en","isPartOf":{"@type":"WebSite","name":"ArchSutra AI","url":"https://shahvatsalofficial.github.io/archsutra-ai"}}</script>
+</head>
+<body class="doc">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">Menu</button>
+    <a class="brand" href="../index.html" aria-label="ArchSutra AI home"><svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor" opacity=".12"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ArchSutra <b>AI</b></span></a>
+    <nav class="top-links" aria-label="Primary"><a href="../handbook/index.html">Handbook</a><a href="../handbook/05-user-guide.html">Get started</a><a href="../handbook/08-testing-and-proof.html">Proof</a><a href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">GitHub</a></nav>
+    <button class="theme-btn" type="button" aria-label="Toggle color theme"><span class="sun" aria-hidden="true">Light</span><span class="moon" aria-hidden="true">Dark</span></button>
+  </div>
+</header>
+<div class="layout">
+  <aside id="sidebar" class="sidebar" aria-label="Documentation"><div class="nav-group"><p class="nav-title">Handbook</p><ul><li><a href="../handbook/index.html">Overview</a></li><li><a href="../handbook/01-executive-summary.html">Executive summary</a></li><li><a href="../handbook/02-functional-specification.html">Functional specification</a></li><li><a href="../handbook/03-technical-specification.html">Technical specification</a></li><li><a href="../handbook/04-architecture.html">Architecture</a></li><li><a href="../handbook/05-user-guide.html">User guide</a></li><li><a href="../handbook/06-cli-reference.html">CLI reference</a></li><li><a href="../handbook/07-security-privacy-legal.html">Security, privacy and legal</a></li><li><a href="../handbook/08-testing-and-proof.html">Testing and proof</a></li><li><a href="../handbook/09-compatibility-and-roadmap.html" aria-current="page">Compatibility and roadmap</a></li><li><a href="../handbook/10-contributor-guide.html">Contributor guide</a></li><li><a href="../handbook/11-glossary-and-faq.html">Glossary and FAQ</a></li><li><a href="../handbook/12-rule-catalog.html">Audit rule catalog</a></li></ul></div><div class="nav-group"><p class="nav-title">Reference</p><ul><li><a href="../architecture/overview.html">Architecture overview</a></li><li><a href="../architecture/threat-model.html">Threat model (ArchSutra CLI and skills)</a></li><li><a href="../compatibility/matrix.html">Compatibility matrix</a></li><li><a href="../rfc/0001-archsutra-v0.1.html">RFC 0001: ArchSutra AI v0.1</a></li><li><a href="../decisions/ADR-0001-deterministic-cli-plus-ide-skills.html">ADR-0001: Deterministic CLI plus IDE-native skills</a></li></ul></div></aside>
+  <main id="main" class="content"><article class="prose"><p class="crumbs"><a href="../index.html">ArchSutra AI</a> / Handbook</p><h1 id="compatibility-and-roadmap">Compatibility and roadmap</h1>
+<p class="lede">Per-host support levels, what is verified, and the milestone plan with acceptance tests.</p><p class="meta">Version 0.1.0 &middot; Source: <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/docs/handbook/09-compatibility-and-roadmap.md" rel="noopener">docs/handbook/09-compatibility-and-roadmap.md</a></p>
+<h2 id="1-support-levels">1. Support levels<a class="anchor" href="#1-support-levels" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Level</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>native</td><td>Host loads ArchSutra directly; verified in a live session</td></tr><tr><td>adapter</td><td>Files are written to the vendor-documented layout; <strong>not yet smoke-tested live</strong></td></tr><tr><td>manual</td><td>Copy/paste fallback</td></tr><tr><td>experimental</td><td>Layout unconfirmed for the current host release</td></tr><tr><td>unsupported</td><td>Not supported</td></tr></tbody></table></div>
+<h2 id="2-host-matrix-v010">2. Host matrix (v0.1.0)<a class="anchor" href="#2-host-matrix-v010" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Host</th><th scope="col">Level</th><th scope="col">Skills path</th><th scope="col">Agents path</th><th scope="col">Verified</th><th scope="col">Not verified</th></tr></thead><tbody><tr><td>Claude Code</td><td>adapter</td><td><code>.claude/skills/&lt;name&gt;/SKILL.md</code></td><td><code>.claude/agents/&lt;name&gt;.md</code></td><td>file generation; idempotent install; frontmatter</td><td>live discovery</td></tr><tr><td>Cursor</td><td>adapter</td><td><code>.cursor/skills/&lt;name&gt;/SKILL.md</code></td><td>none</td><td>file generation</td><td>live discovery</td></tr><tr><td>OpenAI Codex</td><td>adapter</td><td><code>.agents/skills/&lt;name&gt;/SKILL.md</code> + <code>AGENTS.md</code> block</td><td>none</td><td>file generation</td><td>live discovery</td></tr><tr><td>GitHub Copilot</td><td>adapter</td><td><code>.github/skills/&lt;name&gt;/SKILL.md</code></td><td><code>.github/agents/&lt;name&gt;.agent.md</code></td><td>file generation; only <code>description</code>, <code>tools</code></td><td>live behavior</td></tr><tr><td>Gemini CLI</td><td>experimental</td><td><code>.gemini/skills/&lt;name&gt;/SKILL.md</code></td><td>none</td><td>file generation</td><td>the path itself</td></tr></tbody></table></div>
+<p>Vendor documentation links are in <code>src/adapters.ts</code>. Layouts change; confirm against current docs.</p>
+<h2 id="3-operating-systems-and-runtimes">3. Operating systems and runtimes<a class="anchor" href="#3-operating-systems-and-runtimes" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Platform</th><th scope="col">Status</th></tr></thead><tbody><tr><td>Ubuntu (latest), Node 20 and 22</td><td>CI passes</td></tr><tr><td>Windows (latest), Node 20 and 22</td><td>CI passes; also run locally on Windows 11 with Node 24</td></tr><tr><td>macOS (latest), Node 20 and 22</td><td>CI passes</td></tr></tbody></table></div>
+<h2 id="4-language-support-in-analysis">4. Language support in analysis<a class="anchor" href="#4-language-support-in-analysis" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Language</th><th scope="col">Detected</th><th scope="col">Import graph</th><th scope="col">Notes</th></tr></thead><tbody><tr><td>TypeScript, JavaScript</td><td>yes</td><td>yes (relative imports)</td><td>dynamic imports and path aliases may be missed</td></tr><tr><td>Python</td><td>yes</td><td>yes (absolute imports matching a module)</td><td>relative imports not graphed</td></tr><tr><td>Java, Kotlin, C#, Go, Rust, PHP, Ruby, Swift, Dart</td><td>yes</td><td>no</td><td>reported as a blind spot</td></tr></tbody></table></div>
+<p>Line-based security rules apply to all recognised source extensions where noted in the <a href="12-rule-catalog.html">rule catalog</a>.</p>
+<h2 id="5-roadmap">5. Roadmap<a class="anchor" href="#5-roadmap" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Milestone</th><th scope="col">Scope</th><th scope="col">Acceptance test</th></tr></thead><tbody><tr><td>v0.1 (done)</td><td>Skills, agents, CLI, adapters, CI, docs</td><td><code>npm test</code> green on 3 OS; fixtures match expected rules</td></tr><tr><td>v0.2</td><td>Live smoke tests per host; upgrade verified hosts to <code>native</code>; matrix with versions</td><td>One issue-linked report per host with version and evidence</td></tr><tr><td>v0.3</td><td>More analyzers (Java/Kotlin, C#, Go, Rust import graphs); fitness-function generator; rule suppression file</td><td>New fixtures with expected rules; precision/recall stays 1.00 on fixtures</td></tr><tr><td>v0.4</td><td>Real-world labeled corpus; published accuracy with confidence intervals</td><td>Corpus of at least 20 labeled repositories; reproducible script</td></tr><tr><td>v0.5</td><td>Optional local-model runtime and optional bring-your-own-key server, strictly opt-in, localhost by default</td><td>Security tests: unauthorized request rejected, no data leaves without opt-in</td></tr><tr><td>v1.0</td><td>Stable CLI and schema, npm publication (after name and trademark checks), signed releases</td><td>Semantic-versioned contracts; provenance on release artifacts</td></tr></tbody></table></div>
+<p>Principles for all future work: default stays keyless and offline; every new capability ships with tests and a documented limitation; no support claim without a verification record.</p>
+<h2 id="6-known-gaps-v01">6. Known gaps (v0.1)<a class="anchor" href="#6-known-gaps-v01" aria-label="Link to this section">#</a></h2>
+<ul><li>No live host verification.</li><li>No suppression/baseline mechanism for accepted findings.</li><li>Module-level graph only; no function-level analysis.</li><li>No runtime or cost evidence ingestion.</li><li>Not published to the npm registry (install via <code>npx github:...</code>).</li></ul></article></main>
+  <aside class="rail"><nav class="toc" aria-label="On this page"><p class="nav-title">On this page</p><ul><li class="l2"><a href="#1-support-levels">1. Support levels</a></li><li class="l2"><a href="#2-host-matrix-v010">2. Host matrix (v0.1.0)</a></li><li class="l2"><a href="#3-operating-systems-and-runtimes">3. Operating systems and runtimes</a></li><li class="l2"><a href="#4-language-support-in-analysis">4. Language support in analysis</a></li><li class="l2"><a href="#5-roadmap">5. Roadmap</a></li><li class="l2"><a href="#6-known-gaps-v01">6. Known gaps (v0.1)</a></li></ul></nav></aside>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <p><strong>ArchSutra AI</strong> v0.1.0. Design. Audit. Evolve. Created by <a href="https://github.com/shahvatsalofficial" rel="noopener">Vatsal Shah</a>. Licensed under <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>
+    <p class="fine">Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Not affiliated with Anthropic, OpenAI, Cursor, GitHub or Google; product names belong to their owners. <a href="../handbook/07-security-privacy-legal.html">Legal details</a>.</p>
+  </div>
+</footer>
+<script src="../assets/site.js" type="module"></script>
+</body>
+</html>

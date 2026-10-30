@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contributor guide | ArchSutra AI</title>
+<meta name="description" content="How to set up, extend and release ArchSutra AI; coding rules and review checklist.">
+<link rel="canonical" href="https://shahvatsalofficial.github.io/archsutra-ai/handbook/10-contributor-guide.html">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Contributor guide | ArchSutra AI">
+<meta property="og:description" content="How to set up, extend and release ArchSutra AI; coding rules and review checklist.">
+<meta property="og:url" content="https://shahvatsalofficial.github.io/archsutra-ai/handbook/10-contributor-guide.html">
+<meta property="og:site_name" content="ArchSutra AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Contributor guide | ArchSutra AI">
+<meta name="twitter:description" content="How to set up, extend and release ArchSutra AI; coding rules and review checklist.">
+<meta name="author" content="Vatsal Shah">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<script>try{var t=localStorage.getItem('as-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Contributor guide","description":"How to set up, extend and release ArchSutra AI; coding rules and review checklist.","author":{"@type":"Person","name":"Vatsal Shah"},"inLanguage":"en","isPartOf":{"@type":"WebSite","name":"ArchSutra AI","url":"https://shahvatsalofficial.github.io/archsutra-ai"}}</script>
+</head>
+<body class="doc">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">Menu</button>
+    <a class="brand" href="../index.html" aria-label="ArchSutra AI home"><svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor" opacity=".12"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ArchSutra <b>AI</b></span></a>
+    <nav class="top-links" aria-label="Primary"><a href="../handbook/index.html">Handbook</a><a href="../handbook/05-user-guide.html">Get started</a><a href="../handbook/08-testing-and-proof.html">Proof</a><a href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">GitHub</a></nav>
+    <button class="theme-btn" type="button" aria-label="Toggle color theme"><span class="sun" aria-hidden="true">Light</span><span class="moon" aria-hidden="true">Dark</span></button>
+  </div>
+</header>
+<div class="layout">
+  <aside id="sidebar" class="sidebar" aria-label="Documentation"><div class="nav-group"><p class="nav-title">Handbook</p><ul><li><a href="../handbook/index.html">Overview</a></li><li><a href="../handbook/01-executive-summary.html">Executive summary</a></li><li><a href="../handbook/02-functional-specification.html">Functional specification</a></li><li><a href="../handbook/03-technical-specification.html">Technical specification</a></li><li><a href="../handbook/04-architecture.html">Architecture</a></li><li><a href="../handbook/05-user-guide.html">User guide</a></li><li><a href="../handbook/06-cli-reference.html">CLI reference</a></li><li><a href="../handbook/07-security-privacy-legal.html">Security, privacy and legal</a></li><li><a href="../handbook/08-testing-and-proof.html">Testing and proof</a></li><li><a href="../handbook/09-compatibility-and-roadmap.html">Compatibility and roadmap</a></li><li><a href="../handbook/10-contributor-guide.html" aria-current="page">Contributor guide</a></li><li><a href="../handbook/11-glossary-and-faq.html">Glossary and FAQ</a></li><li><a href="../handbook/12-rule-catalog.html">Audit rule catalog</a></li></ul></div><div class="nav-group"><p class="nav-title">Reference</p><ul><li><a href="../architecture/overview.html">Architecture overview</a></li><li><a href="../architecture/threat-model.html">Threat model (ArchSutra CLI and skills)</a></li><li><a href="../compatibility/matrix.html">Compatibility matrix</a></li><li><a href="../rfc/0001-archsutra-v0.1.html">RFC 0001: ArchSutra AI v0.1</a></li><li><a href="../decisions/ADR-0001-deterministic-cli-plus-ide-skills.html">ADR-0001: Deterministic CLI plus IDE-native skills</a></li></ul></div></aside>
+  <main id="main" class="content"><article class="prose"><p class="crumbs"><a href="../index.html">ArchSutra AI</a> / Handbook</p><h1 id="contributor-guide">Contributor guide</h1>
+<p class="lede">How to set up, extend and release ArchSutra AI; coding rules and review checklist.</p><p class="meta">Version 0.1.0 &middot; Source: <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/docs/handbook/10-contributor-guide.md" rel="noopener">docs/handbook/10-contributor-guide.md</a></p>
+<p>Short rules are in <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/CONTRIBUTING.md" rel="noopener">CONTRIBUTING.md</a>. This is the detailed version.</p>
+<h2 id="1-setup">1. Setup<a class="anchor" href="#1-setup" aria-label="Link to this section">#</a></h2>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre><code class="language-bash">git clone https://github.com/shahvatsalofficial/archsutra-ai
+cd archsutra-ai
+npm ci
+npm test</code></pre></div>
+<p>Windows, macOS and Linux are supported. Use Node 20 or newer.</p>
+<h2 id="2-principles">2. Principles<a class="anchor" href="#2-principles" aria-label="Link to this section">#</a></h2>
+<ol><li>Deterministic, offline, read-only by default.</li><li>Evidence over opinion: every finding cites a location or says it is <code>unknown</code>.</li><li>Never print secrets. Route excerpts through <code>excerpt()</code>.</li><li>Honesty over marketing: support levels, caveats, <code>not assessed</code>.</li><li>Small modules; no new runtime dependency without a maintainer decision.</li><li>Tests with every behavior change.</li></ol>
+<h2 id="3-add-an-audit-rule">3. Add an audit rule<a class="anchor" href="#3-add-an-audit-rule" aria-label="Link to this section">#</a></h2>
+<ol><li>Pick an ID: <code>AS-&lt;AREA&gt;-&lt;NNN&gt;</code> (<code>SEC</code>, <code>ARC</code>, <code>OPS</code>, <code>SUP</code>, <code>IAC</code>, <code>AI</code>, <code>DOC</code>).</li><li>Implement in <code>src/audit.ts</code> (line rule in <code>LINE_RULES</code>, or a structural check). Fill every Finding field, including <code>caveats</code>.</li><li>Decide test-path behavior (<code>skipTests</code>) and doc-file behavior.</li><li>Add a seeded case to <code>fixtures/brownfield-monolith</code> and its <code>expected.json</code>, or a new fixture; ensure <code>clean-service</code> still yields none.</li><li>Add a unit test for the true positive and one for a likely false positive.</li><li>Document in <code>docs/handbook/12-rule-catalog.md</code>.</li><li>Run <code>npm test</code>; precision and recall on fixtures must stay 1.00.</li></ol>
+<p>Avoid committing realistic secrets in fixtures. Build such strings at runtime inside tests (see <code>FAKE_AWS</code>), otherwise GitHub push protection may block the push.</p>
+<h2 id="4-add-an-agent-role">4. Add an agent role<a class="anchor" href="#4-add-an-agent-role" aria-label="Link to this section">#</a></h2>
+<p>Copy an existing file in <code>agents/</code>. Keep frontmatter <code>name: archsutra-&lt;id&gt;</code> and a one-line <code>description</code>. Required headings: Purpose, When to invoke, Required inputs, Tools and policy, Outputs, Quality criteria, Escalation. Keep it read-only. <code>archsutra verify .</code> enforces the structure.</p>
+<h2 id="5-add-or-change-a-skill">5. Add or change a skill<a class="anchor" href="#5-add-or-change-a-skill" aria-label="Link to this section">#</a></h2>
+<p><code>skills/&lt;kebab-name&gt;/SKILL.md</code> with frontmatter <code>name</code> (equal to the directory), <code>description</code> (1-1024 characters, say what and when), optional <code>license</code>. Keep the body under 500 lines; move detail to <code>references/</code>. Follow the <a href="https://agentskills.io/specification" rel="noopener">Agent Skills specification</a>.</p>
+<h2 id="6-add-a-host-adapter">6. Add a host adapter<a class="anchor" href="#6-add-a-host-adapter" aria-label="Link to this section">#</a></h2>
+<ol><li>Read the vendor's current documentation. Record the URL.</li><li>Add a <code>HostSpec</code> to <code>HOSTS</code> (start as <code>experimental</code>).</li><li>If the host needs a custom agent format, extend <code>renderAgent</code> and emit <strong>only</strong> documented keys.</li><li>The roundtrip test iterates all hosts automatically; add host-specific assertions if needed.</li><li>Update the compatibility matrix with what you actually tested.</li></ol>
+<h2 id="7-code-style">7. Code style<a class="anchor" href="#7-code-style" aria-label="Link to this section">#</a></h2>
+<ul><li>TypeScript strict; no <code>any</code> unless interfacing with parsed JSON.</li><li>Prefer pure functions and explicit return types on exports.</li><li>Comments explain <em>why</em>; keep them sparse.</li><li>No network, no <code>child_process</code> in the CLI.</li></ul>
+<h2 id="8-pull-request-checklist">8. Pull request checklist<a class="anchor" href="#8-pull-request-checklist" aria-label="Link to this section">#</a></h2>
+<ul><li>[ ] <code>npm test</code> passes locally</li><li>[ ] <code>npm run verify</code> passes</li><li>[ ] New behavior has tests, including a negative case</li><li>[ ] No secrets, no realistic secret-like strings committed</li><li>[ ] Docs updated (handbook, matrix, rule catalog, changelog)</li><li>[ ] Support claims match verification evidence</li></ul>
+<h2 id="9-release-process-maintainers">9. Release process (maintainers)<a class="anchor" href="#9-release-process-maintainers" aria-label="Link to this section">#</a></h2>
+<ol><li>Update <code>CHANGELOG.md</code> and <code>package.json</code> version (semantic versioning).</li><li><code>npm test</code>, <code>npm run verify</code>, <code>node scripts/eval.mjs</code>, <code>node scripts/build-docs.mjs</code>.</li><li>Regenerate proof files under <code>docs/proof/</code> and sample outputs.</li><li>Commit, push, wait for the 6-job CI matrix.</li><li>Tag <code>vX.Y.Z</code> and create a GitHub release with notes copied from the changelog.</li><li>(Future) publish to npm after name and trademark checks.</li></ol>
+<h2 id="10-regenerating-the-documentation-site">10. Regenerating the documentation site<a class="anchor" href="#10-regenerating-the-documentation-site" aria-label="Link to this section">#</a></h2>
+<p>Handbook Markdown in <code>docs/handbook/</code> is the source. Run:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre><code class="language-bash">node scripts/build-docs.mjs</code></pre></div>
+<p>This writes <code>docs/index.html</code>, <code>docs/handbook/*.html</code>, <code>docs/assets/</code>, <code>sitemap.xml</code> and <code>robots.txt</code>. The <code>pages.yml</code> workflow deploys <code>docs/</code> to GitHub Pages on push.</p>
+<h2 id="11-governance">11. Governance<a class="anchor" href="#11-governance" aria-label="Link to this section">#</a></h2>
+<p>Maintainer: Vatsal Shah. Decisions are made in issues and pull requests, recorded as ADRs when significant (<code>docs/decisions/</code>, template in <code>templates/adr.md</code>). Contributors are credited through git history and release notes. Conduct: <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/CODE_OF_CONDUCT.md" rel="noopener">Code of Conduct</a>.</p></article></main>
+  <aside class="rail"><nav class="toc" aria-label="On this page"><p class="nav-title">On this page</p><ul><li class="l2"><a href="#1-setup">1. Setup</a></li><li class="l2"><a href="#2-principles">2. Principles</a></li><li class="l2"><a href="#3-add-an-audit-rule">3. Add an audit rule</a></li><li class="l2"><a href="#4-add-an-agent-role">4. Add an agent role</a></li><li class="l2"><a href="#5-add-or-change-a-skill">5. Add or change a skill</a></li><li class="l2"><a href="#6-add-a-host-adapter">6. Add a host adapter</a></li><li class="l2"><a href="#7-code-style">7. Code style</a></li><li class="l2"><a href="#8-pull-request-checklist">8. Pull request checklist</a></li><li class="l2"><a href="#9-release-process-maintainers">9. Release process (maintainers)</a></li><li class="l2"><a href="#10-regenerating-the-documentation-site">10. Regenerating the documentation site</a></li><li class="l2"><a href="#11-governance">11. Governance</a></li></ul></nav></aside>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <p><strong>ArchSutra AI</strong> v0.1.0. Design. Audit. Evolve. Created by <a href="https://github.com/shahvatsalofficial" rel="noopener">Vatsal Shah</a>. Licensed under <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>
+    <p class="fine">Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Not affiliated with Anthropic, OpenAI, Cursor, GitHub or Google; product names belong to their owners. <a href="../handbook/07-security-privacy-legal.html">Legal details</a>.</p>
+  </div>
+</footer>
+<script src="../assets/site.js" type="module"></script>
+</body>
+</html>

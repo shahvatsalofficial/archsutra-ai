@@ -1,0 +1,30 @@
+# npm test output
+# Captured: 2026-10-30T20:27:21Z  Node v24.15.0  Windows 11
+✔ redact masks secrets and never returns the value (1.7963ms)
+✔ safeJoin rejects traversal (0.4479ms)
+✔ walk skips node_modules, respects file limit and flags truncation (131.5963ms)
+✔ walk does not follow symlinks (29.6959ms)
+✔ map detects modules, cycles and stack (67.4446ms)
+✔ audit finds seeded problems with evidence and redacted excerpts (66.3392ms)
+✔ audit on a clean small project has no high-severity findings (47.3732ms)
+✔ audit does not flag secrets inside test files or env lookups (19.6033ms)
+✔ install/uninstall roundtrip is idempotent and reversible (946.3386ms)
+✔ install refuses to overwrite foreign files without --force and backs up when forced (101.8059ms)
+✔ uninstall keeps files the user modified (74.5514ms)
+✔ copilot and claude agent profiles contain only supported frontmatter (84.9144ms)
+✔ mermaid checker flags bad diagrams (0.9127ms)
+✔ repository itself verifies (skills, agents, links) (75.0417ms)
+✔ cli: version, help, unknown command, model-only command exit codes (4232.3248ms)
+✔ cli: audit --json emits schema-valid output; --fail-on sets exit 1 (4840.6672ms)
+✔ cli: export writes files, honours --dry-run, blocks escaping --output (3070.8271ms)
+✔ cli: install blocked on conflict returns exit 1, doctor reports (4875.8589ms)
+✔ audit ignores rule text quoted inside html/json/markdown and fixture manifests (dogfooding regressions) (57.4259ms)
+✔ labeled fixtures: precision and recall on seeded rules (51.3304ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20173.3093

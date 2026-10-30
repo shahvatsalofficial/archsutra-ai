@@ -240,3 +240,15 @@ test('cli: install blocked on conflict returns exit 1, doctor reports', async ()
   assert.equal(run(['install']).status, 2);
   await rm(t, { recursive: true, force: true });
 });
+
+test('audit ignores rule text quoted inside html/json/markdown and fixture manifests (dogfooding regressions)', async () => {
+  const r = await tmp('dogfood');
+  await put(r, 'docs/page.html', '<code>rejectUnauthorized: false</code> and <code>privileged: true</code>');
+  await put(r, 'out/report.json', '{"excerpt": "new https.Agent({ rejectUnauthorized: false })"}');
+  await put(r, 'fixtures/x/Dockerfile', 'FROM node\n');
+  await put(r, 'fixtures/x/package.json', JSON.stringify({ dependencies: { a: 'latest' } }));
+  await put(r, 'src/a.ts', 'export {};\n');
+  const rules = (await runAudit(r)).findings.map((f) => f.rule);
+  for (const bad of ['AS-SEC-006', 'AS-IAC-001', 'AS-OPS-003', 'AS-SUP-002']) assert.ok(!rules.includes(bad), `${bad} should not fire`);
+  await rm(r, { recursive: true, force: true });
+});

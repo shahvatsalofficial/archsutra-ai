@@ -1,0 +1,5 @@
+claude   adapter       Claude Code - Skills and subagents. Subagent files get a read-only tools list.
+cursor   adapter       Cursor - Agent Skills only. No custom subagent files are written.
+codex    adapter       OpenAI Codex - Agent Skills plus a managed block in AGENTS.md.
+copilot  adapter       GitHub Copilot - Skills plus custom agents (.agent.md); only description and tools are written.
+gemini   experimental  Gemini CLI - Skill layout unconfirmed against the current Gemini CLI release. Use `export --host manual` as fallback.

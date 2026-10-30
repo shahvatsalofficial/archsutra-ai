@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArchSutra AI - Software Architecture Audit Agent for Claude Code, Cursor, Codex, Copilot &amp; Gemini CLI</title>
+<meta name="description" content="Open-source software architecture agent: audit, design, threat-model and modernize with file-and-line evidence. Agent Skills plus an offline CLI. No extra API key. Apache-2.0.">
+<link rel="canonical" href="https://shahvatsalofficial.github.io/archsutra-ai/">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ArchSutra AI - Software Architecture Audit Agent for Claude Code, Cursor, Codex, Copilot &amp; Gemini CLI">
+<meta property="og:description" content="Open-source software architecture agent: audit, design, threat-model and modernize with file-and-line evidence. Agent Skills plus an offline CLI. No extra API key. Apache-2.0.">
+<meta property="og:url" content="https://shahvatsalofficial.github.io/archsutra-ai/">
+<meta property="og:site_name" content="ArchSutra AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ArchSutra AI - Software Architecture Audit Agent for Claude Code, Cursor, Codex, Copilot &amp; Gemini CLI">
+<meta name="twitter:description" content="Open-source software architecture agent: audit, design, threat-model and modernize with file-and-line evidence. Agent Skills plus an offline CLI. No extra API key. Apache-2.0.">
+<meta name="author" content="Vatsal Shah">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+<script>try{var t=localStorage.getItem('as-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"ArchSutra AI","description":"Open-source software architecture audit, design and threat-modeling agent skills and offline CLI for Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI.","codeRepository":"https://github.com/shahvatsalofficial/archsutra-ai","programmingLanguage":"TypeScript","runtimePlatform":"Node.js","license":"https://www.apache.org/licenses/LICENSE-2.0","version":"0.1.0","author":{"@type":"Person","name":"Vatsal Shah","url":"https://github.com/shahvatsalofficial"},"url":"https://shahvatsalofficial.github.io/archsutra-ai"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is ArchSutra AI?","acceptedAnswer":{"@type":"Answer","text":"An open-source software architecture agent: portable Agent Skills plus a deterministic offline CLI that help AI coding assistants audit, design, threat-model and modernize software with file-and-line evidence."}},{"@type":"Question","name":"Do I need an API key?","acceptedAnswer":{"@type":"Answer","text":"No. The CLI is offline. Inside a supported AI IDE the skills use that IDE's own model, so you need access to the IDE, not an ArchSutra key."}},{"@type":"Question","name":"Does it send my code anywhere?","acceptedAnswer":{"@type":"Answer","text":"The CLI sends nothing anywhere and has no telemetry. When you use the skills, your AI IDE's model provider processes your prompts and code under its own terms."}},{"@type":"Question","name":"Which AI tools does it support?","acceptedAnswer":{"@type":"Answer","text":"Adapters exist for Claude Code, Cursor, OpenAI Codex and GitHub Copilot (adapter level) and Gemini CLI (experimental). Live smoke tests are pending and stated openly."}},{"@type":"Question","name":"Does it certify compliance or security?","acceptedAnswer":{"@type":"Answer","text":"No. Reports are review aids. Absence of findings is not proof of absence of vulnerabilities, and nothing here is legal advice or a compliance attestation."}}]}</script>
+</head>
+<body class="landing">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">Menu</button>
+    <a class="brand" href="index.html" aria-label="ArchSutra AI home"><svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor" opacity=".12"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ArchSutra <b>AI</b></span></a>
+    <nav class="top-links" aria-label="Primary"><a href="handbook/index.html">Handbook</a><a href="handbook/05-user-guide.html">Get started</a><a href="handbook/08-testing-and-proof.html">Proof</a><a href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">GitHub</a></nav>
+    <button class="theme-btn" type="button" aria-label="Toggle color theme"><span class="sun" aria-hidden="true">Light</span><span class="moon" aria-hidden="true">Dark</span></button>
+  </div>
+</header>
+<main id="main">
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Open source &middot; Apache-2.0 &middot; v0.1.0</p>
+    <h1>The software architecture agent that shows its evidence.</h1>
+    <p class="hero-lede">ArchSutra AI turns Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI into an evidence-first architect. Audit, design, threat-model and modernize with <code>file:line</code> proof, severity and confidence, no extra API key.</p>
+    <div class="cta">
+      <a class="btn primary" href="handbook/05-user-guide.html">Get started in 60 seconds</a>
+      <a class="btn" href="handbook/index.html">Read the handbook</a>
+      <a class="btn ghost" href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">View on GitHub</a>
+    </div>
+    <div class="code hero-code"><button class="copy" type="button" aria-label="Copy command">Copy</button><pre><code>npx github:shahvatsalofficial/archsutra-ai audit .</code></pre></div>
+    <p class="hero-note">Read-only. Offline. No telemetry. Secrets redacted.</p>
+  </div>
+</section>
+<section class="stats" aria-label="Facts"><div class="wrap"><ul><li><span class="num">20</span><span class="lbl">automated tests</span></li><li><span class="num">6/6</span><span class="lbl">CI jobs green (3 OS x Node 20, 22)</span></li><li><span class="num">0</span><span class="lbl">runtime dependencies</span></li><li><span class="num">19</span><span class="lbl">audit rules</span></li><li><span class="num">12</span><span class="lbl">specialist agents</span></li><li><span class="num">0</span><span class="lbl">API keys required</span></li></ul></div></section>
+<section class="band"><div class="wrap">
+  <h2>Why teams use it</h2>
+  <div class="cards">
+    <article class="card"><h3>Evidence, not vibes</h3><p>Every claim is tagged observed, inferred, proposed or unknown. Findings cite file and line, with severity, confidence, fix and acceptance criteria.</p></article>
+    <article class="card"><h3>Keyless and private</h3><p>The CLI runs offline with no telemetry. Inside your IDE, the skills use the model you already have. No ArchSutra account.</p></article>
+    <article class="card"><h3>Built for CI</h3><p>Gate pull requests with <code>--fail-on high</code>. Export Markdown, Mermaid, JSON and SARIF 2.1.0 for code scanning.</p></article>
+    <article class="card"><h3>A specialist team</h3><p>Twelve role contracts led by Prime: security, data, cloud, integration, AI, reliability, cost, delivery and verification.</p></article>
+    <article class="card"><h3>Safe to adopt</h3><p>Dry-run installs, SHA-256 manifests, conflict detection, backups, and uninstall that never deletes your edits.</p></article>
+    <article class="card"><h3>Honest by design</h3><p>Support levels stated plainly. Reliability, performance and cost are "not assessed" unless evidence exists.</p></article>
+  </div>
+</div></section>
+<section class="wrap how"><h2>How it works</h2>
+  <figure class="diagram"><pre class="mermaid">flowchart LR
+  dev["You, in an AI IDE"] --> skill["ArchSutra skills + Prime"]
+  skill --> cli["archsutra CLI (offline)"]
+  cli --> repo[("Your repository, read-only")]
+  cli --> ev["Evidence: findings.json, SARIF, Mermaid"]
+  ev --> skill
+  skill --> out["Report, ADRs, roadmap"]</pre><figcaption>The CLI measures. Your IDE's model reasons. Neither needs an ArchSutra key.</figcaption></figure>
+</section>
+<section class="band"><div class="wrap">
+  <h2>Trust, with receipts</h2>
+  <div class="cards two">
+    <article class="card"><h3>Reproducible proof</h3><p>20 tests, a 6-job CI matrix, labeled-fixture evaluation, real sample reports. Re-run everything yourself.</p><a href="handbook/08-testing-and-proof.html">See the evidence</a></article>
+    <article class="card"><h3>Legal and privacy clarity</h3><p>Apache-2.0, NOTICE, third-party notices, trademark disclaimers, and an explicit list of checks not yet done.</p><a href="handbook/07-security-privacy-legal.html">Read the policy</a></article>
+  </div>
+  <p class="honest"><strong>What is not proven yet:</strong> live behavior inside each AI IDE, accuracy on real-world repositories, and trademark clearance for the name. We say so up front.</p>
+</div></section>
+<section class="wrap"><h2>Supported AI IDEs</h2>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Supported hosts"><table><thead><tr><th scope="col">Host</th><th scope="col">Level</th><th scope="col">Skills</th><th scope="col">Agents</th></tr></thead><tbody>
+  <tr><td>Claude Code</td><td>adapter</td><td><code>.claude/skills/</code></td><td><code>.claude/agents/</code></td></tr>
+  <tr><td>Cursor</td><td>adapter</td><td><code>.cursor/skills/</code></td><td>none</td></tr>
+  <tr><td>OpenAI Codex</td><td>adapter</td><td><code>.agents/skills/</code> + AGENTS.md</td><td>none</td></tr>
+  <tr><td>GitHub Copilot</td><td>adapter</td><td><code>.github/skills/</code></td><td><code>.github/agents/*.agent.md</code></td></tr>
+  <tr><td>Gemini CLI</td><td>experimental</td><td><code>.gemini/skills/</code></td><td>none</td></tr>
+  </tbody></table></div>
+  <p class="muted">"adapter" = files written to the vendor-documented layout; not yet smoke-tested in the live host. <a href="handbook/09-compatibility-and-roadmap.html">Full matrix</a>.</p>
+</section>
+<section class="band"><div class="wrap"><h2>Documentation</h2>
+  <div class="cards"><a class="card link" href="handbook/01-executive-summary.html"><h3>Executive summary</h3><p>Problem, value, risks, decisions.</p></a><a class="card link" href="handbook/02-functional-specification.html"><h3>Functional specification</h3><p>Every requirement and scenario.</p></a><a class="card link" href="handbook/03-technical-specification.html"><h3>Technical specification</h3><p>Modules, algorithms, limits.</p></a><a class="card link" href="handbook/04-architecture.html"><h3>Architecture</h3><p>C4 views, flows, trust boundaries.</p></a><a class="card link" href="handbook/05-user-guide.html"><h3>User guide</h3><p>Install, audit, IDE prompts, CI.</p></a><a class="card link" href="handbook/06-cli-reference.html"><h3>CLI reference</h3><p>Commands, flags, exit codes.</p></a><a class="card link" href="handbook/07-security-privacy-legal.html"><h3>Security, privacy, legal</h3><p>Model, license, disclaimers.</p></a><a class="card link" href="handbook/08-testing-and-proof.html"><h3>Testing and proof</h3><p>Results, CI, evaluation, samples.</p></a><a class="card link" href="handbook/12-rule-catalog.html"><h3>Rule catalog</h3><p>All 19 audit rules.</p></a></div>
+</div></section>
+<section class="wrap faq"><h2>Frequently asked questions</h2><details><summary>What is ArchSutra AI?</summary><p>An open-source software architecture agent: portable Agent Skills plus a deterministic offline CLI that help AI coding assistants audit, design, threat-model and modernize software with file-and-line evidence.</p></details><details><summary>Do I need an API key?</summary><p>No. The CLI is offline. Inside a supported AI IDE the skills use that IDE's own model, so you need access to the IDE, not an ArchSutra key.</p></details><details><summary>Does it send my code anywhere?</summary><p>The CLI sends nothing anywhere and has no telemetry. When you use the skills, your AI IDE's model provider processes your prompts and code under its own terms.</p></details><details><summary>Which AI tools does it support?</summary><p>Adapters exist for Claude Code, Cursor, OpenAI Codex and GitHub Copilot (adapter level) and Gemini CLI (experimental). Live smoke tests are pending and stated openly.</p></details><details><summary>Does it certify compliance or security?</summary><p>No. Reports are review aids. Absence of findings is not proof of absence of vulnerabilities, and nothing here is legal advice or a compliance attestation.</p></details>
+  <p class="muted"><a href="handbook/11-glossary-and-faq.html">More questions and a glossary</a></p>
+</section></main>
+<footer class="footer">
+  <div class="footer-inner">
+    <p><strong>ArchSutra AI</strong> v0.1.0. Design. Audit. Evolve. Created by <a href="https://github.com/shahvatsalofficial" rel="noopener">Vatsal Shah</a>. Licensed under <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>
+    <p class="fine">Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Not affiliated with Anthropic, OpenAI, Cursor, GitHub or Google; product names belong to their owners. <a href="handbook/07-security-privacy-legal.html">Legal details</a>.</p>
+  </div>
+</footer>
+<script src="assets/site.js" type="module"></script>
+</body>
+</html>

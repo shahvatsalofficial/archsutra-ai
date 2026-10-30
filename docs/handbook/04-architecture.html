@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architecture | ArchSutra AI</title>
+<meta name="description" content="C4 views, runtime flows, trust boundaries, quality attributes and the decisions behind ArchSutra AI.">
+<link rel="canonical" href="https://shahvatsalofficial.github.io/archsutra-ai/handbook/04-architecture.html">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Architecture | ArchSutra AI">
+<meta property="og:description" content="C4 views, runtime flows, trust boundaries, quality attributes and the decisions behind ArchSutra AI.">
+<meta property="og:url" content="https://shahvatsalofficial.github.io/archsutra-ai/handbook/04-architecture.html">
+<meta property="og:site_name" content="ArchSutra AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Architecture | ArchSutra AI">
+<meta name="twitter:description" content="C4 views, runtime flows, trust boundaries, quality attributes and the decisions behind ArchSutra AI.">
+<meta name="author" content="Vatsal Shah">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<script>try{var t=localStorage.getItem('as-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Architecture","description":"C4 views, runtime flows, trust boundaries, quality attributes and the decisions behind ArchSutra AI.","author":{"@type":"Person","name":"Vatsal Shah"},"inLanguage":"en","isPartOf":{"@type":"WebSite","name":"ArchSutra AI","url":"https://shahvatsalofficial.github.io/archsutra-ai"}}</script>
+</head>
+<body class="doc">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">Menu</button>
+    <a class="brand" href="../index.html" aria-label="ArchSutra AI home"><svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor" opacity=".12"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ArchSutra <b>AI</b></span></a>
+    <nav class="top-links" aria-label="Primary"><a href="../handbook/index.html">Handbook</a><a href="../handbook/05-user-guide.html">Get started</a><a href="../handbook/08-testing-and-proof.html">Proof</a><a href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">GitHub</a></nav>
+    <button class="theme-btn" type="button" aria-label="Toggle color theme"><span class="sun" aria-hidden="true">Light</span><span class="moon" aria-hidden="true">Dark</span></button>
+  </div>
+</header>
+<div class="layout">
+  <aside id="sidebar" class="sidebar" aria-label="Documentation"><div class="nav-group"><p class="nav-title">Handbook</p><ul><li><a href="../handbook/index.html">Overview</a></li><li><a href="../handbook/01-executive-summary.html">Executive summary</a></li><li><a href="../handbook/02-functional-specification.html">Functional specification</a></li><li><a href="../handbook/03-technical-specification.html">Technical specification</a></li><li><a href="../handbook/04-architecture.html" aria-current="page">Architecture</a></li><li><a href="../handbook/05-user-guide.html">User guide</a></li><li><a href="../handbook/06-cli-reference.html">CLI reference</a></li><li><a href="../handbook/07-security-privacy-legal.html">Security, privacy and legal</a></li><li><a href="../handbook/08-testing-and-proof.html">Testing and proof</a></li><li><a href="../handbook/09-compatibility-and-roadmap.html">Compatibility and roadmap</a></li><li><a href="../handbook/10-contributor-guide.html">Contributor guide</a></li><li><a href="../handbook/11-glossary-and-faq.html">Glossary and FAQ</a></li><li><a href="../handbook/12-rule-catalog.html">Audit rule catalog</a></li></ul></div><div class="nav-group"><p class="nav-title">Reference</p><ul><li><a href="../architecture/overview.html">Architecture overview</a></li><li><a href="../architecture/threat-model.html">Threat model (ArchSutra CLI and skills)</a></li><li><a href="../compatibility/matrix.html">Compatibility matrix</a></li><li><a href="../rfc/0001-archsutra-v0.1.html">RFC 0001: ArchSutra AI v0.1</a></li><li><a href="../decisions/ADR-0001-deterministic-cli-plus-ide-skills.html">ADR-0001: Deterministic CLI plus IDE-native skills</a></li></ul></div></aside>
+  <main id="main" class="content"><article class="prose"><p class="crumbs"><a href="../index.html">ArchSutra AI</a> / Handbook</p><h1 id="architecture">Architecture</h1>
+<p class="lede">C4 views, runtime flows, trust boundaries, quality attributes and the decisions behind ArchSutra AI.</p><p class="meta">Version 0.1.0 &middot; Source: <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/docs/handbook/04-architecture.md" rel="noopener">docs/handbook/04-architecture.md</a></p>
+<p>Notation: C4 model (Context, Container, Component), diagrams in Mermaid. Every element corresponds to something in the repository.</p>
+<h2 id="1-system-context-c4-level-1">1. System context (C4 level 1)<a class="anchor" href="#1-system-context-c4-level-1" aria-label="Link to this section">#</a></h2>
+<figure class="diagram"><pre class="mermaid">flowchart TB
+  dev([&quot;Developer / Architect&quot;])
+  ci([&quot;CI system&quot;])
+  subgraph sys[&quot;ArchSutra AI&quot;]
+    skills[&quot;Skills + agent contracts&quot;]
+    cli[&quot;archsutra CLI&quot;]
+  end
+  ide[&quot;AI IDE (Claude Code, Cursor, Codex, Copilot, Gemini CLI) and its model&quot;]
+  repo[(&quot;Target repository&quot;)]
+  dev --&gt; ide
+  ide --&gt;|loads| skills
+  ide --&gt;|runs read-only| cli
+  ci --&gt; cli
+  cli --&gt;|reads| repo
+  cli --&gt;|writes reports + installs| repo</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>
+<p>Key point: the <strong>model never lives inside ArchSutra</strong>. The IDE supplies reasoning; ArchSutra supplies method and measured evidence.</p>
+<h2 id="2-containers-c4-level-2">2. Containers (C4 level 2)<a class="anchor" href="#2-containers-c4-level-2" aria-label="Link to this section">#</a></h2>
+<figure class="diagram"><pre class="mermaid">flowchart LR
+  subgraph content[&quot;Canonical content (Markdown)&quot;]
+    S[&quot;skills/&quot;]
+    A[&quot;agents/&quot;]
+    SC[&quot;schemas/&quot;]
+  end
+  subgraph runtime[&quot;Node.js process (dist/cli.js)&quot;]
+    CLI[&quot;cli&quot;]
+    MAP[&quot;map&quot;]
+    AUD[&quot;audit&quot;]
+    REP[&quot;report&quot;]
+    VER[&quot;verify&quot;]
+    ADP[&quot;adapters&quot;]
+    FS[&quot;fsutil&quot;]
+    RED[&quot;redact&quot;]
+  end
+  CLI --&gt; MAP
+  CLI --&gt; AUD
+  CLI --&gt; REP
+  CLI --&gt; VER
+  CLI --&gt; ADP
+  MAP --&gt; FS
+  AUD --&gt; MAP
+  AUD --&gt; RED
+  REP --&gt; AUD
+  ADP --&gt; S
+  ADP --&gt; A
+  VER --&gt; S
+  VER --&gt; A
+  VER --&gt; SC</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>
+<h2 id="3-components-c4-level-3-of-the-cli">3. Components (C4 level 3) of the CLI<a class="anchor" href="#3-components-c4-level-3-of-the-cli" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Component</th><th scope="col">Depends on</th><th scope="col">Responsibility</th></tr></thead><tbody><tr><td><code>cli</code></td><td>all</td><td>parse arguments, dispatch, exit codes</td></tr><tr><td><code>audit</code></td><td><code>map</code>, <code>fsutil</code>, <code>redact</code></td><td>rules and scorecard</td></tr><tr><td><code>map</code></td><td><code>fsutil</code>, <code>redact</code></td><td>modules, imports, cycles, stack</td></tr><tr><td><code>report</code></td><td>types</td><td>render outputs</td></tr><tr><td><code>verify</code></td><td><code>fsutil</code></td><td>structural validation</td></tr><tr><td><code>adapters</code></td><td><code>fsutil</code>, <code>verify</code></td><td>host table, install plan, install, uninstall, doctor</td></tr><tr><td><code>fsutil</code></td><td>none</td><td>safe bounded filesystem access</td></tr><tr><td><code>redact</code></td><td>none</td><td>secret detection and masking</td></tr></tbody></table></div>
+<p>Dependencies are acyclic. The tool's own audit reports no module cycles.</p>
+<h2 id="4-runtime-flows">4. Runtime flows<a class="anchor" href="#4-runtime-flows" aria-label="Link to this section">#</a></h2>
+<h3 id="41-audit">4.1 Audit<a class="anchor" href="#41-audit" aria-label="Link to this section">#</a></h3>
+<figure class="diagram"><pre class="mermaid">sequenceDiagram
+  participant U as User or CI
+  participant C as cli
+  participant F as fsutil
+  participant M as map
+  participant A as audit
+  participant R as report
+  U-&gt;&gt;C: archsutra audit . --fail-on high
+  C-&gt;&gt;F: walk(root) with limits
+  F--&gt;&gt;C: corpus (files, skipped, truncated)
+  C-&gt;&gt;M: buildMap(corpus)
+  M--&gt;&gt;A: modules, edges, cycles
+  A-&gt;&gt;A: line rules, structural rules, scorecard
+  A--&gt;&gt;C: findings + scorecard
+  C-&gt;&gt;R: render
+  R--&gt;&gt;U: Markdown or JSON (exit 0, or 1 if threshold met)</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>
+<h3 id="42-install">4.2 Install<a class="anchor" href="#42-install" aria-label="Link to this section">#</a></h3>
+<figure class="diagram"><pre class="mermaid">sequenceDiagram
+  participant U as User
+  participant C as cli
+  participant P as adapters.planInstall
+  participant I as adapters.install
+  U-&gt;&gt;C: install --host claude --target . --dry-run
+  C-&gt;&gt;P: plan
+  P--&gt;&gt;C: create / update / unchanged / conflict per file
+  C--&gt;&gt;U: plan printed, nothing written
+  U-&gt;&gt;C: install --host claude --target .
+  C-&gt;&gt;I: write files, back up conflicts, record SHA-256
+  I--&gt;&gt;U: written list, manifest updated</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>
+<h3 id="43-ai-assisted-audit-the-full-loop">4.3 AI-assisted audit (the full loop)<a class="anchor" href="#43-ai-assisted-audit-the-full-loop" aria-label="Link to this section">#</a></h3>
+<figure class="diagram"><pre class="mermaid">flowchart LR
+  ask[&quot;User asks Prime to audit&quot;] --&gt; prime[&quot;Prime loads architecture-audit skill&quot;]
+  prime --&gt; run[&quot;Runs: archsutra audit . --json and map . --json&quot;]
+  run --&gt; verify[&quot;Opens cited file:line to confirm each finding&quot;]
+  verify --&gt; reason[&quot;Specialists add reasoning (security, data, cloud, ...)&quot;]
+  reason --&gt; out[&quot;Report, diagrams, ADRs, roadmap with observed / inferred / proposed / unknown labels&quot;]</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>
+<h2 id="5-trust-boundaries">5. Trust boundaries<a class="anchor" href="#5-trust-boundaries" aria-label="Link to this section">#</a></h2>
+<figure class="diagram"><pre class="mermaid">flowchart LR
+  subgraph untrusted[&quot;Untrusted&quot;]
+    repo[&quot;Repository content&quot;]
+  end
+  subgraph trusted[&quot;Trusted, hashed&quot;]
+    skills[&quot;Skills and agents&quot;]
+  end
+  subgraph local[&quot;Local process&quot;]
+    cli[&quot;CLI&quot;]
+  end
+  repo --&gt;|read only, bounded, no symlinks| cli
+  cli --&gt;|writes only inside project| out[&quot;Reports, installed files&quot;]
+  skills --&gt; ide[&quot;IDE model&quot;]
+  repo -. &quot;may contain injected text&quot; .-&gt; ide</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>
+<p>Controls and residual risk are in the <a href="../architecture/threat-model.html">threat model</a>.</p>
+<h2 id="6-quality-attributes">6. Quality attributes<a class="anchor" href="#6-quality-attributes" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Attribute</th><th scope="col">Strategy</th><th scope="col">Verified by</th></tr></thead><tbody><tr><td>Security</td><td>read-only default, redaction, containment, hashed installs</td><td>security tests</td></tr><tr><td>Privacy</td><td>offline, no telemetry</td><td>design + code review</td></tr><tr><td>Reliability</td><td>skip-on-error scanning, bounded work</td><td>limit tests</td></tr><tr><td>Portability</td><td>Node only, no shell dependency in core</td><td>3-OS CI</td></tr><tr><td>Maintainability</td><td>small modules, acyclic, typed</td><td>self-audit, typecheck</td></tr><tr><td>Testability</td><td>pure render functions, runtime-built fixtures</td><td>20 tests</td></tr><tr><td>Extensibility</td><td>declarative host table, rule table, agent contract</td><td>contributor guide</td></tr><tr><td>Honesty</td><td>support levels, <code>not assessed</code>, caveats on every finding</td><td>review</td></tr></tbody></table></div>
+<h2 id="7-architectural-decisions">7. Architectural decisions<a class="anchor" href="#7-architectural-decisions" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">ADR</th><th scope="col">Decision</th></tr></thead><tbody><tr><td><a href="../decisions/ADR-0001-deterministic-cli-plus-ide-skills.html">ADR-0001</a></td><td>Deterministic CLI for evidence plus IDE-native skills for reasoning; no server, no API key</td></tr></tbody></table></div>
+<p>Additional decisions captured in the <a href="../rfc/0001-archsutra-v0.1.html">RFC</a>: single canonical source with generated host layouts; honest capability labels; zero runtime dependencies; module-level (not file-level) dependency graph for stability.</p>
+<h2 id="8-documentation-site">8. Documentation site<a class="anchor" href="#8-documentation-site" aria-label="Link to this section">#</a></h2>
+<p>The HTML site is generated by <code>scripts/build-docs.mjs</code> from this handbook's Markdown. It is static, has no framework, supports light and dark themes, keyboard navigation, a skip link, visible focus, reduced-motion, print styles, and loads one optional script (Mermaid, pinned) from a CDN. Markdown remains the source of truth.</p>
+<h2 id="9-evolution">9. Evolution<a class="anchor" href="#9-evolution" aria-label="Link to this section">#</a></h2>
+<p>Planned additions are intentionally outside the keyless path: optional local model runtime and optional bring-your-own-key server. They must not change default behavior. See <a href="09-compatibility-and-roadmap.html">Compatibility and roadmap</a>.</p></article></main>
+  <aside class="rail"><nav class="toc" aria-label="On this page"><p class="nav-title">On this page</p><ul><li class="l2"><a href="#1-system-context-c4-level-1">1. System context (C4 level 1)</a></li><li class="l2"><a href="#2-containers-c4-level-2">2. Containers (C4 level 2)</a></li><li class="l2"><a href="#3-components-c4-level-3-of-the-cli">3. Components (C4 level 3) of the CLI</a></li><li class="l2"><a href="#4-runtime-flows">4. Runtime flows</a></li><li class="l3"><a href="#41-audit">4.1 Audit</a></li><li class="l3"><a href="#42-install">4.2 Install</a></li><li class="l3"><a href="#43-ai-assisted-audit-the-full-loop">4.3 AI-assisted audit (the full loop)</a></li><li class="l2"><a href="#5-trust-boundaries">5. Trust boundaries</a></li><li class="l2"><a href="#6-quality-attributes">6. Quality attributes</a></li><li class="l2"><a href="#7-architectural-decisions">7. Architectural decisions</a></li><li class="l2"><a href="#8-documentation-site">8. Documentation site</a></li><li class="l2"><a href="#9-evolution">9. Evolution</a></li></ul></nav></aside>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <p><strong>ArchSutra AI</strong> v0.1.0. Design. Audit. Evolve. Created by <a href="https://github.com/shahvatsalofficial" rel="noopener">Vatsal Shah</a>. Licensed under <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>
+    <p class="fine">Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Not affiliated with Anthropic, OpenAI, Cursor, GitHub or Google; product names belong to their owners. <a href="../handbook/07-security-privacy-legal.html">Legal details</a>.</p>
+  </div>
+</footer>
+<script src="../assets/site.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "ArchSutra AI",
+          "informationUri": "https://github.com/shahvatsalofficial/archsutra-ai",
+          "rules": [
+            {
+              "id": "AS-SEC-004",
+              "name": "Dynamic code or shell execution",
+              "shortDescription": {
+                "text": "Dynamic code or shell execution"
+              },
+              "help": {
+                "text": "Replace with a safe API (argument arrays, parsers, allowlists). Never build commands or code from strings that include external input."
+              }
+            },
+            {
+              "id": "AS-SEC-005",
+              "name": "SQL built by string concatenation or interpolation",
+              "shortDescription": {
+                "text": "SQL built by string concatenation or interpolation"
+              },
+              "help": {
+                "text": "Use parameterized queries or the ORM query builder. Allowlist any dynamic identifiers."
+              }
+            },
+            {
+              "id": "AS-SEC-006",
+              "name": "TLS certificate verification disabled",
+              "shortDescription": {
+                "text": "TLS certificate verification disabled"
+              },
+              "help": {
+                "text": "Enable verification. For private CAs, trust the CA bundle explicitly instead of disabling checks."
+              }
+            },
+            {
+              "id": "AS-ARC-001",
+              "name": "Circular dependency between modules (src/api <-> src/db)",
+              "shortDescription": {
+                "text": "Circular dependency between modules (src/api <-> src/db)"
+              },
+              "help": {
+                "text": "Extract the shared concept into a lower-level module or invert one dependency behind an interface."
+              }
+            },
+            {
+              "id": "AS-ARC-002",
+              "name": "Lower layer depends on a higher layer",
+              "shortDescription": {
+                "text": "Lower layer depends on a higher layer"
+              },
+              "help": {
+                "text": "Move shared types down, or introduce an interface owned by the lower layer and implemented above."
+              }
+            },
+            {
+              "id": "AS-OPS-001",
+              "name": "No CI pipeline configuration found",
+              "shortDescription": {
+                "text": "No CI pipeline configuration found"
+              },
+              "help": {
+                "text": "Add CI that builds, tests, lints and runs dependency/secret scans on every pull request."
+              }
+            },
+            {
+              "id": "AS-OPS-002",
+              "name": "No test files found",
+              "shortDescription": {
+                "text": "No test files found"
+              },
+              "help": {
+                "text": "Add characterization tests around critical paths before changing them."
+              }
+            },
+            {
+              "id": "AS-OPS-003",
+              "name": "Container runs as root",
+              "shortDescription": {
+                "text": "Container runs as root"
+              },
+              "help": {
+                "text": "Create an unprivileged user and add `USER <name>` before the entrypoint."
+              }
+            },
+            {
+              "id": "AS-SUP-001",
+              "name": "Dependency manifest without lockfile",
+              "shortDescription": {
+                "text": "Dependency manifest without lockfile"
+              },
+              "help": {
+                "text": "Commit the lockfile and install with `npm ci` (or equivalent) in CI."
+              }
+            },
+            {
+              "id": "AS-SUP-002",
+              "name": "Unpinned dependency ranges (\"latest\" or \"*\")",
+              "shortDescription": {
+                "text": "Unpinned dependency ranges (\"latest\" or \"*\")"
+              },
+              "help": {
+                "text": "Use a bounded semver range and rely on the lockfile plus automated update PRs."
+              }
+            },
+            {
+              "id": "AS-DOC-001",
+              "name": "No README at repository root",
+              "shortDescription": {
+                "text": "No README at repository root"
+              },
+              "help": {
+                "text": "Add a README with purpose, setup, run, test, and an architecture section."
+              }
+            },
+            {
+              "id": "AS-SUP-003",
+              "name": "Container base image not pinned",
+              "shortDescription": {
+                "text": "Container base image not pinned"
+              },
+              "help": {
+                "text": "Pin to a specific version tag, ideally with a digest, and update via automated PRs."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "AS-SEC-004",
+          "level": "error",
+          "message": {
+            "text": "Dynamic code or shell execution. If any input reaches these calls, an attacker can execute arbitrary code or commands."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/services/user.ts"
+                },
+                "region": {
+                  "startLine": 3,
+                  "endLine": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "AS-SEC-005",
+          "level": "error",
+          "message": {
+            "text": "SQL built by string concatenation or interpolation. Possible SQL injection and unpredictable query plans."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/services/user.ts"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "AS-SEC-006",
+          "level": "error",
+          "message": {
+            "text": "TLS certificate verification disabled. Connections can be intercepted by a man-in-the-middle."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/services/http.ts"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "AS-ARC-001",
+          "level": "warning",
+          "message": {
+            "text": "Circular dependency between modules (src/api <-> src/db). Cyclic modules cannot be understood, tested, versioned or deployed independently."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/api/routes.ts"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "AS-ARC-001",
+          "level": "warning",
+          "message": {
+            "text": "Circular dependency between modules (src/api <-> src/db). Cyclic modules cannot be understood, tested, versioned or deployed independently."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/db/repo.ts"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "AS-ARC-002",
+          "level": "warning",
+          "message": {
+            "text": "Lower layer depends on a higher layer. Data or service code that imports presentation code inverts the intended dependency direction and blocks reuse."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/db/repo.ts"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "AS-OPS-003",
+          "level": "warning",
+          "message": {
+            "text": "Container runs as root. A compromised process has root inside the container, easing escape and file tampering."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Dockerfile"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "AS-SUP-001",
+          "level": "warning",
+          "message": {
+            "text": "Dependency manifest without lockfile. Installs are not reproducible; a compromised new release can enter automatically."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package.json"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "AS-SUP-002",
+          "level": "warning",
+          "message": {
+            "text": "Unpinned dependency ranges (\"latest\" or \"*\"). Any future release, including a malicious one, is accepted."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package.json"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "AS-SUP-003",
+          "level": "note",
+          "message": {
+            "text": "Container base image not pinned. Builds are not reproducible and can silently pick up a compromised or breaking image."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Dockerfile"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -12,3 +12,10 @@ Initial release by Vatsal Shah.
 - Audit rules for secrets, private keys, env files, injection sinks, TLS, IaC, containers, lockfiles, cycles, layering, CI, tests, docs, LLM-to-exec co-location.
 - Outputs: Markdown, Mermaid, JSON (schema v1.0.0), SARIF 2.1.0.
 - Host adapters: Claude Code, Cursor, Codex, Copilot (adapter level), Gemini CLI (experimental). Not yet smoke-tested in live hosts.
+
+### Added after initial release (still 0.1.0)
+
+- Labeled fixtures (`fixtures/`), evaluation script and test; real sample outputs in `examples/`; captured proof in `docs/proof/`.
+- Handbook (12 documents) with generated HTML documentation site, sitemap, structured data.
+- Legal and trust files: NOTICE, THIRD_PARTY_NOTICES, CITATION.cff, CodeQL, Dependabot, Pages workflow.
+- Expanded README with proof, legal, FAQ and sample output.

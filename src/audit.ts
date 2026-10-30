@@ -21,6 +21,7 @@ interface LineRule {
   rule: string;
   re: RegExp;
   codeOnly?: boolean;
+  exts?: Set<string>;
   skipTests?: boolean;
   make: (hits: Evidence[]) => Draft;
 }
@@ -65,6 +66,7 @@ const LINE_RULES: LineRule[] = [
   {
     rule: 'AS-SEC-006',
     re: /rejectUnauthorized\s*:\s*false|verify\s*=\s*False|InsecureSkipVerify\s*:\s*true|NODE_TLS_REJECT_UNAUTHORIZED\s*=\s*['"]?0/,
+    codeOnly: true,
     skipTests: true,
     make: (hits) => ({
       rule: 'AS-SEC-006', title: 'TLS certificate verification disabled', category: 'security', severity: 'high', confidence: 'high',
@@ -82,6 +84,7 @@ const LINE_RULES: LineRule[] = [
   {
     rule: 'AS-IAC-001',
     re: /cidr_blocks\s*=\s*\[\s*"0\.0\.0\.0\/0"|privileged:\s*true|allowPrivilegeEscalation:\s*true|hostNetwork:\s*true/,
+    exts: new Set(['.tf', '.hcl', '.yaml', '.yml']),
     skipTests: true,
     make: (hits) => ({
       rule: 'AS-IAC-001', title: 'Over-permissive infrastructure configuration', category: 'infrastructure', severity: 'medium', confidence: 'medium',
@@ -155,6 +158,7 @@ export async function runAudit(root: string, corpusIn?: Corpus): Promise<AuditRe
       }
       for (const r of LINE_RULES) {
         if (r.codeOnly && !isCode) continue;
+        if (r.exts && !r.exts.has(f.ext)) continue;
         if (r.skipTests && isTest) continue;
         if (isDoc) continue;
         if (r.re.test(text)) {
@@ -319,7 +323,7 @@ export async function runAudit(root: string, corpusIn?: Corpus): Promise<AuditRe
       references: [],
     });
   }
-  for (const f of corpus.files.filter((x) => /(^|\/)Dockerfile(\.[\w.-]+)?$/.test(x.rel))) {
+  for (const f of corpus.files.filter((x) => /(^|\/)Dockerfile(\.[\w.-]+)?$/.test(x.rel) && !TEST_PATH.test(x.rel))) {
     const lines = (await readLines(f)) ?? [];
     const users = lines.filter((l) => /^\s*USER\s+/i.test(l));
     const last = users[users.length - 1] ?? '';
@@ -363,7 +367,7 @@ export async function runAudit(root: string, corpusIn?: Corpus): Promise<AuditRe
   const lockNames = ['package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 'bun.lockb', 'bun.lock'];
   const unlocked: Evidence[] = [];
   const latest: Evidence[] = [];
-  for (const f of corpus.files.filter((x) => path.posix.basename(x.rel) === 'package.json')) {
+  for (const f of corpus.files.filter((x) => path.posix.basename(x.rel) === 'package.json' && !TEST_PATH.test(x.rel))) {
     const dir = path.posix.dirname(f.rel);
     const hasLock = lockNames.some((l) => names.has(dir === '.' ? l : `${dir}/${l}`)) || (dir !== '.' && lockNames.some((l) => names.has(l)));
     const pkg = await readJson(f.abs);

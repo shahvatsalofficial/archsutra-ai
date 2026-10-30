@@ -1,0 +1,20 @@
+# archsutra verify .
+PASS skill:architecture-audit: valid
+PASS skill:architecture-design: valid
+PASS skill:architecture-modernization: valid
+PASS skill:architecture-verification: valid
+PASS skill:threat-modeling: valid
+PASS agent:atlas.md: valid
+PASS agent:blueprint.md: valid
+PASS agent:cloud.md: valid
+PASS agent:data.md: valid
+PASS agent:forge.md: valid
+PASS agent:ledger.md: valid
+PASS agent:neural.md: valid
+PASS agent:nexus.md: valid
+PASS agent:prime.md: valid
+PASS agent:scale.md: valid
+PASS agent:sentinel.md: valid
+PASS agent:verify.md: valid
+PASS links: all relative links resolve
+PASS mermaid: diagram syntax plausible (structural check only; not rendered)

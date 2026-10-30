@@ -1,0 +1,27 @@
+{
+  "fixtures": [
+    {
+      "fixture": "brownfield-monolith",
+      "expected": 12,
+      "found": 12,
+      "truePositives": 12,
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "fixture": "clean-service",
+      "expected": 0,
+      "found": 0,
+      "truePositives": 0,
+      "missed": [],
+      "unexpected": []
+    }
+  ],
+  "totals": {
+    "truePositives": 12,
+    "falsePositives": 0,
+    "falseNegatives": 0,
+    "precision": 1,
+    "recall": 1
+  }
+}

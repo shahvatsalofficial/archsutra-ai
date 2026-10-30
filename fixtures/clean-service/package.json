@@ -1,0 +1,1 @@
+{ "name": "clean-service", "version": "1.0.0", "dependencies": { "zod": "^3.23.0" } }

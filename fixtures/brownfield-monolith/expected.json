@@ -1,0 +1,1 @@
+{ "description": "Layered monolith with deliberate violations", "expectedRules": ["AS-ARC-001","AS-ARC-002","AS-DOC-001","AS-OPS-001","AS-OPS-002","AS-OPS-003","AS-SEC-004","AS-SEC-005","AS-SEC-006","AS-SUP-001","AS-SUP-002","AS-SUP-003"] }
