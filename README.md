@@ -137,7 +137,7 @@ See [SECURITY.md](SECURITY.md) and [docs/architecture/threat-model.md](docs/arch
 ## Verified status (v0.1.0)
 
 - 18 automated tests (unit, integration, CLI, security) run with `npm test`; CI runs them on Windows, macOS and Linux.
-- Verified locally on Windows 11 with Node 24. macOS and Linux are verified only by CI once enabled.
+- CI (GitHub Actions) passes the full suite on Ubuntu, Windows and macOS with Node 20 and 22; also run locally on Windows 11 with Node 24.
 - Not verified yet: live behaviour inside each AI IDE, diagram rendering, analyzers beyond TypeScript/JavaScript/Python import graphs.
 
 ## Limitations
