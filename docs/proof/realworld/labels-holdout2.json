@@ -1,0 +1,117 @@
+{
+  "labeler": "Claude (AI model) reading each cited line in context; one labeler, not independent. Labels are open to challenge by pull request.",
+  "labeledOn": "2026-11-01",
+  "note": "Measured on the rule set after round-2 fixes, on repositories never used for tuning. This is the cleanest estimate in the evaluation, still with a small sample.",
+  "labels": {
+    "S001": {
+      "verdict": "unclear",
+      "actionable": false,
+      "reason": "Large cycle in hono including the loose src files; reverse edges not individually verified."
+    },
+    "S002": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "client_reqrep.py is a very large production module."
+    },
+    "S003": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "core/index.ts is a very large production module."
+    },
+    "S004": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "websocket.py is a very large production module."
+    },
+    "S005": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "compat.ts is a very large production module."
+    },
+    "S006": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Dockerfile has no USER; runs as root."
+    },
+    "S007": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Dockerfile has no USER; runs as root."
+    },
+    "S008": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Demo Dockerfile without USER."
+    },
+    "S009": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Testing-tool Dockerfile without USER."
+    },
+    "S010": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Service Dockerfile without USER."
+    },
+    "S011": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Dockerfile has no USER (intentionally vulnerable app)."
+    },
+    "S012": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Dockerfile has no USER (intentionally vulnerable app)."
+    },
+    "S013": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Token literal in an example fake server; example data."
+    },
+    "S014": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Algolia search-only key literal; such keys are public by design."
+    },
+    "S015": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Private key committed, but it is an example server key."
+    },
+    "S016": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Private key committed next to a service."
+    },
+    "S017": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "eval of a server response in an old demo script; real eval call."
+    },
+    "S018": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "eval of grammar tokens in a code generator; real eval call, controlled input."
+    },
+    "S019": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "execSync with an interpolated internal temp directory in a dev script."
+    },
+    "S020": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "TLS verification disabled in a benchmark script."
+    },
+    "S021": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "httpx client with verify=False in service code."
+    },
+    "S022": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "verify=False here disables JWT signature verification, not TLS; the rule claim is wrong (fixed after this measurement)."
+    }
+  }
+}

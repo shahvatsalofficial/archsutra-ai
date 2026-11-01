@@ -31,11 +31,11 @@ The assistant's own model does the semantic reasoning. The CLI does the repeatab
 - Not a certification, compliance attestation, or legal opinion.
 - Not a replacement for a human architect or a penetration test.
 - Not a runtime profiler: reliability, performance, scalability, data integrity and cost are marked **not assessed** unless evidence is supplied.
-- Not (yet) validated inside each live AI IDE. See [compatibility](09-compatibility-and-roadmap.md).
+- Not (yet) validated inside each live AI IDE, and not independently reviewed. See [compatibility](09-compatibility-and-roadmap.md).
 
 ## Status
 
-Version 0.1.0 is released. It is implemented in TypeScript with zero runtime dependencies and has 20 automated tests that pass on Windows, macOS and Linux in CI. Evidence is in [Testing and proof](08-testing-and-proof.md).
+Version 0.1.1 (v0.1.0 is released; 0.1.1 adds the real-world evaluation, precision fixes and trust infrastructure, pending push). It is implemented in TypeScript with zero runtime dependencies and has 28 automated tests that pass on Windows, macOS and Linux in CI. Evidence is in [Testing and proof](08-testing-and-proof.md).
 
 ## Cost and licensing
 

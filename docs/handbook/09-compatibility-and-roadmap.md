@@ -12,24 +12,24 @@
 | experimental | Layout unconfirmed for the current host release |
 | unsupported | Not supported |
 
-## 2. Host matrix (v0.1.0)
+## 2. Host matrix (v0.1.1)
 
 | Host | Level | Skills path | Agents path | Verified | Not verified |
 |---|---|---|---|---|---|
 | Claude Code | adapter | `.claude/skills/<name>/SKILL.md` | `.claude/agents/<name>.md` | file generation; idempotent install; frontmatter | live discovery |
-| Cursor | adapter | `.cursor/skills/<name>/SKILL.md` | none | file generation | live discovery |
+| Cursor | adapter | `.cursor/skills/<name>/SKILL.md` | `.cursor/agents/<name>.md` | file generation; frontmatter keys | live discovery |
 | OpenAI Codex | adapter | `.agents/skills/<name>/SKILL.md` + `AGENTS.md` block | none | file generation | live discovery |
 | GitHub Copilot | adapter | `.github/skills/<name>/SKILL.md` | `.github/agents/<name>.agent.md` | file generation; only `description`, `tools` | live behavior |
-| Gemini CLI | experimental | `.gemini/skills/<name>/SKILL.md` | none | file generation | the path itself |
+| Gemini CLI | adapter | `.gemini/skills/<name>/SKILL.md` | none | file generation; path confirmed in vendor docs (2026-11-01) | live discovery; the docs announce Antigravity CLI as successor |
 
-Vendor documentation links are in `src/adapters.ts`. Layouts change; confirm against current docs.
+All five layouts were checked against the vendors' current documentation on 2026-11-01 (see [smoke tests](../compatibility/smoke-tests/README.md)). Cursor, Copilot and Gemini also read `.agents/skills`, and Cursor and Copilot read `.claude/skills`: install **one** host per project to avoid duplicates. Layouts change; confirm against current docs.
 
 ## 3. Operating systems and runtimes
 
 | Platform | Status |
 |---|---|
 | Ubuntu (latest), Node 20 and 22 | CI passes |
-| Windows (latest), Node 20 and 22 | CI passes; also run locally on Windows 11 with Node 24 |
+| Windows (latest), Node 20 and 22 | CI passes on the v0.1.0 commit; run locally on Windows 11 with Node 24 |
 | macOS (latest), Node 20 and 22 | CI passes |
 
 ## 4. Language support in analysis
@@ -47,9 +47,10 @@ Line-based security rules apply to all recognised source extensions where noted 
 | Milestone | Scope | Acceptance test |
 |---|---|---|
 | v0.1 (done) | Skills, agents, CLI, adapters, CI, docs | `npm test` green on 3 OS; fixtures match expected rules |
+| v0.1.1 (done locally, pending push) | Real-world evaluation and precision fixes, pinned actions, release/SBOM/attestation workflow, Scorecard, DCO, accessibility audit, coverage, benchmarks, governance | See [Trust and assurance](13-trust-and-assurance.md) |
 | v0.2 | Live smoke tests per host; upgrade verified hosts to `native`; matrix with versions | One issue-linked report per host with version and evidence |
 | v0.3 | More analyzers (Java/Kotlin, C#, Go, Rust import graphs); fitness-function generator; rule suppression file | New fixtures with expected rules; precision/recall stays 1.00 on fixtures |
-| v0.4 | Real-world labeled corpus; published accuracy with confidence intervals | Corpus of at least 20 labeled repositories; reproducible script |
+| v0.4 | Larger, multi-labeler corpus; recall estimate; comparison with other scanners published | At least 100 labeled findings by two labelers; first `comparison.yml` run reviewed |
 | v0.5 | Optional local-model runtime and optional bring-your-own-key server, strictly opt-in, localhost by default | Security tests: unauthorized request rejected, no data leaves without opt-in |
 | v1.0 | Stable CLI and schema, npm publication (after name and trademark checks), signed releases | Semantic-versioned contracts; provenance on release artifacts |
 

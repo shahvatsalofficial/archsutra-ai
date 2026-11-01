@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { promises as fs } from 'node:fs';
 import { readLines, walk } from './fsutil.js';
+import { TEST_PATH, commentMask } from './heuristics.js';
 import { excerpt } from './redact.js';
 import type { ArchMap, Corpus, ModuleNode, SourceFile } from './types.js';
 
@@ -31,6 +32,7 @@ const DATASTORE_HINTS: Record<string, string> = {
   chromadb: 'Chroma (vector)', pinecone: 'Pinecone (vector)', '@pinecone-database/pinecone': 'Pinecone (vector)',
 };
 
+const NON_CODE_IMPORT = new Set(['.json', '.css', '.scss', '.sass', '.less', '.svg', '.png', '.jpg', '.html', '.md', '.yml', '.yaml', '.txt', '.node', '.wasm']);
 const GROUP_DIRS = new Set(['packages', 'apps', 'services', 'libs', 'modules', 'internal', 'cmd']);
 
 export function moduleOf(rel: string): string {
@@ -159,8 +161,10 @@ export async function buildMap(root: string, corpus?: Corpus): Promise<ArchMap> 
     if (!m.ecosystems.includes(eco)) m.ecosystems.push(eco);
     modules.set(mod, m);
 
+    const isTest = TEST_PATH.test(f.rel);
+    const cmask = commentMask(lines, f.ext);
     const addEdge = (to: string, lineNo: number, text: string): void => {
-      if (to === mod || !moduleNames.has(to)) return;
+      if (isTest || to === mod || !moduleNames.has(to)) return;
       const key = `${mod}->${to}`;
       const cur = edgeMap.get(key);
       if (cur) cur.count++;
@@ -173,8 +177,9 @@ export async function buildMap(root: string, corpus?: Corpus): Promise<ArchMap> 
 
     if (JS_EXT.has(f.ext)) {
       lines.forEach((text, i) => {
+        if (cmask[i]) return;
         const mt = IMPORT_RE.exec(text);
-        if (mt) addEdge(moduleOf(resolveRelative(f.rel, mt[2])), i + 1, text);
+        if (mt && !NON_CODE_IMPORT.has(path.posix.extname(mt[2]).toLowerCase())) addEdge(moduleOf(resolveRelative(f.rel, mt[2])), i + 1, text);
       });
     } else if (f.ext === '.py') {
       lines.forEach((text, i) => {
@@ -190,10 +195,11 @@ export async function buildMap(root: string, corpus?: Corpus): Promise<ArchMap> 
 
   const adj = new Map<string, Set<string>>();
   for (const e of edgeMap.values()) {
+    if (e.from === '(root)' || e.to === '(root)') continue; // loose top-level files are not a module
     if (!adj.has(e.from)) adj.set(e.from, new Set());
     adj.get(e.from)!.add(e.to);
   }
-  const cycles = findCycles([...modules.keys()], adj);
+  const cycles = findCycles([...modules.keys()].filter((m) => m !== '(root)'), adj);
 
   if (c.truncated) blind.add('Scan hit the file-count or time budget; results are partial.');
   if (c.skipped.tooLarge) blind.add(`${c.skipped.tooLarge} file(s) over the size limit were not read.`);

@@ -30,7 +30,7 @@ Severity and confidence are the defaults emitted by the rule. IDs are stable; th
 
 ### AS-SEC-001 Possible hard-coded credential
 - **Detects:** AWS access key IDs, GitHub tokens, `sk-` style keys, Slack tokens, Google API keys, and quoted `password|secret|api_key|token|access_key` assignments of 8+ characters.
-- **Skips:** test and fixture paths, `.md`/`.txt`, lines mentioning example/placeholder/changeme/your_/xxxx or reading `process.env`, `os.environ`, `getenv`.
+- **Skips:** test and fixture paths, doc files (`.md`, `.txt`, `.rst`, `.adoc`, `.html`), comments and docstrings, vendored or minified files, dummy values (`password`, `secret`, `changeme`, ...), values with interpolation, dotted identifiers, and lines that mention example/placeholder/changeme/your_/xxxx or read `process.env`, `os.environ`, `getenv`.
 - **Output:** kind and a redacted excerpt. The value is never printed.
 - **Fix:** revoke and rotate first; then move to a secret manager or environment; purge history only after rotation.
 - **Limits:** misses unusual formats; may flag test-like values outside test paths.
@@ -44,35 +44,35 @@ Severity and confidence are the defaults emitted by the rule. IDs are stable; th
 - **Limits:** reads the working tree, not git tracking; a git-ignored local `.env` is still listed.
 
 ### AS-SEC-004 Dynamic code or shell execution
-- **Detects:** `eval(`, `new Function(`, `child_process` exec with interpolated or concatenated strings, `os.system(`, Python `subprocess` with `shell=True`.
+- **Detects:** `eval(` and `new Function(` (not when quoted in backticks), `child_process`-style `exec`/`execSync` with interpolated or concatenated strings (only in files that use `child_process`, `shelljs` or `execa`), `os.system(`, Python `subprocess` with `shell=True`.
 - **Skips:** tests, docs, non-code files.
 - **Fix:** argument arrays, parsers, allowlists.
 - **Limits:** cannot prove tainted input.
 
 ### AS-SEC-005 SQL string building
-- **Detects:** `query|execute|exec|raw|prepare(` called with a template literal containing `${` or string concatenation; and uppercase SQL statements (`SELECT .. FROM`, `INSERT INTO`, `UPDATE .. SET`, `DELETE FROM`) combined with interpolation or concatenation on the same line.
+- **Detects:** `query|execute|raw|prepare(` called with a template literal containing `${` or string concatenation and the line contains SQL words (select/insert/update/delete/create/drop/alter plus from/into/set/table/where/values); and uppercase SQL statements (`SELECT .. FROM`, `INSERT INTO`, `UPDATE .. SET`, `DELETE FROM`) combined with interpolation or concatenation on the same line.
 - **Fix:** bind parameters.
-- **Limits:** line-based; multi-line queries can be missed; constants may be flagged.
+- **Limits:** line-based; multi-line queries can be missed; interpolated identifiers that are already quoted or escaped are still reported (valid pattern, often not actionable).
 
 ### AS-SEC-006 TLS verification disabled
-- **Detects:** `rejectUnauthorized: false`, `verify=False`, `InsecureSkipVerify: true`, `NODE_TLS_REJECT_UNAUTHORIZED=0`.
+- **Detects:** `rejectUnauthorized: false`, `verify=False`, `InsecureSkipVerify: true`, `NODE_TLS_REJECT_UNAUTHORIZED=0` in code files (lines mentioning jwt, decode or signature are excluded: they disable signature checks, not TLS).
 - **Limits:** may be a dev-only profile.
 
 ### AS-IAC-001 Over-permissive infrastructure
-- **Detects:** Terraform `cidr_blocks = ["0.0.0.0/0"]`; Kubernetes `privileged: true`, `allowPrivilegeEscalation: true`, `hostNetwork: true`.
-- **Limits:** public load balancers on 80/443 are legitimate.
+- **Detects:** Terraform `cidr_blocks = ["0.0.0.0/0"]`; Kubernetes `privileged: true`, `allowPrivilegeEscalation: true`, `hostNetwork: true`. Only `.tf`, `.hcl`, `.yaml`, `.yml` files; `0.0.0.0/0` is ignored when the surrounding ports are only 80/443.
+- **Limits:** development containers that need privileged mode are still reported.
 
 ### AS-ARC-001 Circular dependency
-- **Detects:** strongly connected components of size > 1 in the module graph.
-- **Limits:** module = top-level directory heuristic.
+- **Detects:** strongly connected components of size > 1 in the module graph. Test files, comment-only imports, imports of data files and the `(root)` pseudo-module are ignored.
+- **Limits:** module = top-level directory heuristic; large frameworks can show wide cycles that are real but not actionable.
 
 ### AS-ARC-002 Layer inversion
 - **Detects:** a file in a service/domain layer importing from presentation, or a data/persistence layer importing from service or presentation, using folder-name conventions (controllers/routes/handlers/api/views/pages/ui/web; services/usecases/application/domain; repositories/dao/db/database/models/persistence/infrastructure).
 - **Limits:** relies on naming conventions.
 
 ### AS-ARC-003 Very large files
-- **Detects:** non-test source files over 1000 lines.
-- **Limits:** generated code and tables.
+- **Detects:** non-test source files over 1000 lines, excluding vendored, minified, third-party-headed and literal-only data files.
+- **Limits:** generated code that is not recognised.
 
 ### AS-OPS-001 No CI
 - **Detects:** none of GitHub Actions, GitLab CI, Azure Pipelines, Jenkinsfile, CircleCI. Evidence kind is `unknown`.
@@ -81,7 +81,7 @@ Severity and confidence are the defaults emitted by the rule. IDs are stable; th
 - **Detects:** no `test/`, `tests/`, `__tests__`, `spec`, `e2e`, `*.test.*`, `*.spec.*`, `*_test.go|py`. Evidence kind is `unknown`.
 
 ### AS-OPS-003 Container runs as root
-- **Detects:** a Dockerfile with no `USER`, or whose last `USER` is root/0.
+- **Detects:** a Dockerfile with no `USER`, or whose last `USER` is root/0. Test paths and developer-tooling folders (`.devcontainer`, `.github`, `.gitpod`) are skipped.
 
 ### AS-SUP-001 Missing lockfile
 - **Detects:** `package.json` with dependencies and no `package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`, `bun.lock(b)` beside it or at the root.

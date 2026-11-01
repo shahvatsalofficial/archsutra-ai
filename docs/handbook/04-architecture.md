@@ -72,7 +72,8 @@ flowchart LR
 | `verify` | `fsutil` | structural validation |
 | `adapters` | `fsutil`, `verify` | host table, install plan, install, uninstall, doctor |
 | `fsutil` | none | safe bounded filesystem access |
-| `redact` | none | secret detection and masking |
+| `redact` | `heuristics` | secret detection and masking |
+| `heuristics` | none | comment masks, vendored/minified/data detection, test paths, dummy-value filter |
 
 Dependencies are acyclic. The tool's own audit reports no module cycles.
 
@@ -157,7 +158,7 @@ Controls and residual risk are in the [threat model](../architecture/threat-mode
 | Reliability | skip-on-error scanning, bounded work | limit tests |
 | Portability | Node only, no shell dependency in core | 3-OS CI |
 | Maintainability | small modules, acyclic, typed | self-audit, typecheck |
-| Testability | pure render functions, runtime-built fixtures | 20 tests |
+| Testability | pure render functions, runtime-built fixtures | 28 tests |
 | Extensibility | declarative host table, rule table, agent contract | contributor guide |
 | Honesty | support levels, `not assessed`, caveats on every finding | review |
 

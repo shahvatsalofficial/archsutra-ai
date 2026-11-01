@@ -11,9 +11,10 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Runtime dependencies](https://img.shields.io/badge/runtime%20dependencies-0-brightgreen)
-![Tests](https://img.shields.io/badge/tests-20%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-28%20passing-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-91%25%20lines-brightgreen)
 
-[**Documentation site**](https://shahvatsalofficial.github.io/archsutra-ai/) &middot; [Handbook](docs/handbook/README.md) &middot; [Proof and test results](docs/handbook/08-testing-and-proof.md) &middot; [Sample report](examples/brownfield-monolith/sample-output/audit-report.md)
+[**Documentation site**](https://shahvatsalofficial.github.io/archsutra-ai/) &middot; [Handbook](docs/handbook/README.md) &middot; [**Trust and assurance register**](docs/handbook/13-trust-and-assurance.md) &middot; [Real-world evaluation](docs/handbook/14-real-world-evaluation.md) &middot; [Sample report](examples/brownfield-monolith/sample-output/audit-report.md)
 
 </div>
 
@@ -37,7 +38,7 @@ Created by **[Vatsal Shah](https://github.com/shahvatsalofficial)**. Licensed un
 | Different answer every run | A deterministic CLI produces reproducible findings with stable rule IDs |
 | Another tool, another key, another bill | Offline CLI; skills run on the model you already use in your IDE |
 | Reviews are slow and rare | First-pass audit in seconds; fits in CI with `--fail-on high` |
-| "Trust me" scanners | Open source, zero runtime dependencies, tests, CI on 3 OSes, labeled-fixture evaluation, documented limits |
+| "Trust me" scanners | Open source, zero runtime dependencies, tests, CI on 3 OSes, accuracy measured on 52 real repositories with the false positives published |
 
 ## 60-second start
 
@@ -51,6 +52,8 @@ npx github:shahvatsalofficial/archsutra-ai audit .
 npx github:shahvatsalofficial/archsutra-ai install --host claude --target . --dry-run
 npx github:shahvatsalofficial/archsutra-ai install --host claude --target .
 ```
+
+For anything beyond a first try, **pin a tag or commit** so the code cannot change under you: `npx github:shahvatsalofficial/archsutra-ai#v0.1.1 audit .` (see [supply chain](docs/handbook/15-supply-chain-and-release.md)). Install **one** host per project; several hosts read the same skill folders.
 
 Then ask your assistant:
 
@@ -79,20 +82,38 @@ npx github:shahvatsalofficial/archsutra-ai export . --output docs/architecture
 
 ## Proof, not promises
 
-Everything below is reproducible from a clean clone. Full details: [Testing and proof](docs/handbook/08-testing-and-proof.md).
+Everything below is reproducible from a clean clone. The full, honest register of what is proven and what is still open: **[Trust and assurance](docs/handbook/13-trust-and-assurance.md)**.
+
+### Accuracy on real code (the number that matters)
+
+The tool was run on **52 public repositories** (Express, Django, Flask, Vue, webpack, Juice Shop, WebGoat, ...). **98 findings were labeled by hand** by reading the cited code. Results by batch:
+
+| Batch | When | Precision (95% CI) | Actionable (95% CI) |
+|---|---|---|---|
+| Baseline, v0.1.0 | before any fix | **50%** (36 to 64), n=48 | 29% (18 to 43) |
+| Unseen batch 1 | after round-1 fixes | **69%** (51 to 83), n=29 | 34% (20 to 53) |
+| Unseen batch 2 | after round-2 fixes | **95%** (77 to 99), n=21 | 52% (32 to 72) |
+
+*Precision* = the code really is what the rule says. *Actionable* = a maintainer would plausibly change something. **About half of valid findings need no action** (for example intentional `eval`, a test key, a dev container).
+
+We published the 50% baseline, fixed the false positives it exposed (each has a regression test), then re-measured on repositories never used for tuning. **Limits:** one labeler (an AI model reading each line, labels are public and challengeable), small samples with wide intervals, recall not measured on real code, and some of the improvement comes from fixes designed on earlier batches. Details, method, every label: [Real-world evaluation](docs/handbook/14-real-world-evaluation.md).
+
+### Other evidence
 
 | Evidence | Result |
 |---|---|
-| Automated tests (`npm test`) | **20 passed, 0 failed** ([captured output](docs/proof/test-results.txt)) |
-| CI matrix | Ubuntu, Windows, macOS x Node 20, 22: **6/6 jobs passed** ([Actions](https://github.com/shahvatsalofficial/archsutra-ai/actions)) |
-| Labeled fixtures | 12/12 seeded rules found, 0 false positives on the clean fixture ([results](docs/proof/eval-results.json)) |
-| Self-audit | CI audits this repository with `--fail-on high` |
-| Runtime dependencies | **0** (CI enforces it) |
-| Static analysis | CodeQL on every push; Dependabot enabled |
+| Automated tests (`npm test`) | **28 passed, 0 failed** ([output](docs/proof/test-results.txt)) |
+| Test coverage | 91% lines, 80% branches, 90% functions ([report](docs/proof/coverage.txt)) |
+| CI matrix | Ubuntu, Windows, macOS x Node 20, 22: all 6 jobs passed on the v0.1.0 commit ([Actions](https://github.com/shahvatsalofficial/archsutra-ai/actions)); confirm the latest run there |
+| Robustness | ReDoS guard, hostile file names, binary files, path traversal, symlinks, byte and file budgets, all tested |
+| Performance | median 1.2 s per real repository; bounded by file, size, byte and time limits ([benchmarks](docs/proof/benchmarks.md)) |
+| Accessibility of the docs site | axe-core: 0 violations over 19 pages x 2 themes; 22 contrast checks pass ([audit](docs/proof/accessibility.md)); no screen-reader test yet |
+| Supply chain | 0 runtime dependencies; all GitHub Actions pinned to SHAs; CodeQL; SBOM, checksums and signed provenance on each tagged release ([details](docs/handbook/15-supply-chain-and-release.md)) |
+| Self-audit | the tool audits its own repository in CI with `--fail-on high` and reports nothing |
 
-**Read the fine print.** The fixtures were written by the rule author, so 100% precision and recall is a *regression guarantee*, not a real-world accuracy figure. Real repositories will produce false positives and false negatives; every finding lists its caveats. A first CI run also failed on Node 20 and was fixed; that history is in the commit log.
+### Not yet proven (we say so)
 
-**Not yet proven:** live behavior inside each AI IDE (adapters write the documented layouts but have not been smoke-tested in the live hosts), accuracy on real-world repositories, and trademark clearance for the name.
+Live behavior inside each AI IDE (layouts match vendor docs; [smoke-test protocol](docs/compatibility/smoke-tests/README.md) is open for results), an independent security review, a head-to-head comparison with other scanners (workflow ready, not yet run), trademark clearance for the name, and a lawyer's review of these documents. No OpenSSF Scorecard result exists until the first run; none is quoted.
 
 ## Sample output
 
@@ -120,17 +141,17 @@ Every finding carries: stable ID, severity, confidence, evidence (`observed` / `
 
 ## Supported AI IDEs
 
-Support levels are stated plainly. **adapter** means ArchSutra writes the files in the layout the vendor documents; it has **not** been smoke-tested inside each live host yet.
+Support levels are stated plainly. **adapter** means ArchSutra writes the files in the layout the vendor documents (checked against the vendors' docs on 2026-11-01); it has **not** been smoke-tested inside each live host yet.
 
 | Host | Level | Skills location | Sub-agents | Notes |
 |---|---|---|---|---|
 | Claude Code | adapter | `.claude/skills/` | `.claude/agents/` (read-only tools) | |
-| Cursor | adapter | `.cursor/skills/` | no | skills only |
+| Cursor | adapter | `.cursor/skills/` | `.cursor/agents/` (`readonly: true`) | also reads `.agents/skills`, `.claude/skills` |
 | OpenAI Codex | adapter | `.agents/skills/` | no | adds a managed block to `AGENTS.md` |
 | GitHub Copilot | adapter | `.github/skills/` | `.github/agents/*.agent.md` | only `description` and `tools` frontmatter written |
-| Gemini CLI | experimental | `.gemini/skills/` | no | layout unconfirmed for the current release |
+| Gemini CLI | adapter | `.gemini/skills/` | no | docs announce Antigravity CLI as successor; re-verify |
 
-Details: [compatibility matrix](docs/compatibility/matrix.md). Installs are idempotent and reversible: files you edited are never overwritten without `--force` (originals are backed up), and `uninstall` removes only files it installed and you did not modify. Have a host? Please file a [smoke test report](https://github.com/shahvatsalofficial/archsutra-ai/issues/new?template=smoke_test.md).
+Details: [compatibility matrix](docs/compatibility/matrix.md). Installs are idempotent and reversible: files you edited are never overwritten without `--force` (originals are backed up), and `uninstall` removes only files it installed and you did not modify. Have a host? Please run the [smoke test](docs/compatibility/smoke-tests/README.md) and report.
 
 ## The agent team
 
@@ -167,10 +188,10 @@ Exit codes: `0` ok, `1` findings at or above `--fail-on` / install conflict / fa
 ## Use it in CI
 
 ```yaml
-- run: npx --yes github:shahvatsalofficial/archsutra-ai audit . --fail-on high
+- run: npx --yes github:shahvatsalofficial/archsutra-ai#v0.1.1 audit . --fail-on high
 ```
 
-Upload SARIF to GitHub code scanning: see the [user guide](docs/handbook/05-user-guide.md). Pin to a tag or commit in production pipelines.
+Upload SARIF to GitHub code scanning: see the [user guide](docs/handbook/05-user-guide.md). Start with `--fail-on critical` on an existing codebase and tighten later; roughly half of valid findings need no action.
 
 ## How it works
 
@@ -191,22 +212,23 @@ The deterministic CLI gathers reproducible evidence. The IDE's own model reasons
 - Read-only by default; no telemetry; no network calls; no code leaves your machine from the CLI.
 - Secrets are detected and **redacted** before reaching any report or log.
 - Repository content is treated as untrusted data (prompt-injection aware); agent profiles are read-only.
-- Symlinks are never followed; scans are bounded by file count, size and time; all writes are path-contained.
+- Symlinks are never followed; scans are bounded by file count, size, total bytes and time; all writes are path-contained.
 - No claim of compliance or certification. Reports are review aids.
 
-When you use the skills, **your AI IDE's model provider** processes your prompts and code under its own terms. Report vulnerabilities privately: see [SECURITY.md](SECURITY.md). Full analysis: [threat model](docs/architecture/threat-model.md), [security, privacy and legal](docs/handbook/07-security-privacy-legal.md).
+When you use the skills, **your AI IDE's model provider** processes your prompts and code under its own terms. Report vulnerabilities privately: see [SECURITY.md](SECURITY.md). **No independent security review has been done; one is welcome.** Full analysis: [threat model](docs/architecture/threat-model.md), [security, privacy and legal](docs/handbook/07-security-privacy-legal.md).
 
 ## Legal and trademarks
 
-- **License:** [Apache-2.0](LICENSE) (commercial use allowed; keep the license and [NOTICE](NOTICE)). Dependencies: none at runtime; see [third-party notices](THIRD_PARTY_NOTICES.md).
+- **License:** [Apache-2.0](LICENSE) (commercial use allowed; keep the license and [NOTICE](NOTICE)). Dependencies: none at runtime; see [third-party notices](THIRD_PARTY_NOTICES.md). Contributions use the [DCO](DCO.md), no CLA.
 - **Not affiliated.** Claude, Claude Code, Anthropic, Cursor, OpenAI, Codex, GitHub, GitHub Copilot, Google and Gemini are trademarks of their owners and appear only to describe compatibility. This project is not affiliated with, endorsed by or sponsored by them.
-- **Name.** "ArchSutra" has **not** been trademark-searched or registered. On 2026-10-31 the npm names `archsutra` and `archsutra-ai` were unclaimed and no other GitHub repository was named `archsutra`; that is a spot check, not legal clearance. Do a proper search before any commercial launch.
+- **Name.** "ArchSutra" has **not** been trademark-searched by a professional or registered. Informal checks (npm, GitHub, web search) found no conflict on 2026-10-31 and 2026-11-01; that is not legal clearance. See [name clearance](docs/legal/trademark-and-name-clearance.md). Do a proper search before any commercial launch.
+- **Documents not yet reviewed by a lawyer.** A [review brief](docs/legal/legal-review-brief.md) is ready.
 - **No warranty, no advice.** Provided "AS IS". Nothing here is legal, security or compliance advice, or a certification.
 - **Authorized use only.** Run it on code you own or are permitted to review.
 
 ## Limitations
 
-- Static, heuristic rules: expect false positives and false negatives; every finding lists caveats.
+- Static, heuristic rules: expect false positives and false negatives; every finding lists caveats, and about half of valid findings are not worth acting on.
 - Import graph covers JS/TS and Python. Other languages are detected but not graphed.
 - Reliability, performance, scalability, data integrity and cost are `not assessed` without runtime evidence.
 - Adapters are not yet verified in live hosts. Not published to npm (use the `npx github:` path).
@@ -217,7 +239,9 @@ When you use the skills, **your AI IDE's model provider** processes your prompts
 
 **Does it send my code anywhere?** The CLI sends nothing. Your IDE's model provider handles prompts when you use the skills.
 
-**Which assistants work?** Claude Code, Cursor, Codex, Copilot (adapter), Gemini CLI (experimental). See the [matrix](docs/compatibility/matrix.md).
+**How accurate is it?** On unseen real repositories 69% and 95% of sampled findings were genuine instances (small samples, one labeler); about half were worth acting on. See [the evaluation](docs/handbook/14-real-world-evaluation.md).
+
+**Which assistants work?** Claude Code, Cursor, Codex, Copilot, Gemini CLI at adapter level. See the [matrix](docs/compatibility/matrix.md).
 
 **Is it a replacement for SonarQube, Semgrep or CodeQL?** No; it complements them at the architecture level and emits SARIF so results can sit beside theirs.
 
@@ -229,18 +253,20 @@ More: [glossary and FAQ](docs/handbook/11-glossary-and-faq.md).
 
 ## Roadmap
 
-- [ ] Live smoke tests per AI IDE and published, versioned compatibility results
+- [ ] Live smoke tests per AI IDE ([protocol](docs/compatibility/smoke-tests/README.md))
+- [ ] First run of the tool comparison workflow, results reviewed and published
+- [ ] Larger, multi-labeler evaluation corpus and a recall estimate
 - [ ] More analyzers: Java/Kotlin, C#, Go, Rust import graphs
-- [ ] Real-world labeled corpus and published accuracy
 - [ ] Suppression/baseline file for accepted findings
+- [ ] Independent security review; trademark clearance; legal review
 - [ ] Optional local-model and bring-your-own-key server mode, strictly opt-in
 - [ ] npm publication after name and trademark checks
 
-Full plan with acceptance tests: [roadmap](docs/handbook/09-compatibility-and-roadmap.md).
+Full plan with acceptance tests: [roadmap](docs/handbook/09-compatibility-and-roadmap.md). Starter tasks: [good first issues](docs/community/good-first-issues.md).
 
 ## Contributing
 
-Good first contributions: a new audit rule, a language import graph, a fixture repository, a host smoke-test report, an agent specialization. Start with [CONTRIBUTING.md](CONTRIBUTING.md) and the [contributor guide](docs/handbook/10-contributor-guide.md). Be kind: [Code of Conduct](CODE_OF_CONDUCT.md).
+Good first contributions: a host smoke-test report, a false-positive report, a new audit rule, a language import graph, a fixture repository, labeled findings. Start with [CONTRIBUTING.md](CONTRIBUTING.md) and the [contributor guide](docs/handbook/10-contributor-guide.md). Sign off commits (`git commit -s`, see [DCO](DCO.md)). Be kind: [Code of Conduct](CODE_OF_CONDUCT.md). Governance: [GOVERNANCE.md](GOVERNANCE.md). Help: [SUPPORT.md](SUPPORT.md).
 
 ## Develop
 
@@ -249,6 +275,7 @@ git clone https://github.com/shahvatsalofficial/archsutra-ai
 cd archsutra-ai
 npm ci
 npm test
+npm run coverage
 node scripts/eval.mjs
 node dist/cli.js audit .
 node scripts/build-docs.mjs   # regenerate the HTML documentation site

@@ -40,7 +40,7 @@ No. The CLI is offline. Inside a supported AI IDE the skills use that IDE's own 
 The CLI sends nothing anywhere. When you use the skills, your IDE's model provider processes your prompts and code under its own terms.
 
 **Which AI tools work?**
-Adapters exist for Claude Code, Cursor, OpenAI Codex, GitHub Copilot (adapter level) and Gemini CLI (experimental). Live verification is pending; see [compatibility](09-compatibility-and-roadmap.md).
+Adapters exist for Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI (all adapter level: layouts match the vendors' docs, no live session recorded). Live verification is pending; see [compatibility](09-compatibility-and-roadmap.md).
 
 **How is it different from asking an AI to review my code?**
 It enforces a method: measured evidence first (module graph, rule findings with file and line), claim labels, mandatory caveats, a verification step, and a defined specialist team. It also gives repeatable results in CI.

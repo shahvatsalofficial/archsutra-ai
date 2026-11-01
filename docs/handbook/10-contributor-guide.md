@@ -33,6 +33,7 @@ Windows, macOS and Linux are supported. Use Node 20 or newer.
 5. Add a unit test for the true positive and one for a likely false positive.
 6. Document in `docs/handbook/12-rule-catalog.md`.
 7. Run `npm test`; precision and recall on fixtures must stay 1.00.
+8. Prefer to validate on real code: run `node scripts/realworld.mjs run <dir> <batch> <tag>` and label what the rule reports (see [Real-world evaluation](14-real-world-evaluation.md)). A rule that is wrong more often than right on real repositories should not ship.
 
 Avoid committing realistic secrets in fixtures. Build such strings at runtime inside tests (see `FAKE_AWS`), otherwise GitHub push protection may block the push.
 
@@ -59,8 +60,13 @@ Copy an existing file in `agents/`. Keep frontmatter `name: archsutra-<id>` and 
 - Comments explain *why*; keep them sparse.
 - No network, no `child_process` in the CLI.
 
-## 8. Pull request checklist
+## 8. Sign your commits (DCO)
 
+Every commit needs `Signed-off-by` (`git commit -s`). See [DCO.md](../../DCO.md). CI checks it on pull requests.
+
+## 8b. Pull request checklist
+
+- [ ] Commits are signed off (`git commit -s`)
 - [ ] `npm test` passes locally
 - [ ] `npm run verify` passes
 - [ ] New behavior has tests, including a negative case
@@ -71,10 +77,10 @@ Copy an existing file in `agents/`. Keep frontmatter `name: archsutra-<id>` and 
 ## 9. Release process (maintainers)
 
 1. Update `CHANGELOG.md` and `package.json` version (semantic versioning).
-2. `npm test`, `npm run verify`, `node scripts/eval.mjs`, `node scripts/build-docs.mjs`.
+2. `npm test`, `npm run verify`, `npm run coverage`, `node scripts/eval.mjs`, `node scripts/labeled-recall.mjs <workdir>`, `node scripts/bench.mjs`, `node scripts/build-docs.mjs`.
 3. Regenerate proof files under `docs/proof/` and sample outputs.
 4. Commit, push, wait for the 6-job CI matrix.
-5. Tag `vX.Y.Z` and create a GitHub release with notes copied from the changelog.
+5. Push the tag `vX.Y.Z`; the `Release` workflow creates the release with tarball, SBOMs, checksums and provenance attestation ([Supply chain and release](15-supply-chain-and-release.md)).
 6. (Future) publish to npm after name and trademark checks.
 
 ## 10. Regenerating the documentation site

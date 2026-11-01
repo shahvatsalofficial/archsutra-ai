@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { readLines, walk } from './fsutil.js';
 import { buildMap, readJson } from './map.js';
+import { DEV_TOOLING_PATH, TEST_PATH, commentMask, isDataLike, isMinified, isVendoredPath, looksThirdParty } from './heuristics.js';
 import { detectSecrets, excerpt } from './redact.js';
 import type { AuditResult, Corpus, Evidence, Finding, ScoreEntry, Severity, SourceFile } from './types.js';
 
@@ -9,7 +10,7 @@ type Draft = Omit<Finding, 'id' | 'status'>;
 const CODE_EXT = new Set([
   '.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.py', '.java', '.kt', '.cs', '.go', '.rs', '.php', '.rb', '.swift', '.dart',
 ]);
-const TEST_PATH = /(^|\/)(tests?|__tests__|spec|e2e|fixtures?)(\/|$)|\.(test|spec)\.[a-z]+$|_test\.(go|py)$/i;
+const DOC_EXT = new Set(['.md', '.txt', '.rst', '.adoc', '.html', '.htm', '.ipynb']);
 const OWASP = 'https://owasp.org/Top10/';
 const BASE64_LINE = /^[A-Za-z0-9+/=]{40,}$/;
 
@@ -23,13 +24,14 @@ interface LineRule {
   codeOnly?: boolean;
   exts?: Set<string>;
   skipTests?: boolean;
+  also?: (text: string) => boolean;
   make: (hits: Evidence[]) => Draft;
 }
 
 const LINE_RULES: LineRule[] = [
   {
     rule: 'AS-SEC-004',
-    re: /\beval\s*\(|new\s+Function\s*\(|child_process[^\n]*\bexec(?:Sync)?\s*\(\s*[`"'][^`"']*(?:\$\{|["']\s*\+)|\bos\.system\s*\(|subprocess\.[a-z_]+\([^)]*shell\s*=\s*True/,
+    re: /(?<!`)\beval\s*\(|(?<!`)new\s+Function\s*\(|child_process[^\n]*\bexec(?:Sync)?\s*\(\s*[`"'][^`"']*(?:\$\{|["']\s*\+)|\bos\.system\s*\(|subprocess\.[a-z_]+\([^)]*shell\s*=\s*True/,
     codeOnly: true,
     skipTests: true,
     make: (hits) => ({
@@ -47,7 +49,8 @@ const LINE_RULES: LineRule[] = [
   },
   {
     rule: 'AS-SEC-005',
-    re: /\b(?:query|execute|exec|raw|prepare)\s*\(\s*(?:`[^`]*\$\{|["'][^"']*["']\s*\+)|(?:SELECT\s[^;\n]{0,80}\sFROM|INSERT\s+INTO|UPDATE\s+\w+\s+SET|DELETE\s+FROM)\b[^;\n]{0,100}(?:\$\{|["']\s*\+\s*\w|%s["']?\s*%\s*\w|\{\w+\}["']\s*\.format)/,
+    also: (t) => /\b(select|insert|update|delete|create|drop|alter)\b/i.test(t) && /\b(from|into|set|table|where|values|index)\b/i.test(t),
+    re: /\b(?:query|execute|raw|prepare)\s*\(\s*(?:`[^`]*\$\{|["'][^"']*["']\s*\+)|(?:SELECT\s[^;\n]{0,80}\sFROM|INSERT\s+INTO|UPDATE\s+\w+\s+SET|DELETE\s+FROM)\b[^;\n]{0,100}(?:\$\{|["']\s*\+\s*\w|%s["']?\s*%\s*\w|\{\w+\}["']\s*\.format)/,
     codeOnly: true,
     skipTests: true,
     make: (hits) => ({
@@ -68,6 +71,7 @@ const LINE_RULES: LineRule[] = [
     re: /rejectUnauthorized\s*:\s*false|verify\s*=\s*False|InsecureSkipVerify\s*:\s*true|NODE_TLS_REJECT_UNAUTHORIZED\s*=\s*['"]?0/,
     codeOnly: true,
     skipTests: true,
+    also: (t) => !/\b(jwt|decode|signature)\b/i.test(t), // verify=False on a JWT is signature checking, not TLS
     make: (hits) => ({
       rule: 'AS-SEC-006', title: 'TLS certificate verification disabled', category: 'security', severity: 'high', confidence: 'high',
       evidence: hits,
@@ -107,6 +111,17 @@ const LAYERS = [
   { layer: 2, re: /(^|\/)(repositor(?:y|ies)|dao|db|database|models?|persistence|infra(?:structure)?)(\/|$)/i },
 ];
 
+/** 0.0.0.0/0 on ports 80 or 443 is how a public web listener is meant to be configured. */
+function publicWebPort(lines: string[], i: number): boolean {
+  if (!/cidr_blocks/.test(lines[i])) return false;
+  const win = lines.slice(Math.max(0, i - 6), i + 3).join('\n');
+  const ports = [...win.matchAll(/\b(?:from_port|to_port)\s*=\s*(\d+)/g)].map((m) => m[1]);
+  return ports.length > 0 && ports.every((p) => p === '80' || p === '443');
+}
+
+/** Shell command assembled from a string with interpolation or concatenation (only when the file uses child_process). */
+const SHELL_EXEC = /\b(?:exec|execSync)\s*\(\s*[`"'][^`"']*(?:\$\{|["']\s*\+)/;
+
 function layerOf(p: string): number {
   for (const l of LAYERS) if (l.re.test(p)) return l.layer;
   return -1;
@@ -141,8 +156,11 @@ export async function runAudit(root: string, corpusIn?: Corpus): Promise<AuditRe
     if (!lines) continue;
     const isCode = CODE_EXT.has(f.ext);
     const isTest = TEST_PATH.test(f.rel);
-    const isDoc = f.ext === '.md' || f.ext === '.txt';
-    if (isCode && lines.length > 1000 && !isTest) push('AS-ARC-003', { path: f.rel, startLine: 1, endLine: lines.length, kind: 'observed', excerpt: `${lines.length} lines` });
+    const isDoc = DOC_EXT.has(f.ext);
+    const vendored = isVendoredPath(f.rel) || isMinified(lines) || looksThirdParty(lines);
+    const mask = commentMask(lines, f.ext);
+    const usesShell = isCode && lines.some((l) => /child_process|shelljs|execa/.test(l));
+    if (isCode && lines.length > 1000 && !isTest && !vendored && !isDataLike(lines)) push('AS-ARC-003', { path: f.rel, startLine: 1, endLine: lines.length, kind: 'observed', excerpt: `${lines.length} lines` });
 
     for (let i = 0; i < lines.length; i++) {
       const text = lines[i];
@@ -151,6 +169,8 @@ export async function runAudit(root: string, corpusIn?: Corpus): Promise<AuditRe
         for (const hit of detectSecrets(text)) {
           if (hit.kind === 'private-key') {
             if (looksLikeRealKey(lines, i)) push('AS-SEC-002', ev(f, i + 1, '-----BEGIN PRIVATE KEY----- [REDACTED]'));
+          } else if (vendored || mask[i]) {
+            continue;
           } else if (!/example|placeholder|changeme|your[_-]|xxxx|process\.env|os\.environ|getenv/i.test(text)) {
             push('AS-SEC-001', { ...ev(f, i + 1, text), excerpt: `${hit.kind}: ${excerpt(text, 80)}` });
           }
@@ -160,11 +180,15 @@ export async function runAudit(root: string, corpusIn?: Corpus): Promise<AuditRe
         if (r.codeOnly && !isCode) continue;
         if (r.exts && !r.exts.has(f.ext)) continue;
         if (r.skipTests && isTest) continue;
-        if (isDoc) continue;
-        if (r.re.test(text)) {
+        if (isDoc || vendored || mask[i]) continue;
+        if (r.re.test(text) && (!r.also || r.also(text)) && !(r.rule === 'AS-IAC-001' && publicWebPort(lines, i))) {
           push(r.rule, ev(f, i + 1, text));
           if (r.rule === 'AS-SEC-004') dangerFiles.add(f.rel);
         }
+      }
+      if (isCode && !isTest && !vendored && !mask[i] && usesShell && SHELL_EXEC.test(text)) {
+        push('AS-SEC-004', ev(f, i + 1, text));
+        dangerFiles.add(f.rel);
       }
       if (isCode && !isTest && /\b(?:openai|anthropic|chat\.completions|messages\.create|generateContent|ChatCompletion)\b/i.test(text)) {
         llmFiles.push({ f, line: i + 1, text });
@@ -268,7 +292,9 @@ export async function runAudit(root: string, corpusIn?: Corpus): Promise<AuditRe
     if (from < 1) continue;
     const lines = await readLines(f);
     if (!lines) continue;
+    const lmask = commentMask(lines, f.ext);
     lines.forEach((text, i) => {
+      if (lmask[i]) return;
       const m = /(?:from\s+|import\s*\(\s*|require\s*\(\s*)(['"])(\.{1,2}\/[^'"]*)\1/.exec(text);
       if (!m) return;
       const target = path.posix.normalize(path.posix.join(path.posix.dirname(f.rel), m[2]));
@@ -323,7 +349,7 @@ export async function runAudit(root: string, corpusIn?: Corpus): Promise<AuditRe
       references: [],
     });
   }
-  for (const f of corpus.files.filter((x) => /(^|\/)Dockerfile(\.[\w.-]+)?$/.test(x.rel) && !TEST_PATH.test(x.rel))) {
+  for (const f of corpus.files.filter((x) => /(^|\/)Dockerfile(\.[\w.-]+)?$/.test(x.rel) && !TEST_PATH.test(x.rel) && !DEV_TOOLING_PATH.test(x.rel))) {
     const lines = (await readLines(f)) ?? [];
     const users = lines.filter((l) => /^\s*USER\s+/i.test(l));
     const last = users[users.length - 1] ?? '';

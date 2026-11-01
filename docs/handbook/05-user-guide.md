@@ -115,7 +115,7 @@ jobs:
         with: { sarif_file: arch-report/findings.sarif }
 ```
 
-Pin the package to a commit or tag in production pipelines (`github:shahvatsalofficial/archsutra-ai#<tag>`).
+Pin the package to a tag or, better, a full commit SHA in production pipelines (`github:shahvatsalofficial/archsutra-ai#v0.1.1`). Release tarballs carry checksums and a provenance attestation: see [Supply chain and release](15-supply-chain-and-release.md).
 
 ## 8. Reading a finding
 
@@ -129,6 +129,7 @@ AS-SEC-005#002  high  SQL built by string concatenation or interpolation
 ```
 
 - **Confidence** says how sure the rule is, not how important the issue is.
+- **Expect some noise.** On real repositories roughly 70% to 95% of reported findings were genuine instances of the rule and about half were worth acting on ([real-world evaluation](14-real-world-evaluation.md)).
 - **Evidence kind**: `observed` (seen in a file), `inferred` (derived), `unknown` (absence of something, e.g. no CI).
 - A finding is a **lead to verify**, not a verdict.
 

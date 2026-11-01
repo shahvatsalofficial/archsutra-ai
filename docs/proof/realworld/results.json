@@ -1,0 +1,573 @@
+{
+  "batch": "tuning",
+  "generatedAt": "2026-11-01T17:09:07.078Z",
+  "node": "v24.15.0",
+  "results": [
+    {
+      "name": "expressjs/express",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "tuning",
+      "commit": "1c6f1b0fe4000977b9a7b4f34097e4d527dd9824",
+      "files": 216,
+      "truncated": false,
+      "ms": 457,
+      "findings": 2,
+      "byRule": {
+        "AS-SUP-001": 1,
+        "AS-ARC-003": 1
+      },
+      "bySeverity": {
+        "medium": 1,
+        "low": 1
+      },
+      "modules": 4,
+      "cycles": 0
+    },
+    {
+      "name": "fastify/fastify",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "tuning",
+      "commit": "5df959f3af698823dd582f1c3661f3e80df0b5da",
+      "files": 392,
+      "truncated": false,
+      "ms": 726,
+      "findings": 4,
+      "byRule": {
+        "AS-ARC-001": 1,
+        "AS-SUP-001": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "medium": 2,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 8,
+      "cycles": 1
+    },
+    {
+      "name": "koajs/koa",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "tuning",
+      "commit": "f2ec5f1607cda5dc87d0df6c435b386180b1b45e",
+      "files": 109,
+      "truncated": false,
+      "ms": 179,
+      "findings": 0,
+      "byRule": {},
+      "bySeverity": {},
+      "modules": 3,
+      "cycles": 0
+    },
+    {
+      "name": "axios/axios",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "tuning",
+      "commit": "9d11464a75ee5c644c0308d742f58755c0482594",
+      "files": 506,
+      "truncated": false,
+      "ms": 1032,
+      "findings": 3,
+      "byRule": {
+        "AS-ARC-001": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "medium": 1,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 7,
+      "cycles": 1
+    },
+    {
+      "name": "lodash/lodash",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "tuning",
+      "commit": "2b5e6f7399a7b48005140b5d5c6bc6c0e62919a8",
+      "files": 63,
+      "truncated": false,
+      "ms": 114,
+      "findings": 1,
+      "byRule": {
+        "AS-ARC-003": 1
+      },
+      "bySeverity": {
+        "low": 1
+      },
+      "modules": 5,
+      "cycles": 0
+    },
+    {
+      "name": "nestjs/nest",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "tuning",
+      "commit": "8d9dd9d174921cc03882d1b39e91fb7bb1b1ca5a",
+      "files": 2721,
+      "truncated": false,
+      "ms": 5607,
+      "findings": 5,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-002": 1,
+        "AS-SUP-001": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "critical": 2,
+        "medium": 1,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 15,
+      "cycles": 0
+    },
+    {
+      "name": "Automattic/mongoose",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "tuning",
+      "commit": "f59e13a4464a8499994c3cca6e33c0dfd4f66298",
+      "files": 679,
+      "truncated": false,
+      "ms": 1376,
+      "findings": 4,
+      "byRule": {
+        "AS-ARC-001": 1,
+        "AS-SUP-001": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "medium": 2,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 8,
+      "cycles": 1
+    },
+    {
+      "name": "sequelize/sequelize",
+      "kind": "general",
+      "lang": "JS/TS",
+      "batch": "tuning",
+      "commit": "53d1e8a6199fff85a8d6cd7d9bf0f3487f0cf798",
+      "files": 949,
+      "truncated": false,
+      "ms": 1554,
+      "findings": 6,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-005": 1,
+        "AS-IAC-001": 1,
+        "AS-SUP-001": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 1,
+        "medium": 2,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 16,
+      "cycles": 0
+    },
+    {
+      "name": "typeorm/typeorm",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "tuning",
+      "commit": "5bdc67882dee5a02d975d5ed140c9c3f91661116",
+      "files": 3809,
+      "truncated": false,
+      "ms": 7527,
+      "findings": 4,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-005": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 1,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 7,
+      "cycles": 0
+    },
+    {
+      "name": "vuejs/core",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "tuning",
+      "commit": "24c9d0bffb2299635b8112a978d74a38723aaa10",
+      "files": 698,
+      "truncated": false,
+      "ms": 1230,
+      "findings": 6,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-004": 1,
+        "AS-ARC-001": 1,
+        "AS-SUP-002": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 1,
+        "medium": 2,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 16,
+      "cycles": 1
+    },
+    {
+      "name": "pallets/flask",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning",
+      "commit": "49943b5a94413a530761350f04e896f76e8d620e",
+      "files": 230,
+      "truncated": false,
+      "ms": 366,
+      "findings": 3,
+      "byRule": {
+        "AS-SEC-003": 1,
+        "AS-SEC-004": 1,
+        "AS-ARC-003": 1
+      },
+      "bySeverity": {
+        "high": 2,
+        "low": 1
+      },
+      "modules": 4,
+      "cycles": 0
+    },
+    {
+      "name": "django/django",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning",
+      "commit": "a05e16a7230fe33d3f43f4a3aaed103cebb42efc",
+      "files": 5000,
+      "truncated": true,
+      "ms": 10989,
+      "findings": 6,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-004": 1,
+        "AS-SEC-005": 1,
+        "AS-SUP-001": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 2,
+        "medium": 1,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 6,
+      "cycles": 0
+    },
+    {
+      "name": "psf/requests",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning",
+      "commit": "3c7baaa05ab4aa49cc819ce3a819d260de19c157",
+      "files": 123,
+      "truncated": false,
+      "ms": 183,
+      "findings": 1,
+      "byRule": {
+        "AS-ARC-003": 1
+      },
+      "bySeverity": {
+        "low": 1
+      },
+      "modules": 4,
+      "cycles": 0
+    },
+    {
+      "name": "fastapi/fastapi",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning",
+      "commit": "45cb2252c737906f37544f5ba6bee0295fb81468",
+      "files": 3038,
+      "truncated": false,
+      "ms": 5014,
+      "findings": 2,
+      "byRule": {
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "low": 1,
+        "info": 1
+      },
+      "modules": 5,
+      "cycles": 0
+    },
+    {
+      "name": "pallets/click",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning",
+      "commit": "2247b35ea1c47c727d7a06e51fa280e12a863ff6",
+      "files": 175,
+      "truncated": false,
+      "ms": 336,
+      "findings": 1,
+      "byRule": {
+        "AS-ARC-003": 1
+      },
+      "bySeverity": {
+        "low": 1
+      },
+      "modules": 4,
+      "cycles": 0
+    },
+    {
+      "name": "encode/httpx",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning",
+      "commit": "b5addb64f0161ff6bfe94c124ef76f6a1fba5254",
+      "files": 115,
+      "truncated": false,
+      "ms": 230,
+      "findings": 1,
+      "byRule": {
+        "AS-ARC-003": 1
+      },
+      "bySeverity": {
+        "low": 1
+      },
+      "modules": 2,
+      "cycles": 0
+    },
+    {
+      "name": "sqlalchemy/sqlalchemy",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning",
+      "commit": "1b20ec2056c1bde92c618c5b5507f213b8527483",
+      "files": 711,
+      "truncated": false,
+      "ms": 1893,
+      "findings": 5,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-004": 1,
+        "AS-SEC-005": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 2,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 5,
+      "cycles": 0
+    },
+    {
+      "name": "OWASP/NodeGoat",
+      "kind": "vulnerable-by-design",
+      "lang": "JS",
+      "batch": "tuning",
+      "commit": "c5cb68a7084e4ae7dcc60e6a98768720a81841e8",
+      "files": 92,
+      "truncated": false,
+      "ms": 172,
+      "findings": 5,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-002": 1,
+        "AS-SEC-004": 1,
+        "AS-SUP-001": 1,
+        "AS-SUP-002": 1
+      },
+      "bySeverity": {
+        "critical": 2,
+        "high": 1,
+        "medium": 2
+      },
+      "modules": 5,
+      "cycles": 0
+    },
+    {
+      "name": "juice-shop/juice-shop",
+      "kind": "vulnerable-by-design",
+      "lang": "TS",
+      "batch": "tuning",
+      "commit": "717f5efa886b0417eeecb52378b03cf10567b7e2",
+      "files": 1338,
+      "truncated": false,
+      "ms": 2471,
+      "findings": 10,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-002": 1,
+        "AS-SEC-004": 1,
+        "AS-SEC-005": 1,
+        "AS-ARC-001": 1,
+        "AS-IAC-001": 1,
+        "AS-SUP-001": 1,
+        "AS-ARC-003": 1,
+        "AS-SUP-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "critical": 2,
+        "high": 2,
+        "medium": 3,
+        "low": 2,
+        "info": 1
+      },
+      "modules": 10,
+      "cycles": 1
+    },
+    {
+      "name": "appsecco/dvna",
+      "kind": "vulnerable-by-design",
+      "lang": "JS",
+      "batch": "tuning",
+      "commit": "9ba473add536f66ac9007966acb2a775dd31277a",
+      "files": 129,
+      "truncated": false,
+      "ms": 157,
+      "findings": 7,
+      "byRule": {
+        "AS-SEC-004": 1,
+        "AS-SEC-005": 1,
+        "AS-ARC-001": 1,
+        "AS-OPS-001": 1,
+        "AS-OPS-002": 1,
+        "AS-OPS-003": 1,
+        "AS-SUP-001": 1
+      },
+      "bySeverity": {
+        "high": 2,
+        "medium": 5
+      },
+      "modules": 6,
+      "cycles": 1
+    },
+    {
+      "name": "digininja/DVWA",
+      "kind": "vulnerable-by-design",
+      "lang": "PHP",
+      "batch": "tuning",
+      "commit": "a1978a2fed195acd093010af6395f86a281537ca",
+      "files": 234,
+      "truncated": false,
+      "ms": 323,
+      "findings": 4,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-004": 1,
+        "AS-OPS-003": 1,
+        "AS-ARC-003": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 1,
+        "medium": 1,
+        "low": 1
+      },
+      "modules": 6,
+      "cycles": 0
+    },
+    {
+      "name": "erev0s/VAmPI",
+      "kind": "vulnerable-by-design",
+      "lang": "Python",
+      "batch": "tuning",
+      "commit": "f16052dce83f05847133ec98f01c5193a41de7d8",
+      "files": 22,
+      "truncated": false,
+      "ms": 26,
+      "findings": 2,
+      "byRule": {
+        "AS-OPS-002": 1,
+        "AS-OPS-003": 1
+      },
+      "bySeverity": {
+        "medium": 2
+      },
+      "modules": 4,
+      "cycles": 0
+    },
+    {
+      "name": "OWASP/railsgoat",
+      "kind": "vulnerable-by-design",
+      "lang": "Ruby",
+      "batch": "tuning",
+      "commit": "f5951f13089d85c979de09e7da3c8c0fb982f94a",
+      "files": 227,
+      "truncated": false,
+      "ms": 306,
+      "findings": 4,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-004": 1,
+        "AS-OPS-003": 1,
+        "AS-ARC-003": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 1,
+        "medium": 1,
+        "low": 1
+      },
+      "modules": 5,
+      "cycles": 0
+    },
+    {
+      "name": "WebGoat/WebGoat",
+      "kind": "vulnerable-by-design",
+      "lang": "Java",
+      "batch": "tuning",
+      "commit": "be2c186b94201bcbdfa46c3a6f5f53dd83262d6a",
+      "files": 1252,
+      "truncated": false,
+      "ms": 2003,
+      "findings": 5,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-004": 1,
+        "AS-SEC-005": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 2,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 4,
+      "cycles": 0
+    }
+  ]
+}

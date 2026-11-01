@@ -1,0 +1,542 @@
+[
+  {
+    "repo": "webpack/webpack",
+    "kind": "general",
+    "sha": "558d02c8cd78b74095c5be1e28d3c426ddce2d27",
+    "rule": "AS-ARC-001",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Circular dependency between modules (declarations <-> lib)",
+    "evidence": {
+      "path": "lib/asset/AssetGenerator.js",
+      "startLine": 55,
+      "endLine": 55,
+      "kind": "observed",
+      "excerpt": "* } from \"../../declarations/WebpackOptions\""
+    },
+    "populationInGroup": 3,
+    "id": "S001"
+  },
+  {
+    "repo": "prettier/prettier",
+    "kind": "general",
+    "sha": "bed4edbb1cf2a9db4004215b0ce5707cdb02b5d9",
+    "rule": "AS-ARC-001",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Circular dependency between modules (src <-> src/common <-> src/config <-> src/document <-> src/language-css <-> src/language-graphql <-> src/language-handlebars <-> src/language-html <-> src/language-js <-> src/language-json <-> src/language-markdown <-> src/language-yaml <-> src/main <-> src/plugins <-> src/utilities)",
+    "evidence": {
+      "path": "src/language-js/comments/attach/handle-if-statement-comments.js",
+      "startLine": 6,
+      "endLine": 6,
+      "kind": "observed",
+      "excerpt": "import getNextNonSpaceNonCommentCharacter from \"../../../utilities/get-next-non-space-non-comment-character.js\";"
+    },
+    "populationInGroup": 3,
+    "id": "S002"
+  },
+  {
+    "repo": "reduxjs/redux",
+    "kind": "general",
+    "sha": "61ebf8596654cf3c4b197e426e302fcb3c2bc13e",
+    "rule": "AS-ARC-001",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Circular dependency between modules (src/types <-> src/utils)",
+    "evidence": {
+      "path": "src/types/store.ts",
+      "startLine": 4,
+      "endLine": 4,
+      "kind": "observed",
+      "excerpt": "import _$$observable from '../utils/symbol-observable'"
+    },
+    "populationInGroup": 3,
+    "id": "S003"
+  },
+  {
+    "repo": "pallets/jinja",
+    "kind": "general",
+    "sha": "5ef70112a1ff19c05324ff889dd30405b1002044",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "src/jinja2/compiler.py",
+      "startLine": 1,
+      "endLine": 1993,
+      "kind": "observed",
+      "excerpt": "1993 lines"
+    },
+    "populationInGroup": 5,
+    "id": "S004"
+  },
+  {
+    "repo": "eslint/eslint",
+    "kind": "general",
+    "sha": "11c66ba08381cb7cff7679d662c9f6654b6fe712",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "lib/eslint/eslint-helpers.js",
+      "startLine": 1,
+      "endLine": 1441,
+      "kind": "observed",
+      "excerpt": "1441 lines"
+    },
+    "populationInGroup": 5,
+    "id": "S005"
+  },
+  {
+    "repo": "vuejs/vue",
+    "kind": "general",
+    "sha": "9e88707940088cb1f4cd7dd210c9168a50dc347c",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "packages/compiler-sfc/src/compileScript.ts",
+      "startLine": 1,
+      "endLine": 1917,
+      "kind": "observed",
+      "excerpt": "1917 lines"
+    },
+    "populationInGroup": 5,
+    "id": "S006"
+  },
+  {
+    "repo": "prettier/prettier",
+    "kind": "general",
+    "sha": "bed4edbb1cf2a9db4004215b0ce5707cdb02b5d9",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "scripts/tools/eslint-plugin-prettier-internal-rules/test.js",
+      "startLine": 1,
+      "endLine": 1072,
+      "kind": "observed",
+      "excerpt": "1072 lines"
+    },
+    "populationInGroup": 5,
+    "id": "S007"
+  },
+  {
+    "repo": "OWASP/WrongSecrets",
+    "kind": "vulnerable-by-design",
+    "sha": "588f89b140b3ec121a174e9f3b2674bbfaf10436",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": ".github/scripts/generate_thymeleaf_previews.py",
+      "startLine": 1,
+      "endLine": 1389,
+      "kind": "observed",
+      "excerpt": "1389 lines"
+    },
+    "populationInGroup": 1,
+    "id": "S008"
+  },
+  {
+    "repo": "madhuakula/kubernetes-goat",
+    "kind": "vulnerable-by-design",
+    "sha": "723a0db478f050d173d23b4ce5044b65bce0bdd0",
+    "rule": "AS-IAC-001",
+    "severity": "medium",
+    "confidence": "medium",
+    "title": "Over-permissive infrastructure configuration",
+    "evidence": {
+      "path": "scenarios/docker-bench-security/deployment.yaml",
+      "startLine": 29,
+      "endLine": 29,
+      "kind": "observed",
+      "excerpt": "hostNetwork: true"
+    },
+    "populationInGroup": 2,
+    "id": "S009"
+  },
+  {
+    "repo": "bridgecrewio/terragoat",
+    "kind": "vulnerable-by-design",
+    "sha": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "rule": "AS-IAC-001",
+    "severity": "medium",
+    "confidence": "medium",
+    "title": "Over-permissive infrastructure configuration",
+    "evidence": {
+      "path": "terraform/aws/db-app.tf",
+      "startLine": 150,
+      "endLine": 150,
+      "kind": "observed",
+      "excerpt": "cidr_blocks       = [\"0.0.0.0/0\"]"
+    },
+    "populationInGroup": 2,
+    "id": "S010"
+  },
+  {
+    "repo": "webpack/webpack",
+    "kind": "general",
+    "sha": "558d02c8cd78b74095c5be1e28d3c426ddce2d27",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": ".github/runtimes/Dockerfile",
+      "startLine": 1,
+      "endLine": 6,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 2,
+    "id": "S011"
+  },
+  {
+    "repo": "spring-projects/spring-petclinic",
+    "kind": "general",
+    "sha": "500158f732419217507c7656904b8e6aa1bcc0d6",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": ".devcontainer/Dockerfile",
+      "startLine": 1,
+      "endLine": 11,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 2,
+    "id": "S012"
+  },
+  {
+    "repo": "OWASP/WrongSecrets",
+    "kind": "vulnerable-by-design",
+    "sha": "588f89b140b3ec121a174e9f3b2674bbfaf10436",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": ".devcontainer/Dockerfile",
+      "startLine": 1,
+      "endLine": 108,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 4,
+    "id": "S013"
+  },
+  {
+    "repo": "madhuakula/kubernetes-goat",
+    "kind": "vulnerable-by-design",
+    "sha": "723a0db478f050d173d23b4ce5044b65bce0bdd0",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "infrastructure/batch-check/Dockerfile",
+      "startLine": 1,
+      "endLine": 11,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 4,
+    "id": "S014"
+  },
+  {
+    "repo": "snyk-labs/nodejs-goof",
+    "kind": "vulnerable-by-design",
+    "sha": "add14ba59e98240d9e00a235dd7d42cd61ae9912",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "Dockerfile",
+      "startLine": 1,
+      "endLine": 14,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 4,
+    "id": "S015"
+  },
+  {
+    "repo": "bridgecrewio/terragoat",
+    "kind": "vulnerable-by-design",
+    "sha": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "terraform/aws/resources/Dockerfile",
+      "startLine": 1,
+      "endLine": 2,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 4,
+    "id": "S016"
+  },
+  {
+    "repo": "vuejs/vue",
+    "kind": "general",
+    "sha": "9e88707940088cb1f4cd7dd210c9168a50dc347c",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": "examples/classic/firebase/app.js",
+      "startLine": 5,
+      "endLine": 5,
+      "kind": "observed",
+      "excerpt": "google-api-key: apiKey: \"[REDACTED]\","
+    },
+    "populationInGroup": 1,
+    "id": "S017"
+  },
+  {
+    "repo": "bridgecrewio/terragoat",
+    "kind": "vulnerable-by-design",
+    "sha": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": "terraform/aws/ec2.tf",
+      "startLine": 15,
+      "endLine": 15,
+      "kind": "observed",
+      "excerpt": "aws-access-key: export AWS_ACCESS_KEY_ID=[REDACTED:aws-access-key]"
+    },
+    "populationInGroup": 4,
+    "id": "S018"
+  },
+  {
+    "repo": "snyk-labs/nodejs-goof",
+    "kind": "vulnerable-by-design",
+    "sha": "add14ba59e98240d9e00a235dd7d42cd61ae9912",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": "app.js",
+      "startLine": 83,
+      "endLine": 83,
+      "kind": "observed",
+      "excerpt": "credential-assignment: var token = '[REDACTED]';"
+    },
+    "populationInGroup": 4,
+    "id": "S019"
+  },
+  {
+    "repo": "OWASP/WrongSecrets",
+    "kind": "vulnerable-by-design",
+    "sha": "588f89b140b3ec121a174e9f3b2674bbfaf10436",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": ".github/workflows/minikube-k8s-test.yml",
+      "startLine": 160,
+      "endLine": 160,
+      "kind": "observed",
+      "excerpt": "credential-assignment: SECRET=\"[REDACTED]\""
+    },
+    "populationInGroup": 4,
+    "id": "S020"
+  },
+  {
+    "repo": "madhuakula/kubernetes-goat",
+    "kind": "vulnerable-by-design",
+    "sha": "723a0db478f050d173d23b4ce5044b65bce0bdd0",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": "infrastructure/users-repo/Dockerfile",
+      "startLine": 4,
+      "endLine": 4,
+      "kind": "observed",
+      "excerpt": "credential-assignment: ENV API_KEY=\"[REDACTED]\""
+    },
+    "populationInGroup": 4,
+    "id": "S021"
+  },
+  {
+    "repo": "gin-gonic/gin",
+    "kind": "general",
+    "sha": "0f09c3a9b4626d9fe9979cf4d0521d6ae32ab646",
+    "rule": "AS-SEC-002",
+    "severity": "critical",
+    "confidence": "high",
+    "title": "Private key material committed",
+    "evidence": {
+      "path": "testdata/certificate/key.pem",
+      "startLine": 1,
+      "endLine": 1,
+      "kind": "observed",
+      "excerpt": "[REDACTED:private-key] [REDACTED]"
+    },
+    "populationInGroup": 1,
+    "id": "S022"
+  },
+  {
+    "repo": "OWASP/WrongSecrets",
+    "kind": "vulnerable-by-design",
+    "sha": "588f89b140b3ec121a174e9f3b2674bbfaf10436",
+    "rule": "AS-SEC-002",
+    "severity": "critical",
+    "confidence": "high",
+    "title": "Private key material committed",
+    "evidence": {
+      "path": ".ssh/wrongsecrets.keys",
+      "startLine": 1,
+      "endLine": 1,
+      "kind": "observed",
+      "excerpt": "[REDACTED:private-key] [REDACTED]"
+    },
+    "populationInGroup": 1,
+    "id": "S023"
+  },
+  {
+    "repo": "eslint/eslint",
+    "kind": "general",
+    "sha": "11c66ba08381cb7cff7679d662c9f6654b6fe712",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "lib/rules/no-eval.js",
+      "startLine": 58,
+      "endLine": 58,
+      "kind": "observed",
+      "excerpt": "description: \"Disallow the use of `eval()`\","
+    },
+    "populationInGroup": 4,
+    "id": "S024"
+  },
+  {
+    "repo": "mochajs/mocha",
+    "kind": "general",
+    "sha": "5b5afa7b12e3f76f4e0c6afa12e960c0b378358c",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "lib/nodejs/worker-core.js",
+      "startLine": 98,
+      "endLine": 98,
+      "kind": "observed",
+      "excerpt": "argv = eval(\"(\" + serializedOptions + \")\");"
+    },
+    "populationInGroup": 4,
+    "id": "S025"
+  },
+  {
+    "repo": "vuejs/vue",
+    "kind": "general",
+    "sha": "9e88707940088cb1f4cd7dd210c9168a50dc347c",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "packages/template-compiler/types/test.ts",
+      "startLine": 37,
+      "endLine": 37,
+      "kind": "observed",
+      "excerpt": "new Function(compiled.render)"
+    },
+    "populationInGroup": 4,
+    "id": "S026"
+  },
+  {
+    "repo": "webpack/webpack",
+    "kind": "general",
+    "sha": "558d02c8cd78b74095c5be1e28d3c426ddce2d27",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "lib/devtool/EvalDevToolModulePlugin.js",
+      "startLine": 110,
+      "endLine": 110,
+      "kind": "observed",
+      "excerpt": "`eval(${"
+    },
+    "populationInGroup": 4,
+    "id": "S027"
+  },
+  {
+    "repo": "webpack/webpack",
+    "kind": "general",
+    "sha": "558d02c8cd78b74095c5be1e28d3c426ddce2d27",
+    "rule": "AS-SEC-005",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "SQL built by string concatenation or interpolation",
+    "evidence": {
+      "path": "examples/nodejs-addons/build.js",
+      "startLine": 7,
+      "endLine": 7,
+      "kind": "observed",
+      "excerpt": "cp.exec(`node-gyp --target=${process.version} configure build`, (error, stdout, stderr) => {"
+    },
+    "populationInGroup": 2,
+    "id": "S028"
+  },
+  {
+    "repo": "eslint/eslint",
+    "kind": "general",
+    "sha": "11c66ba08381cb7cff7679d662c9f6654b6fe712",
+    "rule": "AS-SEC-005",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "SQL built by string concatenation or interpolation",
+    "evidence": {
+      "path": "Makefile.js",
+      "startLine": 249,
+      "endLine": 249,
+      "kind": "observed",
+      "excerpt": "exec(`git commit -m \"Added release blog post for ${tag}\"`);"
+    },
+    "populationInGroup": 2,
+    "id": "S029"
+  },
+  {
+    "repo": "snyk-labs/nodejs-goof",
+    "kind": "vulnerable-by-design",
+    "sha": "add14ba59e98240d9e00a235dd7d42cd61ae9912",
+    "rule": "AS-SEC-005",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "SQL built by string concatenation or interpolation",
+    "evidence": {
+      "path": "routes/index.js",
+      "startLine": 174,
+      "endLine": 174,
+      "kind": "observed",
+      "excerpt": "exec('identify ' + url, function (err, stdout, stderr) {"
+    },
+    "populationInGroup": 1,
+    "id": "S030"
+  }
+]

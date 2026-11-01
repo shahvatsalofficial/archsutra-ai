@@ -1,0 +1,317 @@
+{
+  "note": "Public repositories used for the real-world evaluation. Cloned shallow into a temp directory; their code is never executed. 'kind' is general (maintained projects) or vulnerable-by-design (intentionally insecure training apps). Batch \"tuning\" informed rule fixes; batch \"holdout\" was never used for tuning. Batch \"holdout2\" was run once after the round-2 fixes and never used for tuning.",
+  "repos": [
+    {
+      "name": "expressjs/express",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "tuning"
+    },
+    {
+      "name": "fastify/fastify",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "tuning"
+    },
+    {
+      "name": "koajs/koa",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "tuning"
+    },
+    {
+      "name": "axios/axios",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "tuning"
+    },
+    {
+      "name": "lodash/lodash",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "tuning"
+    },
+    {
+      "name": "nestjs/nest",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "tuning"
+    },
+    {
+      "name": "Automattic/mongoose",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "tuning"
+    },
+    {
+      "name": "sequelize/sequelize",
+      "kind": "general",
+      "lang": "JS/TS",
+      "batch": "tuning"
+    },
+    {
+      "name": "typeorm/typeorm",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "tuning"
+    },
+    {
+      "name": "vuejs/core",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "tuning"
+    },
+    {
+      "name": "pallets/flask",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning"
+    },
+    {
+      "name": "django/django",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning"
+    },
+    {
+      "name": "psf/requests",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning"
+    },
+    {
+      "name": "fastapi/fastapi",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning"
+    },
+    {
+      "name": "pallets/click",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning"
+    },
+    {
+      "name": "encode/httpx",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning"
+    },
+    {
+      "name": "sqlalchemy/sqlalchemy",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "tuning"
+    },
+    {
+      "name": "OWASP/NodeGoat",
+      "kind": "vulnerable-by-design",
+      "lang": "JS",
+      "batch": "tuning"
+    },
+    {
+      "name": "juice-shop/juice-shop",
+      "kind": "vulnerable-by-design",
+      "lang": "TS",
+      "batch": "tuning"
+    },
+    {
+      "name": "appsecco/dvna",
+      "kind": "vulnerable-by-design",
+      "lang": "JS",
+      "batch": "tuning"
+    },
+    {
+      "name": "digininja/DVWA",
+      "kind": "vulnerable-by-design",
+      "lang": "PHP",
+      "batch": "tuning"
+    },
+    {
+      "name": "erev0s/VAmPI",
+      "kind": "vulnerable-by-design",
+      "lang": "Python",
+      "batch": "tuning"
+    },
+    {
+      "name": "OWASP/railsgoat",
+      "kind": "vulnerable-by-design",
+      "lang": "Ruby",
+      "batch": "tuning"
+    },
+    {
+      "name": "WebGoat/WebGoat",
+      "kind": "vulnerable-by-design",
+      "lang": "Java",
+      "batch": "tuning"
+    },
+    {
+      "name": "pallets/jinja",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "holdout"
+    },
+    {
+      "name": "webpack/webpack",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "holdout"
+    },
+    {
+      "name": "eslint/eslint",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "holdout"
+    },
+    {
+      "name": "mochajs/mocha",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "holdout"
+    },
+    {
+      "name": "reduxjs/redux",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "holdout"
+    },
+    {
+      "name": "vuejs/vue",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "holdout"
+    },
+    {
+      "name": "prettier/prettier",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "holdout"
+    },
+    {
+      "name": "spring-projects/spring-petclinic",
+      "kind": "general",
+      "lang": "Java",
+      "batch": "holdout"
+    },
+    {
+      "name": "gin-gonic/gin",
+      "kind": "general",
+      "lang": "Go",
+      "batch": "holdout"
+    },
+    {
+      "name": "laravel/laravel",
+      "kind": "general",
+      "lang": "PHP",
+      "batch": "holdout"
+    },
+    {
+      "name": "bridgecrewio/terragoat",
+      "kind": "vulnerable-by-design",
+      "lang": "Terraform",
+      "batch": "holdout"
+    },
+    {
+      "name": "madhuakula/kubernetes-goat",
+      "kind": "vulnerable-by-design",
+      "lang": "K8s/Shell",
+      "batch": "holdout"
+    },
+    {
+      "name": "snyk-labs/nodejs-goof",
+      "kind": "vulnerable-by-design",
+      "lang": "JS",
+      "batch": "holdout"
+    },
+    {
+      "name": "OWASP/WrongSecrets",
+      "kind": "vulnerable-by-design",
+      "lang": "Java",
+      "batch": "holdout"
+    },
+    {
+      "name": "psf/black",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "holdout2"
+    },
+    {
+      "name": "tornadoweb/tornado",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "holdout2"
+    },
+    {
+      "name": "aio-libs/aiohttp",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "holdout2"
+    },
+    {
+      "name": "honojs/hono",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "holdout2"
+    },
+    {
+      "name": "trpc/trpc",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "holdout2"
+    },
+    {
+      "name": "nuxt/nuxt",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "holdout2"
+    },
+    {
+      "name": "sindresorhus/got",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "holdout2"
+    },
+    {
+      "name": "fastapi/full-stack-fastapi-template",
+      "kind": "general",
+      "lang": "Python/TS",
+      "batch": "holdout2"
+    },
+    {
+      "name": "expressjs/multer",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "holdout2"
+    },
+    {
+      "name": "terraform-aws-modules/terraform-aws-vpc",
+      "kind": "general",
+      "lang": "Terraform",
+      "batch": "holdout2"
+    },
+    {
+      "name": "OWASP/crAPI",
+      "kind": "vulnerable-by-design",
+      "lang": "Java/Python/Go",
+      "batch": "holdout2"
+    },
+    {
+      "name": "we45/Vulnerable-Flask-App",
+      "kind": "vulnerable-by-design",
+      "lang": "Python",
+      "batch": "holdout2"
+    },
+    {
+      "name": "anxolerd/dvpwa",
+      "kind": "vulnerable-by-design",
+      "lang": "Python",
+      "batch": "holdout2"
+    },
+    {
+      "name": "stamparm/DSVW",
+      "kind": "vulnerable-by-design",
+      "lang": "Python",
+      "batch": "holdout2"
+    }
+  ]
+}

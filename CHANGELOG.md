@@ -2,6 +2,22 @@
 
 All notable changes follow [Semantic Versioning](https://semver.org/).
 
+## 0.1.1 - 2026-11-01
+
+Trust, accuracy and supply-chain release.
+
+### Changed (behavior)
+- Audit precision fixes driven by a hand-labeled evaluation on 52 public repositories (baseline precision 50%; 69% and 95% on repositories not used for tuning). Rules now ignore comments and docstrings, vendored and minified files, data tables, dummy credentials, test-named files, development-tooling Dockerfiles, data-file imports and the root pseudo-module in cycles, and public 80/443 listeners. Shell `exec` is reported under dynamic execution, not SQL. JWT `verify=False` is no longer reported as TLS.
+- Scans are now also bounded by total bytes (120 MiB) and the text cache is capped.
+- Gemini CLI adapter promoted to `adapter` (path confirmed in vendor docs); Cursor adapter now also writes `.cursor/agents`.
+
+### Added
+- Real-world evaluation harness, labels, summaries and a labeled-recall check (`scripts/realworld.mjs`, `scripts/labeled-recall.mjs`, `docs/proof/realworld/`).
+- Benchmarks, coverage report, contrast checks, axe-core accessibility audit, ReDoS and hostile-input tests (28 tests).
+- Workflows: release (tarball, CycloneDX SBOMs, checksums, provenance attestation), OpenSSF Scorecard, manual tool comparison; all actions pinned to SHAs; DCO check; coverage job.
+- Governance, support, DCO, CODEOWNERS, issue templates, `security.txt`, good-first-issue backlog.
+- Handbook chapters 13 to 16, name-clearance record, legal review brief, live smoke-test protocol.
+
 ## 0.1.0 - 2026-10-31
 
 Initial release by Vatsal Shah.

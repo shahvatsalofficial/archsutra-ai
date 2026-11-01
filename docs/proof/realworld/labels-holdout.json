@@ -1,0 +1,157 @@
+{
+  "labeler": "Claude (AI model) reading each cited line in context; one labeler, not independent. Labels are open to challenge by pull request.",
+  "labeledOn": "2026-11-01",
+  "note": "Measured on the rule set after round-1 fixes. Repositories in this batch were not used for those fixes.",
+  "labels": {
+    "S001": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Import edge found inside a JSDoc @import comment, and the target is a declarations folder."
+    },
+    "S002": {
+      "verdict": "unclear",
+      "actionable": false,
+      "reason": "Large strongly-connected component in prettier; could not verify each reverse edge from the cited line."
+    },
+    "S003": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "types and utils import each other; type-only cycle, low impact."
+    },
+    "S004": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "compiler.py is a very large production module."
+    },
+    "S005": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "eslint-helpers.js is a very large production module."
+    },
+    "S006": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "compileScript.ts is a very large production module."
+    },
+    "S007": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "A large test file (test.js) that the test-path heuristic did not recognise."
+    },
+    "S008": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Large helper script under .github/scripts; correct but not production code."
+    },
+    "S009": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "hostNetwork: true in a security-benchmark scenario that needs it."
+    },
+    "S010": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "0.0.0.0/0 on all ports (protocol -1) in a security group rule."
+    },
+    "S011": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Dockerfile has no USER but is never built; it only pins versions for Dependabot."
+    },
+    "S012": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Unused devcontainer Dockerfile without USER."
+    },
+    "S013": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Dev container image without USER."
+    },
+    "S014": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Dockerfile has no USER and uses alpine:latest."
+    },
+    "S015": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Dockerfile has no USER."
+    },
+    "S016": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Dockerfile has no USER."
+    },
+    "S017": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Firebase web API key literal; these keys are public identifiers by design."
+    },
+    "S018": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "AWS-style access key and secret literals planted in user_data."
+    },
+    "S019": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Hard-coded token literal in application code."
+    },
+    "S020": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Test constant in a CI workflow script for a training challenge; not a credential."
+    },
+    "S021": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "API key literal in a Dockerfile ENV."
+    },
+    "S022": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Private key committed, but it is test data (testdata/certificate)."
+    },
+    "S023": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Private key committed as part of a deliberately insecure challenge."
+    },
+    "S024": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Rule description string mentioning `eval()` inside backticks; not executed code."
+    },
+    "S025": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "eval of serialized options in a worker; internal IPC, but a real eval call."
+    },
+    "S026": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Type-test file (types/test.ts) not recognised as a test."
+    },
+    "S027": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Template literal that generates eval(...) text for output bundles; the plugin does not call eval itself."
+    },
+    "S028": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Shell command interpolation reported under the SQL rule; wrong claim for this code."
+    },
+    "S029": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Shell command interpolation reported under the SQL rule; wrong claim for this code."
+    },
+    "S030": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Real command injection (exec with concatenated URL) but reported as SQL; the rule claim is wrong even though the code is risky."
+    }
+  }
+}

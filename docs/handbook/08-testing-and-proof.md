@@ -1,8 +1,8 @@
 # Testing and proof
 
-<!-- summary: Real, reproducible evidence: test results, CI matrix, labeled-fixture evaluation, sample outputs, and what is not proven. -->
+<!-- summary: Test results, CI evidence, coverage, fixtures, sample outputs and what is not proven. Real-world accuracy is in its own chapter. -->
 
-Trust should be earned with evidence you can re-run. Everything below is reproducible from a clean clone.
+Trust should be earned with evidence you can re-run. Everything below is reproducible from a clean clone. For accuracy on real repositories see [Real-world evaluation](14-real-world-evaluation.md); for the register of open trust gaps see [Trust and assurance](13-trust-and-assurance.md).
 
 ## 1. Reproduce it yourself
 
@@ -10,74 +10,47 @@ Trust should be earned with evidence you can re-run. Everything below is reprodu
 git clone https://github.com/shahvatsalofficial/archsutra-ai
 cd archsutra-ai
 npm ci
-npm test                       # builds, then runs 20 tests
-node scripts/eval.mjs          # labeled-fixture precision / recall
+npm test                       # builds, then runs 28 tests
+npm run coverage               # line, branch, function coverage
+node scripts/eval.mjs          # labeled-fixture precision / recall (regression suite)
 node dist/cli.js verify .      # validates skills, agents, links, diagrams
 node dist/cli.js audit .       # the tool audits itself
+node scripts/bench.mjs         # synthetic performance benchmark
+node scripts/contrast.mjs      # WCAG contrast of the docs site tokens
 ```
 
 ## 2. Automated test results
 
-Captured output (Node 24, Windows 11; stored at [`docs/proof/test-results.txt`](../proof/test-results.txt)):
+Captured output (Node 24, Windows 11; stored at [`docs/proof/test-results.txt`](../proof/test-results.txt)): **28 tests, 28 passed, 0 failed.**
 
-```text
-✔ redact masks secrets and never returns the value
-✔ safeJoin rejects traversal
-✔ walk skips node_modules, respects file limit and flags truncation
-✔ walk does not follow symlinks
-✔ map detects modules, cycles and stack
-✔ audit finds seeded problems with evidence and redacted excerpts
-✔ audit on a clean small project has no high-severity findings
-✔ audit does not flag secrets inside test files or env lookups
-✔ install/uninstall roundtrip is idempotent and reversible
-✔ install refuses to overwrite foreign files without --force and backs up when forced
-✔ uninstall keeps files the user modified
-✔ copilot and claude agent profiles contain only supported frontmatter
-✔ mermaid checker flags bad diagrams
-✔ repository itself verifies (skills, agents, links)
-✔ cli: version, help, unknown command, model-only command exit codes
-✔ cli: audit --json emits schema-valid output; --fail-on sets exit 1
-✔ cli: export writes files, honours --dry-run, blocks escaping --output
-✔ cli: install blocked on conflict returns exit 1, doctor reports
-✔ labeled fixtures: precision and recall on seeded rules
-✔ audit ignores rule text quoted inside html/json/markdown and fixture manifests (dogfooding regressions)
-tests 20   pass 20   fail 0
-```
+Groups:
 
-Note: the symlink test returns early (passes without asserting) on systems where creating a symlink or junction is not permitted. CI on Linux and macOS exercises the junction path where allowed.
-
-## 3. Continuous integration
-
-Workflow: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml). Matrix: Ubuntu, Windows, macOS x Node 20, 22 = 6 jobs. Each job runs `npm ci`, typecheck, tests, `verify`, a self-audit with `--fail-on high`, and a check that production dependencies are empty.
-
-Result on the release commit: all 6 jobs succeeded. Live status and history: https://github.com/shahvatsalofficial/archsutra-ai/actions
-
-A first CI run **failed on Node 20** because the test script used a glob unsupported by Node 20's test runner; the fix (use `node --test` auto-discovery) was committed and all 6 jobs then passed. This is a real example of CI catching a portability bug.
-
-Additional workflows: CodeQL static analysis (JavaScript/TypeScript, weekly and on push), Dependabot, and the docs-site deploy.
-
-## 4. Labeled-fixture evaluation
-
-Two fixtures with ground-truth expectations live in [`fixtures/`](../../fixtures/):
-
-| Fixture | Description | Expected rules |
-|---|---|---|
-| `brownfield-monolith` | layered monolith with deliberate violations (SQL interpolation, `eval`, disabled TLS verification, module cycle, layer inversion, root container, unpinned image, `latest` dependency, no lockfile, no CI/tests/README) | 12 |
-| `clean-service` | small well-formed service (README, lockfile, tests, CI, pinned non-root Dockerfile) | 0 |
-
-Result ([`docs/proof/eval-results.json`](../proof/eval-results.json)):
-
-| Metric | Value |
+| Group | What it covers |
 |---|---|
-| True positives | 12 |
-| False positives | 0 |
-| False negatives | 0 |
-| Precision | 1.00 |
-| Recall | 1.00 |
+| Safety | secret redaction, path traversal, symlinks not followed, hostile file names, binary files, byte and file budgets, pathological long lines (ReDoS guard) |
+| Analysis | module map, cycles, stack detection, seeded findings with evidence, clean project has no high findings |
+| Precision regressions | each class of false positive found in the real-world evaluation has a test (comments, docstrings, dummy credentials, vendored files, shell vs SQL, public web ports, JWT `verify=False`, dev-tooling Dockerfiles) |
+| Installer | idempotent install and uninstall for all hosts, conflict protection, backups, user-edited files kept, documented frontmatter only (Claude, Cursor, Copilot) |
+| CLI | exit codes, JSON schema validity, `--fail-on`, export, dry-run, escaping output paths blocked |
+| Quality gates | the repository's own skills, agents, links and diagrams verify; labeled fixtures give expected rules |
 
-**How to read this honestly.** The fixtures were written by the rule author. This is a **regression suite that proves the rules do what they were designed to do**, not an estimate of real-world accuracy. Real repositories will produce false positives and false negatives. A community-contributed corpus of real, labeled repositories is a roadmap item; until then, do not quote these numbers as accuracy.
+The symlink test returns early (passes without asserting) on systems where creating a symlink or junction is not permitted.
 
-## 5. Sample outputs (real, generated by the tool)
+## 3. Coverage
+
+`node --test --experimental-test-coverage` over `dist/`: **91.4% lines, 79.7% branches, 90.3% functions** ([report](../proof/coverage.txt)). Details and weak spots: [Performance and quality metrics](16-performance-and-quality-metrics.md).
+
+## 4. Continuous integration
+
+Workflow: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml). Matrix: Ubuntu, Windows, macOS x Node 20, 22 = 6 jobs; each runs `npm ci`, typecheck, tests, `verify`, a self-audit with `--fail-on high`, and a check that production dependencies are empty. Extra jobs: coverage report, DCO sign-off check on pull requests. Other workflows: CodeQL, OpenSSF Scorecard, docs-site deploy, tagged release, manual tool comparison.
+
+History worth knowing: the first CI run **failed on Node 20** (a test glob unsupported there); the fix was committed and the matrix passed 6 of 6 on the v0.1.0 commit. A later push had the two macOS jobs still queued when last checked, so "green on the latest commit" must be confirmed on the Actions page: https://github.com/shahvatsalofficial/archsutra-ai/actions
+
+## 5. Labeled fixtures (regression suite, not accuracy)
+
+Two fixtures with expected rule IDs live in [`fixtures/`](../../fixtures/): `brownfield-monolith` (12 expected rules) and `clean-service` (none). Result: 12 of 12 found, 0 unexpected ([`docs/proof/eval-results.json`](../proof/eval-results.json)). **The fixtures were written together with the rules, so this proves the rules behave as designed, not that they are accurate on real code.** Real-world accuracy is measured separately in chapter 14.
+
+## 6. Sample outputs (real, generated by the tool)
 
 Generated from the `brownfield-monolith` fixture:
 
@@ -88,39 +61,51 @@ Generated from the `brownfield-monolith` fixture:
 | Findings JSON (schema 1.0.0) | [`findings.json`](../../examples/brownfield-monolith/sample-output/findings.json) |
 | SARIF 2.1.0 | [`findings.sarif`](../../examples/brownfield-monolith/sample-output/findings.sarif) |
 
-Summary of that run: 12 findings (0 critical, 3 high, 7 medium, 2 low); Security rated `weak`, Maintainability `adequate`; Reliability, Performance, Scalability, Data integrity and Cost `not assessed`.
+Summary of that run: 12 findings (0 critical, 3 high, 7 medium, 2 low); Security `weak`; Reliability, Performance, Scalability, Data integrity and Cost `not assessed`.
 
-## 6. Self-audit (dogfooding)
+## 7. Self-audit (dogfooding)
 
-The tool audits its own repository in CI with the gate `--fail-on high`; on the release commit it reports **no findings**. Dogfooding is how two classes of false positive were found and fixed before release: rule text quoted inside generated HTML or JSON reports (TLS and IaC rules), and deliberately flawed fixture manifests (container and lockfile rules). Each now has a regression test. Command output: [`docs/proof/verify-output.txt`](../proof/verify-output.txt).
+The tool audits its own repository in CI with `--fail-on high`; on the current commit it reports no findings. Dogfooding found two false-positive classes before release (rule text quoted in generated HTML/JSON, and flawed fixture manifests), and later the real-world evaluation found many more, all fixed with regression tests.
 
-## 7. Requirement-to-test map
+## 8. Other evidence
+
+| Evidence | Where |
+|---|---|
+| Real-world precision on 52 repositories | [14 Real-world evaluation](14-real-world-evaluation.md), `docs/proof/realworld/` |
+| Benchmarks | [`docs/proof/benchmarks.md`](../proof/benchmarks.md) |
+| Accessibility audit (axe-core, 38 runs, 0 violations) | [`docs/proof/accessibility.md`](../proof/accessibility.md) |
+| Host layouts checked against vendor docs | [Smoke tests](../compatibility/smoke-tests/README.md) |
+| Supply chain controls | [15 Supply chain and release](15-supply-chain-and-release.md) |
+
+## 9. Requirement-to-test map
 
 | Requirement | Test |
 |---|---|
-| F-01 bounded walk | `walk skips node_modules, respects file limit and flags truncation` |
+| F-01 bounded walk | `walk skips node_modules, respects file limit ...`, `total-bytes budget ...` |
 | F-01 symlinks | `walk does not follow symlinks` |
-| F-05, F-06 map, cycles | `map detects modules, cycles and stack` |
+| F-05, F-06 map, cycles | `map detects modules, cycles and stack`, `module cycles ignore tests, data-file imports and the root pseudo-module` |
 | F-10, F-11 rules, evidence | `audit finds seeded problems with evidence and redacted excerpts` |
 | F-12 redaction | `redact masks secrets ...`, `audit finds seeded problems ...` (asserts no secret in JSON) |
-| F-10 false positives | `audit on a clean small project ...`, `audit does not flag secrets inside test files ...` |
+| F-10 false positives | `audit on a clean small project ...`, `audit does not flag secrets inside test files ...`, precision regression tests |
 | F-14 fail-on | `cli: audit --json ... --fail-on` |
 | F-20 to F-24 export | `cli: export writes files, honours --dry-run, blocks escaping --output` |
 | F-30 to F-34 verify | `repository itself verifies`, `mermaid checker flags bad diagrams` |
 | F-40 to F-43 install | `install/uninstall roundtrip ...`, `install refuses to overwrite ...`, `uninstall keeps files the user modified` |
 | F-44 doctor | `cli: install blocked on conflict returns exit 1, doctor reports` |
-| F-45 frontmatter | `copilot and claude agent profiles contain only supported frontmatter` |
+| F-45 frontmatter | `copilot and claude agent profiles ...`, `cursor agent profile contains only documented keys` |
 | F-55 model commands | `cli: version, help, unknown command, model-only command exit codes` |
-| Rule accuracy on fixtures | `labeled fixtures: precision and recall on seeded rules` |
+| Robustness | `adversarial inputs ...`, `hostile file names and binary content ...` |
 
-## 8. What is not proven
+## 10. What is not proven
 
 | Claim | Status |
 |---|---|
-| Skills are discovered and followed inside live Claude Code, Cursor, Codex, Copilot, Gemini CLI | **Not verified.** Only file generation is tested |
-| Mermaid diagrams render | Structurally checked; rendering verified manually in a browser for the handbook site only |
-| Accuracy on real-world repositories | **Not measured** |
-| Performance on very large monorepos | Bounded by design; no benchmark published |
+| Skills are discovered and followed inside live Claude Code, Cursor, Codex, Copilot, Gemini CLI | **Not verified.** Layouts match vendor docs; no live session recorded ([protocol](../compatibility/smoke-tests/README.md)) |
+| Accuracy on real-world repositories | **Measured with limits**: single labeler, small samples ([chapter 14](14-real-world-evaluation.md)) |
+| Recall (finding everything that exists) | **Not measured** on real code |
+| Mermaid diagrams render | Rendered and checked in a browser for the whole site; CI checks structure only |
+| Performance on very large monorepos | Bounded by design; synthetic and real timings published, no kernel-scale benchmark |
+| Independent security review | **None yet** |
 | Any legal or regulatory compliance | **Not claimed** |
 
-If you can verify one of these, please open a "Host smoke test report" issue.
+If you can verify one of these, please open a "Host smoke test report" or "False positive" issue.

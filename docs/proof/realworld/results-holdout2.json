@@ -1,0 +1,315 @@
+{
+  "batch": "holdout2",
+  "generatedAt": "2026-11-01T17:13:49.750Z",
+  "node": "v24.15.0",
+  "results": [
+    {
+      "name": "psf/black",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "holdout2",
+      "commit": "a755b562f5ed7d941bce785a6600fde233126fe0",
+      "files": 553,
+      "truncated": false,
+      "ms": 649,
+      "findings": 4,
+      "byRule": {
+        "AS-SEC-004": 1,
+        "AS-OPS-003": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "high": 1,
+        "medium": 1,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 8,
+      "cycles": 0
+    },
+    {
+      "name": "tornadoweb/tornado",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "holdout2",
+      "commit": "57deb98e96e13c5887ddde237c266fa4872ae46d",
+      "files": 332,
+      "truncated": false,
+      "ms": 440,
+      "findings": 3,
+      "byRule": {
+        "AS-SEC-004": 1,
+        "AS-OPS-003": 1,
+        "AS-ARC-003": 1
+      },
+      "bySeverity": {
+        "high": 1,
+        "medium": 1,
+        "low": 1
+      },
+      "modules": 5,
+      "cycles": 0
+    },
+    {
+      "name": "aio-libs/aiohttp",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "holdout2",
+      "commit": "96b61fa7a3c15f5069dd79bb6904ca70a7963f7f",
+      "files": 505,
+      "truncated": false,
+      "ms": 629,
+      "findings": 4,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-002": 1,
+        "AS-OPS-003": 1,
+        "AS-ARC-003": 1
+      },
+      "bySeverity": {
+        "critical": 2,
+        "medium": 1,
+        "low": 1
+      },
+      "modules": 8,
+      "cycles": 0
+    },
+    {
+      "name": "honojs/hono",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "holdout2",
+      "commit": "c91b60a251186fb024557c6d55a11d8e388f179c",
+      "files": 563,
+      "truncated": false,
+      "ms": 671,
+      "findings": 2,
+      "byRule": {
+        "AS-ARC-001": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "medium": 1,
+        "info": 1
+      },
+      "modules": 16,
+      "cycles": 1
+    },
+    {
+      "name": "trpc/trpc",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "holdout2",
+      "commit": "a81bba207211fc70c449a13a56407799c72c53c6",
+      "files": 1618,
+      "truncated": false,
+      "ms": 1738,
+      "findings": 5,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-003": 1,
+        "AS-SUP-001": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 1,
+        "medium": 1,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 13,
+      "cycles": 0
+    },
+    {
+      "name": "nuxt/nuxt",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "holdout2",
+      "commit": "c709ec8c0c8f4967f6c5645c71b2197144a7516d",
+      "files": 2557,
+      "truncated": false,
+      "ms": 3177,
+      "findings": 4,
+      "byRule": {
+        "AS-SEC-004": 1,
+        "AS-SUP-001": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "high": 1,
+        "medium": 1,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 14,
+      "cycles": 0
+    },
+    {
+      "name": "sindresorhus/got",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "holdout2",
+      "commit": "6b5aafc1cd538998728be6f45c65b0f80bae01b2",
+      "files": 138,
+      "truncated": false,
+      "ms": 237,
+      "findings": 3,
+      "byRule": {
+        "AS-SEC-006": 1,
+        "AS-SUP-001": 1,
+        "AS-ARC-003": 1
+      },
+      "bySeverity": {
+        "high": 1,
+        "medium": 1,
+        "low": 1
+      },
+      "modules": 4,
+      "cycles": 0
+    },
+    {
+      "name": "fastapi/full-stack-fastapi-template",
+      "kind": "general",
+      "lang": "Python/TS",
+      "batch": "holdout2",
+      "commit": "f4bcfaba7c85be3c6332cc74a20819f586dcdbc6",
+      "files": 239,
+      "truncated": false,
+      "ms": 233,
+      "findings": 3,
+      "byRule": {
+        "AS-SEC-003": 1,
+        "AS-OPS-003": 1,
+        "AS-SUP-001": 1
+      },
+      "bySeverity": {
+        "high": 1,
+        "medium": 2
+      },
+      "modules": 5,
+      "cycles": 0
+    },
+    {
+      "name": "expressjs/multer",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "holdout2",
+      "commit": "2c380d06cdaacc68bbef8b36244493a3d33d6b88",
+      "files": 76,
+      "truncated": false,
+      "ms": 106,
+      "findings": 1,
+      "byRule": {
+        "AS-SUP-001": 1
+      },
+      "bySeverity": {
+        "medium": 1
+      },
+      "modules": 5,
+      "cycles": 0
+    },
+    {
+      "name": "terraform-aws-modules/terraform-aws-vpc",
+      "kind": "general",
+      "lang": "Terraform",
+      "batch": "holdout2",
+      "commit": "b3abd6df2ecf052451a361ed55b8f06f8742a795",
+      "files": 111,
+      "truncated": false,
+      "ms": 132,
+      "findings": 0,
+      "byRule": {},
+      "bySeverity": {},
+      "modules": 0,
+      "cycles": 0
+    },
+    {
+      "name": "OWASP/crAPI",
+      "kind": "vulnerable-by-design",
+      "lang": "Java/Python/Go",
+      "batch": "holdout2",
+      "commit": "b5fc307f3e5f875809b095b771108ef342a33724",
+      "files": 523,
+      "truncated": false,
+      "ms": 680,
+      "findings": 6,
+      "byRule": {
+        "AS-SEC-002": 1,
+        "AS-SEC-003": 1,
+        "AS-SEC-006": 1,
+        "AS-OPS-003": 1,
+        "AS-SUP-001": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 2,
+        "medium": 2,
+        "info": 1
+      },
+      "modules": 6,
+      "cycles": 0
+    },
+    {
+      "name": "we45/Vulnerable-Flask-App",
+      "kind": "vulnerable-by-design",
+      "lang": "Python",
+      "batch": "holdout2",
+      "commit": "b6a4f97afd466e83e1f60781494252dec1c37039",
+      "files": 18,
+      "truncated": false,
+      "ms": 49,
+      "findings": 2,
+      "byRule": {
+        "AS-SEC-006": 1,
+        "AS-OPS-003": 1
+      },
+      "bySeverity": {
+        "high": 1,
+        "medium": 1
+      },
+      "modules": 2,
+      "cycles": 0
+    },
+    {
+      "name": "anxolerd/dvpwa",
+      "kind": "vulnerable-by-design",
+      "lang": "Python",
+      "batch": "holdout2",
+      "commit": "a1d8f89fac2e57093189853c6527c2b01fc1d9c1",
+      "files": 48,
+      "truncated": false,
+      "ms": 87,
+      "findings": 3,
+      "byRule": {
+        "AS-OPS-001": 1,
+        "AS-OPS-002": 1,
+        "AS-OPS-003": 1
+      },
+      "bySeverity": {
+        "medium": 3
+      },
+      "modules": 2,
+      "cycles": 0
+    },
+    {
+      "name": "stamparm/DSVW",
+      "kind": "vulnerable-by-design",
+      "lang": "Python",
+      "batch": "holdout2",
+      "commit": "9ca3c9acf3defa0a6148d40e5f5cebeb5dcbb908",
+      "files": 12,
+      "truncated": false,
+      "ms": 18,
+      "findings": 0,
+      "byRule": {},
+      "bySeverity": {},
+      "modules": 2,
+      "cycles": 0
+    }
+  ]
+}

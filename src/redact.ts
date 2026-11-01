@@ -8,9 +8,11 @@ const PATTERNS: { name: string; re: RegExp }[] = [
   { name: 'private-key', re: /-----BEGIN (?:RSA |EC |DSA |OPENSSH |PGP )?PRIVATE KEY-----/g },
   {
     name: 'credential-assignment',
-    re: /\b(password|passwd|secret|api[_-]?key|token|access[_-]?key)\b(\s*[:=]\s*)(["'])[^"'\s]{8,}\3/gi,
+    re: /\b(password|passwd|secret|api[_-]?key|token|access[_-]?key)\b(\s*[:=]\s*)(["'])([^"'\s]{8,})\3/gi,
   },
 ];
+
+import { plausibleSecretValue } from './heuristics.js';
 
 export interface SecretHit {
   kind: string;
@@ -21,7 +23,9 @@ export function detectSecrets(line: string): SecretHit[] {
   const hits: SecretHit[] = [];
   for (const p of PATTERNS) {
     p.re.lastIndex = 0;
-    if (p.re.test(line)) hits.push({ kind: p.name });
+    if (p.name === 'credential-assignment') {
+      for (const m of line.matchAll(p.re)) if (plausibleSecretValue(m[4])) hits.push({ kind: p.name });
+    } else if (p.re.test(line)) hits.push({ kind: p.name });
   }
   return hits;
 }
@@ -32,7 +36,7 @@ export function redact(text: string): string {
   for (const p of PATTERNS) {
     p.re.lastIndex = 0;
     if (p.name === 'credential-assignment') {
-      out = out.replace(p.re, (_m, k: string, sep: string, q: string) => `${k}${sep}${q}[REDACTED]${q}`);
+      out = out.replace(p.re, (_m, k: string, sep: string, q: string, _v: string) => `${k}${sep}${q}[REDACTED]${q}`);
     } else {
       out = out.replace(p.re, `[REDACTED:${p.name}]`);
     }

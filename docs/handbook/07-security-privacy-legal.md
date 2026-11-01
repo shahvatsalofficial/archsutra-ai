@@ -28,13 +28,14 @@ Full analysis: [threat model](../architecture/threat-model.md).
 - Adapter file layouts have not been smoke-tested in the live hosts.
 
 ### Reporting a vulnerability
-Use GitHub private vulnerability reporting: https://github.com/shahvatsalofficial/archsutra-ai/security/advisories/new. See [SECURITY.md](../../SECURITY.md).
+Use GitHub private vulnerability reporting: https://github.com/shahvatsalofficial/archsutra-ai/security/advisories/new. See [SECURITY.md](../../SECURITY.md). A `security.txt` is published with the documentation site. An independent security review has **not** been done and is invited.
 
 ## 2. Privacy
 
 - **Data collected by ArchSutra:** none. No telemetry, analytics, crash reports, or network calls from the CLI.
 - **Where your code goes:** nowhere from the CLI. When you use the skills, your code and prompts are processed by **your AI IDE and its model provider** under that provider's terms. ArchSutra does not control or see that traffic.
 - **What reports contain:** file paths, line numbers, short redacted excerpts, rule text. Review reports before publishing them; paths and excerpts can reveal internal structure.
+- **Evaluation data:** `docs/proof/realworld/` stores repository names, commit hashes, file paths, line numbers and short redacted excerpts from public third-party repositories, used only to measure accuracy. Each remains under its own license.
 - **Generated HTML docs:** the handbook site loads one script from the jsDelivr CDN to draw diagrams. That request exposes the visitor's IP address to the CDN operator, as any CDN request does. No analytics are included.
 
 ## 3. Licensing
@@ -48,7 +49,7 @@ Use GitHub private vulnerability reporting: https://github.com/shahvatsalofficia
 
 ## 4. Names, trademarks and affiliations
 
-- "ArchSutra", "ArchSutra AI" and "ArchSutra Prime" are used by this project. **No trademark search or registration has been performed.** On 2026-10-31 the npm names `archsutra` and `archsutra-ai` were unclaimed and GitHub search found no other repository named `archsutra`. That is a spot check, not legal clearance. Do a proper search before any commercial launch, paid product or registration.
+- "ArchSutra", "ArchSutra AI" and "ArchSutra Prime" are used by this project. **No trademark search or registration has been performed.** On 2026-10-31 the npm names `archsutra` and `archsutra-ai` were unclaimed and GitHub search found no other repository named `archsutra`; web searches on 2026-11-01 found no product, company or trademark record with the name. Details and limits: [name clearance](../legal/trademark-and-name-clearance.md). That is a spot check, not legal clearance. Do a proper search before any commercial launch, paid product or registration.
 - Third-party names (Claude, Claude Code, Anthropic, Cursor, OpenAI, Codex, GitHub, GitHub Copilot, Google, Gemini, Node.js, npm, OWASP, Mermaid) belong to their owners. They appear only to describe compatibility (nominative use). This project is **not affiliated with, endorsed by, or sponsored by** any of them.
 
 ## 5. Disclaimers
@@ -64,7 +65,8 @@ Use GitHub private vulnerability reporting: https://github.com/shahvatsalofficia
 | Check | Status | Who |
 |---|---|---|
 | Trademark clearance for "ArchSutra" (target jurisdictions) | not done | creator / counsel |
-| Contributor License Agreement or DCO policy | not adopted (Apache-2.0 inbound=outbound applies) | creator |
+| Contributor License Agreement or DCO policy | DCO adopted ([DCO.md](../../DCO.md)) and enforced by a CI check; no CLA | done |
 | Export-control review | not done; software uses no cryptography beyond SHA-256 hashing from Node | creator |
 | Terms review of each AI IDE for redistributing skill files | not done | creator |
-| Accessibility conformance statement for the HTML site | not formally audited; built to WCAG 2.2 AA design intent | creator |
+| Accessibility conformance statement for the HTML site | automated audit passes (axe-core, 38 runs, 0 violations; [report](../proof/accessibility.md)); no screen-reader test or formal conformance claim | creator / community |
+| Lawyer review of the documents | brief prepared ([legal review brief](../legal/legal-review-brief.md)); counsel not engaged | creator |

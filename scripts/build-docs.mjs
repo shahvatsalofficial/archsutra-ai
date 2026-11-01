@@ -13,14 +13,14 @@ const REPO = 'https://github.com/shahvatsalofficial/archsutra-ai';
 const MERMAID = 'https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.esm.min.mjs';
 
 const GROUPS = [
-  { title: 'Handbook', pages: ['handbook/README.md', 'handbook/01-executive-summary.md', 'handbook/02-functional-specification.md', 'handbook/03-technical-specification.md', 'handbook/04-architecture.md', 'handbook/05-user-guide.md', 'handbook/06-cli-reference.md', 'handbook/07-security-privacy-legal.md', 'handbook/08-testing-and-proof.md', 'handbook/09-compatibility-and-roadmap.md', 'handbook/10-contributor-guide.md', 'handbook/11-glossary-and-faq.md', 'handbook/12-rule-catalog.md'] },
-  { title: 'Reference', pages: ['architecture/overview.md', 'architecture/threat-model.md', 'compatibility/matrix.md', 'rfc/0001-archsutra-v0.1.md', 'decisions/ADR-0001-deterministic-cli-plus-ide-skills.md'] },
+  { title: 'Handbook', pages: ['handbook/README.md', 'handbook/01-executive-summary.md', 'handbook/02-functional-specification.md', 'handbook/03-technical-specification.md', 'handbook/04-architecture.md', 'handbook/05-user-guide.md', 'handbook/06-cli-reference.md', 'handbook/07-security-privacy-legal.md', 'handbook/08-testing-and-proof.md', 'handbook/09-compatibility-and-roadmap.md', 'handbook/10-contributor-guide.md', 'handbook/11-glossary-and-faq.md', 'handbook/12-rule-catalog.md', 'handbook/13-trust-and-assurance.md', 'handbook/14-real-world-evaluation.md', 'handbook/15-supply-chain-and-release.md', 'handbook/16-performance-and-quality-metrics.md'] },
+  { title: 'Reference', pages: ['architecture/overview.md', 'architecture/threat-model.md', 'compatibility/matrix.md', 'rfc/0001-archsutra-v0.1.md', 'decisions/ADR-0001-deterministic-cli-plus-ide-skills.md', 'compatibility/smoke-tests/README.md', 'community/good-first-issues.md', 'legal/trademark-and-name-clearance.md', 'legal/legal-review-brief.md', 'proof/accessibility.md'] },
 ];
 const ALL = GROUPS.flatMap((g) => g.pages);
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const slug = (s) => s.toLowerCase().replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, '').replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
-const outRel = (src) => (src === 'handbook/README.md' ? 'handbook/index.html' : src.replace(/\.md$/, '.html'));
+const outRel = (src) => src.replace(/(^|\/)README\.md$/, '$1index.html').replace(/\.md$/, '.html');
 const relTo = (fromOut, toOut) => {
   const r = path.posix.relative(path.posix.dirname(fromOut), toOut);
   return r || path.posix.basename(toOut);
@@ -99,6 +99,8 @@ function md(source, srcRel, curOut) {
   const html = [];
   const headings = [];
   let title = '';
+  let lastHeading = '';
+  let tableNo = 0;
   let i = 0;
   while (i < lines.length) {
     const line = lines[i];
@@ -111,7 +113,7 @@ function md(source, srcRel, curOut) {
       i++;
       const code = buf.join('\n');
       if (fence[1] === 'mermaid') html.push(`<figure class="diagram"><pre class="mermaid">${esc(code)}</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>`);
-      else html.push(`<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre><code${fence[1] ? ` class="language-${fence[1]}"` : ''}>${esc(code)}</code></pre></div>`);
+      else html.push(`<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code${fence[1] ? ` class="language-${fence[1]}"` : ''}>${esc(code)}</code></pre></div>`);
       continue;
     }
     const h = /^(#{1,4})\s+(.*)$/.exec(line);
@@ -119,6 +121,7 @@ function md(source, srcRel, curOut) {
       const level = h[1].length;
       const id = slug(h[2]);
       const body = inline(h[2], srcRel, curOut);
+      lastHeading = h[2].replace(/`/g, '');
       if (level === 1 && !title) title = h[2].replace(/`/g, '');
       else if (level === 1) title = title || h[2];
       if (level >= 2 && level <= 3) headings.push({ level, id, text: h[2].replace(/`/g, '') });
@@ -132,7 +135,7 @@ function md(source, srcRel, curOut) {
       i += 2;
       const rows = [];
       while (i < lines.length && lines[i].trim().startsWith('|')) rows.push(splitRow(lines[i++]));
-      html.push(`<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr>${head.map((c) => `<th scope="col">${inline(c, srcRel, curOut)}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c, srcRel, curOut)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`);
+      html.push(`<div class="table-wrap" tabindex="0" role="region" aria-label="${esc(`Table ${++tableNo}: ${lastHeading || title}`)}"><table><thead><tr>${head.map((c) => `<th scope="col">${inline(c, srcRel, curOut)}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c, srcRel, curOut)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`);
       continue;
     }
     if (line.startsWith('>')) {
@@ -167,7 +170,7 @@ function shell({ title, description, out, body, toc = [], current = '', landing 
   const canonical = `${SITE}/${out === 'index.html' ? '' : out.replace(/index\.html$/, '')}`;
   const nav = GROUPS.map((g) => `<div class="nav-group"><p class="nav-title">${g.title}</p><ul>${g.pages.map((pg) => {
     const o = outRel(pg);
-    const label = pg === 'handbook/README.md' ? 'Overview' : ((readTitle(pg) || pg).replace(/^ArchSutra AI\s+/, ''));
+    const label = pg === 'handbook/README.md' ? 'Overview' : pg === 'compatibility/smoke-tests/README.md' ? 'Live smoke tests' : ((readTitle(pg) || pg).replace(/^ArchSutra AI\s+/, ''));
     return `<li><a href="${p}${o}"${o === current ? ' aria-current="page"' : ''}>${esc(label)}</a></li>`;
   }).join('')}</ul></div>`).join('');
   const tocHtml = toc.length ? `<nav class="toc" aria-label="On this page"><p class="nav-title">On this page</p><ul>${toc.map((t) => `<li class="l${t.level}"><a href="#${t.id}">${esc(t.text)}</a></li>`).join('')}</ul></nav>` : '';
@@ -249,18 +252,18 @@ for (const src of ALL) {
 
 // ---- Landing page ----
 const stats = [
-  ['20', 'automated tests'],
-  ['6/6', 'CI jobs green (3 OS x Node 20, 22)'],
+  ['28', 'automated tests'],
+  ['3 OS', 'CI matrix, Node 20 and 22'],
   ['0', 'runtime dependencies'],
-  ['19', 'audit rules'],
-  ['12', 'specialist agents'],
+  ['52', 'real repositories evaluated'],
+  ['98', 'findings hand-labeled'],
   ['0', 'API keys required'],
 ];
 const faq = [
   ['What is ArchSutra AI?', 'An open-source software architecture agent: portable Agent Skills plus a deterministic offline CLI that help AI coding assistants audit, design, threat-model and modernize software with file-and-line evidence.'],
   ['Do I need an API key?', 'No. The CLI is offline. Inside a supported AI IDE the skills use that IDE\'s own model, so you need access to the IDE, not an ArchSutra key.'],
   ['Does it send my code anywhere?', 'The CLI sends nothing anywhere and has no telemetry. When you use the skills, your AI IDE\'s model provider processes your prompts and code under its own terms.'],
-  ['Which AI tools does it support?', 'Adapters exist for Claude Code, Cursor, OpenAI Codex and GitHub Copilot (adapter level) and Gemini CLI (experimental). Live smoke tests are pending and stated openly.'],
+  ['Which AI tools does it support?', 'Adapters exist for Claude Code, Cursor, OpenAI Codex and GitHub Copilot (adapter level) and Gemini CLI (all adapter level: layouts match vendor docs read on 2026-11-01). Live smoke tests are pending and stated openly.'],
   ['Does it certify compliance or security?', 'No. Reports are review aids. Absence of findings is not proof of absence of vulnerabilities, and nothing here is legal advice or a compliance attestation.'],
 ];
 const hero = `
@@ -302,18 +305,19 @@ const hero = `
 <section class="band"><div class="wrap">
   <h2>Trust, with receipts</h2>
   <div class="cards two">
-    <article class="card"><h3>Reproducible proof</h3><p>20 tests, a 6-job CI matrix, labeled-fixture evaluation, real sample reports. Re-run everything yourself.</p><a href="handbook/08-testing-and-proof.html">See the evidence</a></article>
+    <article class="card"><h3>Measured on real code</h3><p>Audited on 52 public repositories; 98 findings hand-labeled. Precision started at 50%, was fixed, and measured 69% then 95% on repositories never used for tuning. About half of valid findings need no action. Wide intervals, one labeler, all published.</p><a href="handbook/14-real-world-evaluation.html">See the evaluation</a></article>
+    <article class="card"><h3>Every gap tracked in the open</h3><p>A public assurance register lists what is done, partly done and still pending, with no rounding up: live IDE tests, tool comparison, trademark clearance, legal review.</p><a href="handbook/13-trust-and-assurance.html">Open the register</a></article>
     <article class="card"><h3>Legal and privacy clarity</h3><p>Apache-2.0, NOTICE, third-party notices, trademark disclaimers, and an explicit list of checks not yet done.</p><a href="handbook/07-security-privacy-legal.html">Read the policy</a></article>
   </div>
-  <p class="honest"><strong>What is not proven yet:</strong> live behavior inside each AI IDE, accuracy on real-world repositories, and trademark clearance for the name. We say so up front.</p>
+  <p class="honest"><strong>What is not proven yet:</strong> live behavior inside each AI IDE, an independent security review, trademark clearance for the name, and a lawyer review. Accuracy is measured on real repositories but with small samples and one labeler. We say so up front.</p>
 </div></section>
 <section class="wrap"><h2>Supported AI IDEs</h2>
   <div class="table-wrap" tabindex="0" role="region" aria-label="Supported hosts"><table><thead><tr><th scope="col">Host</th><th scope="col">Level</th><th scope="col">Skills</th><th scope="col">Agents</th></tr></thead><tbody>
   <tr><td>Claude Code</td><td>adapter</td><td><code>.claude/skills/</code></td><td><code>.claude/agents/</code></td></tr>
-  <tr><td>Cursor</td><td>adapter</td><td><code>.cursor/skills/</code></td><td>none</td></tr>
+  <tr><td>Cursor</td><td>adapter</td><td><code>.cursor/skills/</code></td><td><code>.cursor/agents/</code></td></tr>
   <tr><td>OpenAI Codex</td><td>adapter</td><td><code>.agents/skills/</code> + AGENTS.md</td><td>none</td></tr>
   <tr><td>GitHub Copilot</td><td>adapter</td><td><code>.github/skills/</code></td><td><code>.github/agents/*.agent.md</code></td></tr>
-  <tr><td>Gemini CLI</td><td>experimental</td><td><code>.gemini/skills/</code></td><td>none</td></tr>
+  <tr><td>Gemini CLI</td><td>adapter</td><td><code>.gemini/skills/</code></td><td>none</td></tr>
   </tbody></table></div>
   <p class="muted">"adapter" = files written to the vendor-documented layout; not yet smoke-tested in the live host. <a href="handbook/09-compatibility-and-roadmap.html">Full matrix</a>.</p>
 </section>
@@ -328,6 +332,10 @@ const hero = `
     ['Security, privacy, legal', 'handbook/07-security-privacy-legal.html', 'Model, license, disclaimers.'],
     ['Testing and proof', 'handbook/08-testing-and-proof.html', 'Results, CI, evaluation, samples.'],
     ['Rule catalog', 'handbook/12-rule-catalog.html', 'All 19 audit rules.'],
+    ['Trust and assurance', 'handbook/13-trust-and-assurance.html', 'Every trust gap and its status.'],
+    ['Real-world evaluation', 'handbook/14-real-world-evaluation.html', '52 repositories, labeled results.'],
+    ['Supply chain and release', 'handbook/15-supply-chain-and-release.html', 'SBOM, provenance, pinning.'],
+    ['Performance and quality', 'handbook/16-performance-and-quality-metrics.html', 'Speed, memory, coverage.'],
   ].map(([t, h, d]) => `<a class="card link" href="${h}"><h3>${t}</h3><p>${d}</p></a>`).join('')}</div>
 </div></section>
 <section class="wrap faq"><h2>Frequently asked questions</h2>${faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}

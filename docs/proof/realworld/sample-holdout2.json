@@ -1,0 +1,398 @@
+[
+  {
+    "repo": "honojs/hono",
+    "kind": "general",
+    "sha": "c91b60a251186fb024557c6d55a11d8e388f179c",
+    "rule": "AS-ARC-001",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Circular dependency between modules (src <-> src/client <-> src/helper <-> src/jsx <-> src/router <-> src/utils)",
+    "evidence": {
+      "path": "src/helper/accepts/accepts.ts",
+      "startLine": 1,
+      "endLine": 1,
+      "kind": "observed",
+      "excerpt": "import type { Context } from '../../context'"
+    },
+    "populationInGroup": 1,
+    "id": "S001"
+  },
+  {
+    "repo": "aio-libs/aiohttp",
+    "kind": "general",
+    "sha": "96b61fa7a3c15f5069dd79bb6904ca70a7963f7f",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "aiohttp/client_reqrep.py",
+      "startLine": 1,
+      "endLine": 1766,
+      "kind": "observed",
+      "excerpt": "1766 lines"
+    },
+    "populationInGroup": 6,
+    "id": "S002"
+  },
+  {
+    "repo": "sindresorhus/got",
+    "kind": "general",
+    "sha": "6b5aafc1cd538998728be6f45c65b0f80bae01b2",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "source/core/index.ts",
+      "startLine": 1,
+      "endLine": 3081,
+      "kind": "observed",
+      "excerpt": "3081 lines"
+    },
+    "populationInGroup": 6,
+    "id": "S003"
+  },
+  {
+    "repo": "tornadoweb/tornado",
+    "kind": "general",
+    "sha": "57deb98e96e13c5887ddde237c266fa4872ae46d",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "tornado/websocket.py",
+      "startLine": 1,
+      "endLine": 1810,
+      "kind": "observed",
+      "excerpt": "1810 lines"
+    },
+    "populationInGroup": 6,
+    "id": "S004"
+  },
+  {
+    "repo": "nuxt/nuxt",
+    "kind": "general",
+    "sha": "c709ec8c0c8f4967f6c5645c71b2197144a7516d",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "packages/nitro-server/src/compat.ts",
+      "startLine": 1,
+      "endLine": 1436,
+      "kind": "observed",
+      "excerpt": "1436 lines"
+    },
+    "populationInGroup": 6,
+    "id": "S005"
+  },
+  {
+    "repo": "fastapi/full-stack-fastapi-template",
+    "kind": "general",
+    "sha": "f4bcfaba7c85be3c6332cc74a20819f586dcdbc6",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "backend/Dockerfile",
+      "startLine": 1,
+      "endLine": 66,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 4,
+    "id": "S006"
+  },
+  {
+    "repo": "psf/black",
+    "kind": "general",
+    "sha": "a755b562f5ed7d941bce785a6600fde233126fe0",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "Dockerfile",
+      "startLine": 1,
+      "endLine": 28,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 4,
+    "id": "S007"
+  },
+  {
+    "repo": "tornadoweb/tornado",
+    "kind": "general",
+    "sha": "57deb98e96e13c5887ddde237c266fa4872ae46d",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "demos/blog/Dockerfile",
+      "startLine": 1,
+      "endLine": 14,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 4,
+    "id": "S008"
+  },
+  {
+    "repo": "aio-libs/aiohttp",
+    "kind": "general",
+    "sha": "96b61fa7a3c15f5069dd79bb6904ca70a7963f7f",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "tools/testing/Dockerfile",
+      "startLine": 1,
+      "endLine": 16,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 4,
+    "id": "S009"
+  },
+  {
+    "repo": "OWASP/crAPI",
+    "kind": "vulnerable-by-design",
+    "sha": "b5fc307f3e5f875809b095b771108ef342a33724",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "services/chatbot/Dockerfile",
+      "startLine": 1,
+      "endLine": 25,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 3,
+    "id": "S010"
+  },
+  {
+    "repo": "we45/Vulnerable-Flask-App",
+    "kind": "vulnerable-by-design",
+    "sha": "b6a4f97afd466e83e1f60781494252dec1c37039",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "Dockerfile",
+      "startLine": 1,
+      "endLine": 15,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 3,
+    "id": "S011"
+  },
+  {
+    "repo": "anxolerd/dvpwa",
+    "kind": "vulnerable-by-design",
+    "sha": "a1d8f89fac2e57093189853c6527c2b01fc1d9c1",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "Dockerfile.app",
+      "startLine": 1,
+      "endLine": 21,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 3,
+    "id": "S012"
+  },
+  {
+    "repo": "aio-libs/aiohttp",
+    "kind": "general",
+    "sha": "96b61fa7a3c15f5069dd79bb6904ca70a7963f7f",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": "examples/fake_server.py",
+      "startLine": 99,
+      "endLine": 99,
+      "kind": "observed",
+      "excerpt": "credential-assignment: token = \"[REDACTED]\""
+    },
+    "populationInGroup": 2,
+    "id": "S013"
+  },
+  {
+    "repo": "trpc/trpc",
+    "kind": "general",
+    "sha": "a81bba207211fc70c449a13a56407799c72c53c6",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": "www/docusaurus.config.ts",
+      "startLine": 51,
+      "endLine": 51,
+      "kind": "observed",
+      "excerpt": "credential-assignment: apiKey: '[REDACTED]',"
+    },
+    "populationInGroup": 2,
+    "id": "S014"
+  },
+  {
+    "repo": "aio-libs/aiohttp",
+    "kind": "general",
+    "sha": "96b61fa7a3c15f5069dd79bb6904ca70a7963f7f",
+    "rule": "AS-SEC-002",
+    "severity": "critical",
+    "confidence": "high",
+    "title": "Private key material committed",
+    "evidence": {
+      "path": "examples/server.key",
+      "startLine": 1,
+      "endLine": 1,
+      "kind": "observed",
+      "excerpt": "[REDACTED:private-key] [REDACTED]"
+    },
+    "populationInGroup": 1,
+    "id": "S015"
+  },
+  {
+    "repo": "OWASP/crAPI",
+    "kind": "vulnerable-by-design",
+    "sha": "b5fc307f3e5f875809b095b771108ef342a33724",
+    "rule": "AS-SEC-002",
+    "severity": "critical",
+    "confidence": "high",
+    "title": "Private key material committed",
+    "evidence": {
+      "path": "services/chatbot/certs/server.key",
+      "startLine": 1,
+      "endLine": 1,
+      "kind": "observed",
+      "excerpt": "[REDACTED:private-key] [REDACTED]"
+    },
+    "populationInGroup": 1,
+    "id": "S016"
+  },
+  {
+    "repo": "tornadoweb/tornado",
+    "kind": "general",
+    "sha": "57deb98e96e13c5887ddde237c266fa4872ae46d",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "demos/chat/static/chat.js",
+      "startLine": 58,
+      "endLine": 58,
+      "kind": "observed",
+      "excerpt": "if (callback) callback(eval(\"(\" + response + \")\"));"
+    },
+    "populationInGroup": 3,
+    "id": "S017"
+  },
+  {
+    "repo": "psf/black",
+    "kind": "general",
+    "sha": "a755b562f5ed7d941bce785a6600fde233126fe0",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "src/blib2to3/pgen2/pgen.py",
+      "startLine": 100,
+      "endLine": 100,
+      "kind": "observed",
+      "excerpt": "value = eval(label)"
+    },
+    "populationInGroup": 3,
+    "id": "S018"
+  },
+  {
+    "repo": "nuxt/nuxt",
+    "kind": "general",
+    "sha": "c709ec8c0c8f4967f6c5645c71b2197144a7516d",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "scripts/test-attw.ts",
+      "startLine": 22,
+      "endLine": 22,
+      "kind": "observed",
+      "excerpt": "execSync(`pnpm pack --pack-destination ${packDir}`, { stdio: 'inherit' })"
+    },
+    "populationInGroup": 3,
+    "id": "S019"
+  },
+  {
+    "repo": "sindresorhus/got",
+    "kind": "general",
+    "sha": "6b5aafc1cd538998728be6f45c65b0f80bae01b2",
+    "rule": "AS-SEC-006",
+    "severity": "high",
+    "confidence": "high",
+    "title": "TLS certificate verification disabled",
+    "evidence": {
+      "path": "benchmark/index.ts",
+      "startLine": 25,
+      "endLine": 25,
+      "kind": "observed",
+      "excerpt": "rejectUnauthorized: false,"
+    },
+    "populationInGroup": 1,
+    "id": "S020"
+  },
+  {
+    "repo": "OWASP/crAPI",
+    "kind": "vulnerable-by-design",
+    "sha": "b5fc307f3e5f875809b095b771108ef342a33724",
+    "rule": "AS-SEC-006",
+    "severity": "high",
+    "confidence": "high",
+    "title": "TLS certificate verification disabled",
+    "evidence": {
+      "path": "services/chatbot/src/mcpserver/auth/middleware.py",
+      "startLine": 74,
+      "endLine": 74,
+      "kind": "observed",
+      "excerpt": "async with httpx.AsyncClient(verify=False) as client:"
+    },
+    "populationInGroup": 2,
+    "id": "S021"
+  },
+  {
+    "repo": "we45/Vulnerable-Flask-App",
+    "kind": "vulnerable-by-design",
+    "sha": "b6a4f97afd466e83e1f60781494252dec1c37039",
+    "rule": "AS-SEC-006",
+    "severity": "high",
+    "confidence": "high",
+    "title": "TLS certificate verification disabled",
+    "evidence": {
+      "path": "app/app.py",
+      "startLine": 97,
+      "endLine": 97,
+      "kind": "observed",
+      "excerpt": "decoded = jwt.decode(token, verify = False)"
+    },
+    "populationInGroup": 2,
+    "id": "S022"
+  }
+]

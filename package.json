@@ -1,6 +1,6 @@
 {
   "name": "archsutra-ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "ArchSutra AI: open-source software architecture audit, design and threat-modeling agent skills for Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI, plus a keyless, evidence-first CLI.",
   "keywords": [
     "software-architecture",
@@ -56,7 +56,11 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test",
     "verify": "npm run build && node dist/cli.js verify .",
-    "prepublishOnly": "npm test && npm run verify"
+    "prepublishOnly": "npm test && npm run verify",
+    "coverage": "npm run build && node --test --experimental-test-coverage --test-coverage-include=\"dist/**\"",
+    "eval": "node scripts/eval.mjs",
+    "bench": "npm run build && node scripts/bench.mjs",
+    "docs": "node scripts/build-docs.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

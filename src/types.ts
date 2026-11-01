@@ -42,7 +42,7 @@ export interface Corpus {
   root: string;
   files: SourceFile[];
   skipped: { ignoredDirs: number; tooLarge: number; binary: number; symlinks: number; overBudget: number };
-  limits: { maxFiles: number; maxFileBytes: number; timeBudgetMs: number };
+  limits: { maxFiles: number; maxFileBytes: number; timeBudgetMs: number; maxTotalBytes: number };
   truncated: boolean;
 }
 

@@ -18,6 +18,8 @@ export interface WalkOptions {
   maxFiles?: number;
   maxFileBytes?: number;
   timeBudgetMs?: number;
+  /** Cap on the summed size of files to scan; bounds memory and scan time. */
+  maxTotalBytes?: number;
 }
 
 function toPosix(p: string): string {
@@ -40,7 +42,9 @@ export async function walk(root: string, opts: WalkOptions = {}): Promise<Corpus
     maxFiles: opts.maxFiles ?? 5000,
     maxFileBytes: opts.maxFileBytes ?? 512 * 1024,
     timeBudgetMs: opts.timeBudgetMs ?? 15000,
+    maxTotalBytes: opts.maxTotalBytes ?? 120 * 1024 * 1024,
   };
+  let totalBytes = 0;
   const start = Date.now();
   const files: SourceFile[] = [];
   const skipped = { ignoredDirs: 0, tooLarge: 0, binary: 0, symlinks: 0, overBudget: 0 };
@@ -91,6 +95,12 @@ export async function walk(root: string, opts: WalkOptions = {}): Promise<Corpus
         skipped.tooLarge++;
         continue;
       }
+      if (totalBytes + size > limits.maxTotalBytes) {
+        truncated = true;
+        skipped.overBudget++;
+        continue;
+      }
+      totalBytes += size;
       files.push({ rel: toPosix(path.relative(absRoot, abs)), abs, size, ext });
     }
   }
@@ -100,6 +110,8 @@ export async function walk(root: string, opts: WalkOptions = {}): Promise<Corpus
 }
 
 const textCache = new Map<string, string[] | null>();
+const CACHE_LIMIT_BYTES = 160 * 1024 * 1024;
+let cachedBytes = 0;
 
 /** Read a file as lines. Returns null for binary content (NUL byte) or read errors. */
 export async function readLines(file: SourceFile): Promise<string[] | null> {
@@ -111,12 +123,16 @@ export async function readLines(file: SourceFile): Promise<string[] | null> {
   } catch {
     out = null;
   }
-  textCache.set(file.abs, out);
+  if (cachedBytes + file.size <= CACHE_LIMIT_BYTES) {
+    textCache.set(file.abs, out);
+    cachedBytes += file.size;
+  }
   return out;
 }
 
 export function clearTextCache(): void {
   textCache.clear();
+  cachedBytes = 0;
 }
 
 export async function exists(p: string): Promise<boolean> {

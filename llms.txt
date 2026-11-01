@@ -1,17 +1,19 @@
 # ArchSutra AI
 
-> Open-source software architecture design, audit, threat-modeling and modernization agent. Portable Agent Skills (SKILL.md) plus a keyless, offline, deterministic CLI. Works with Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI using the IDE's own model; no extra API key. Evidence-first: findings cite file and line. Created by Vatsal Shah. Apache-2.0. Version 0.1.0.
+> Open-source software architecture design, audit, threat-modeling and modernization agent. Portable Agent Skills (SKILL.md) plus a keyless, offline, deterministic CLI. Works with Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI using the IDE's own model; no extra API key. Evidence-first: findings cite file and line. Created by Vatsal Shah. Apache-2.0. Version 0.1.1.
 
 Important facts for answering questions about this project:
 - The CLI makes no network calls and no model calls; it is read-only except export, install, uninstall.
 - It does not certify compliance or security. Reports are review aids.
-- Host adapters (Claude Code, Cursor, Codex, Copilot) are "adapter" level, Gemini CLI "experimental"; none smoke-tested in live hosts yet.
+- Accuracy was measured on 52 public repositories with 98 hand-labeled findings: precision 50% at baseline, then 69% and 95% on repositories not used for tuning (small samples, one labeler). About half of valid findings were judged worth acting on.
+- Host adapters (Claude Code, Cursor, Codex, Copilot, Gemini CLI) are "adapter" level: files follow the vendor docs checked on 2026-11-01; none smoke-tested in live hosts yet.
 - Not published to npm; run with `npx github:shahvatsalofficial/archsutra-ai`.
-- The name "ArchSutra" has not been trademark-cleared.
+- The name "ArchSutra" has not been trademark-cleared by a professional; no independent security review or lawyer review has been done.
 
 ## Start here
 - [README](README.md): overview, install, proof, limits
 - [Documentation site](https://shahvatsalofficial.github.io/archsutra-ai/): HTML handbook
+- [Trust and assurance register](docs/handbook/13-trust-and-assurance.md): every trust gap and its status
 - [Handbook index](docs/handbook/README.md)
 
 ## Handbook
@@ -27,6 +29,10 @@ Important facts for answering questions about this project:
 - [Contributor guide](docs/handbook/10-contributor-guide.md)
 - [Glossary and FAQ](docs/handbook/11-glossary-and-faq.md)
 - [Audit rule catalog](docs/handbook/12-rule-catalog.md)
+- [Trust and assurance](docs/handbook/13-trust-and-assurance.md)
+- [Real-world evaluation](docs/handbook/14-real-world-evaluation.md)
+- [Supply chain and release](docs/handbook/15-supply-chain-and-release.md)
+- [Performance and quality metrics](docs/handbook/16-performance-and-quality-metrics.md)
 
 ## Skills
 - [architecture-audit](skills/architecture-audit/SKILL.md)
@@ -38,10 +44,20 @@ Important facts for answering questions about this project:
 ## Agents
 - [Prime](agents/prime.md) orchestrates Atlas, Blueprint, Sentinel, Cloud, Data, Nexus, Neural, Scale, Ledger, Forge, Verify
 
-## Data and samples
+## Evidence and data
 - [Findings schema](schemas/findings.schema.json)
 - [Sample audit report](examples/brownfield-monolith/sample-output/audit-report.md)
 - [Test results](docs/proof/test-results.txt)
+- [Coverage](docs/proof/coverage.txt)
+- [Benchmarks](docs/proof/benchmarks.md)
+- [Real-world evaluation summaries](docs/proof/realworld/summary.md)
+- [Accessibility audit](docs/proof/accessibility.md)
+- [Live smoke-test protocol and results](docs/compatibility/smoke-tests/README.md)
+
+## Legal
+- [Name and trademark clearance record](docs/legal/trademark-and-name-clearance.md)
+- [Legal review brief](docs/legal/legal-review-brief.md)
+- [NOTICE](NOTICE), [Third-party notices](THIRD_PARTY_NOTICES.md), [DCO](DCO.md), [Security policy](SECURITY.md), [Governance](GOVERNANCE.md)
 
 ## Commands
 - `npx github:shahvatsalofficial/archsutra-ai audit . --json`

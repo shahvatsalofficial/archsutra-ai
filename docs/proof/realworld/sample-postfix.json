@@ -1,0 +1,614 @@
+[
+  {
+    "repo": "juice-shop/juice-shop",
+    "kind": "vulnerable-by-design",
+    "sha": "717f5efa886b0417eeecb52378b03cf10567b7e2",
+    "rule": "AS-ARC-001",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Circular dependency between modules (data <-> lib <-> models <-> routes)",
+    "evidence": {
+      "path": "routes/2fa.ts",
+      "startLine": 10,
+      "endLine": 10,
+      "kind": "observed",
+      "excerpt": "import * as challengeUtils from '../lib/challengeUtils'"
+    },
+    "populationInGroup": 1,
+    "id": "S001"
+  },
+  {
+    "repo": "vuejs/core",
+    "kind": "general",
+    "sha": "24c9d0bffb2299635b8112a978d74a38723aaa10",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "packages/compiler-core/src/codegen.ts",
+      "startLine": 1,
+      "endLine": 1119,
+      "kind": "observed",
+      "excerpt": "1119 lines"
+    },
+    "populationInGroup": 14,
+    "id": "S002"
+  },
+  {
+    "repo": "fastapi/fastapi",
+    "kind": "general",
+    "sha": "45cb2252c737906f37544f5ba6bee0295fb81468",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "fastapi/applications.py",
+      "startLine": 1,
+      "endLine": 4817,
+      "kind": "observed",
+      "excerpt": "4817 lines"
+    },
+    "populationInGroup": 14,
+    "id": "S003"
+  },
+  {
+    "repo": "pallets/click",
+    "kind": "general",
+    "sha": "2247b35ea1c47c727d7a06e51fa280e12a863ff6",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "src/click/core.py",
+      "startLine": 1,
+      "endLine": 4039,
+      "kind": "observed",
+      "excerpt": "4039 lines"
+    },
+    "populationInGroup": 14,
+    "id": "S004"
+  },
+  {
+    "repo": "sequelize/sequelize",
+    "kind": "general",
+    "sha": "53d1e8a6199fff85a8d6cd7d9bf0f3487f0cf798",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "packages/core/src/abstract-dialect/data-types.ts",
+      "startLine": 1,
+      "endLine": 2898,
+      "kind": "observed",
+      "excerpt": "2898 lines"
+    },
+    "populationInGroup": 14,
+    "id": "S005"
+  },
+  {
+    "repo": "juice-shop/juice-shop",
+    "kind": "vulnerable-by-design",
+    "sha": "717f5efa886b0417eeecb52378b03cf10567b7e2",
+    "rule": "AS-ARC-003",
+    "severity": "low",
+    "confidence": "medium",
+    "title": "Very large source files (low cohesion risk)",
+    "evidence": {
+      "path": "frontend/src/assets/public/ContractABIs.ts",
+      "startLine": 1,
+      "endLine": 1214,
+      "kind": "observed",
+      "excerpt": "1214 lines"
+    },
+    "populationInGroup": 1,
+    "id": "S006"
+  },
+  {
+    "repo": "sequelize/sequelize",
+    "kind": "general",
+    "sha": "53d1e8a6199fff85a8d6cd7d9bf0f3487f0cf798",
+    "rule": "AS-IAC-001",
+    "severity": "medium",
+    "confidence": "medium",
+    "title": "Over-permissive infrastructure configuration",
+    "evidence": {
+      "path": "dev/db2/latest/docker-compose.yml",
+      "startLine": 5,
+      "endLine": 5,
+      "kind": "observed",
+      "excerpt": "privileged: true"
+    },
+    "populationInGroup": 1,
+    "id": "S007"
+  },
+  {
+    "repo": "juice-shop/juice-shop",
+    "kind": "vulnerable-by-design",
+    "sha": "717f5efa886b0417eeecb52378b03cf10567b7e2",
+    "rule": "AS-IAC-001",
+    "severity": "medium",
+    "confidence": "medium",
+    "title": "Over-permissive infrastructure configuration",
+    "evidence": {
+      "path": "data/static/codefixes/iacLeakedKeyChallenge_1.tf",
+      "startLine": 85,
+      "endLine": 85,
+      "kind": "observed",
+      "excerpt": "cidr_blocks = [\"0.0.0.0/0\"]"
+    },
+    "populationInGroup": 1,
+    "id": "S008"
+  },
+  {
+    "repo": "appsecco/dvna",
+    "kind": "vulnerable-by-design",
+    "sha": "9ba473add536f66ac9007966acb2a775dd31277a",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "Dockerfile",
+      "startLine": 1,
+      "endLine": 13,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 4,
+    "id": "S009"
+  },
+  {
+    "repo": "digininja/DVWA",
+    "kind": "vulnerable-by-design",
+    "sha": "a1978a2fed195acd093010af6395f86a281537ca",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "Dockerfile",
+      "startLine": 1,
+      "endLine": 26,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 4,
+    "id": "S010"
+  },
+  {
+    "repo": "erev0s/VAmPI",
+    "kind": "vulnerable-by-design",
+    "sha": "f16052dce83f05847133ec98f01c5193a41de7d8",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "Dockerfile",
+      "startLine": 1,
+      "endLine": 18,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 4,
+    "id": "S011"
+  },
+  {
+    "repo": "OWASP/railsgoat",
+    "kind": "vulnerable-by-design",
+    "sha": "f5951f13089d85c979de09e7da3c8c0fb982f94a",
+    "rule": "AS-OPS-003",
+    "severity": "medium",
+    "confidence": "high",
+    "title": "Container runs as root",
+    "evidence": {
+      "path": "Dockerfile",
+      "startLine": 1,
+      "endLine": 10,
+      "kind": "observed",
+      "excerpt": "no USER instruction"
+    },
+    "populationInGroup": 4,
+    "id": "S012"
+  },
+  {
+    "repo": "typeorm/typeorm",
+    "kind": "general",
+    "sha": "5bdc67882dee5a02d975d5ed140c9c3f91661116",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": "packages/typeorm/src/commands/InitCommand.ts",
+      "startLine": 225,
+      "endLine": 225,
+      "kind": "observed",
+      "excerpt": "credential-assignment: 'password: \"[REDACTED]\"',"
+    },
+    "populationInGroup": 2,
+    "id": "S013"
+  },
+  {
+    "repo": "vuejs/core",
+    "kind": "general",
+    "sha": "24c9d0bffb2299635b8112a978d74a38723aaa10",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": "packages-private/template-explorer/src/theme.ts",
+      "startLine": 47,
+      "endLine": 47,
+      "kind": "observed",
+      "excerpt": "credential-assignment: token: '[REDACTED]',"
+    },
+    "populationInGroup": 2,
+    "id": "S014"
+  },
+  {
+    "repo": "OWASP/railsgoat",
+    "kind": "vulnerable-by-design",
+    "sha": "f5951f13089d85c979de09e7da3c8c0fb982f94a",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": "db/seeds.rb",
+      "startLine": 19,
+      "endLine": 19,
+      "kind": "observed",
+      "excerpt": "credential-assignment: password: \"[REDACTED]\","
+    },
+    "populationInGroup": 4,
+    "id": "S015"
+  },
+  {
+    "repo": "WebGoat/WebGoat",
+    "kind": "vulnerable-by-design",
+    "sha": "be2c186b94201bcbdfa46c3a6f5f53dd83262d6a",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": "src/main/java/org/owasp/webgoat/lessons/challenges/SolutionConstants.java",
+      "startLine": 10,
+      "endLine": 10,
+      "kind": "observed",
+      "excerpt": "credential-assignment: String PASSWORD = \"[REDACTED]\";"
+    },
+    "populationInGroup": 4,
+    "id": "S016"
+  },
+  {
+    "repo": "digininja/DVWA",
+    "kind": "vulnerable-by-design",
+    "sha": "a1978a2fed195acd093010af6395f86a281537ca",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": "vulnerabilities/cryptography/source/token_library_high.php",
+      "startLine": 37,
+      "endLine": 37,
+      "kind": "observed",
+      "excerpt": "credential-assignment: $token = \"[REDACTED]\";"
+    },
+    "populationInGroup": 4,
+    "id": "S017"
+  },
+  {
+    "repo": "juice-shop/juice-shop",
+    "kind": "vulnerable-by-design",
+    "sha": "717f5efa886b0417eeecb52378b03cf10567b7e2",
+    "rule": "AS-SEC-001",
+    "severity": "critical",
+    "confidence": "medium",
+    "title": "Possible hard-coded credential",
+    "evidence": {
+      "path": "data/static/users.yml",
+      "startLine": 31,
+      "endLine": 31,
+      "kind": "observed",
+      "excerpt": "credential-assignment: password: '[REDACTED]'"
+    },
+    "populationInGroup": 4,
+    "id": "S018"
+  },
+  {
+    "repo": "nestjs/nest",
+    "kind": "general",
+    "sha": "8d9dd9d174921cc03882d1b39e91fb7bb1b1ca5a",
+    "rule": "AS-SEC-002",
+    "severity": "critical",
+    "confidence": "high",
+    "title": "Private key material committed",
+    "evidence": {
+      "path": "integration/microservices/src/tcp-tls/privkey.pem",
+      "startLine": 1,
+      "endLine": 1,
+      "kind": "observed",
+      "excerpt": "[REDACTED:private-key] [REDACTED]"
+    },
+    "populationInGroup": 1,
+    "id": "S019"
+  },
+  {
+    "repo": "juice-shop/juice-shop",
+    "kind": "vulnerable-by-design",
+    "sha": "717f5efa886b0417eeecb52378b03cf10567b7e2",
+    "rule": "AS-SEC-002",
+    "severity": "critical",
+    "confidence": "high",
+    "title": "Private key material committed",
+    "evidence": {
+      "path": "infrastructure/terraform/networking.tf",
+      "startLine": 171,
+      "endLine": 171,
+      "kind": "observed",
+      "excerpt": "[REDACTED:private-key] [REDACTED]"
+    },
+    "populationInGroup": 2,
+    "id": "S020"
+  },
+  {
+    "repo": "OWASP/NodeGoat",
+    "kind": "vulnerable-by-design",
+    "sha": "c5cb68a7084e4ae7dcc60e6a98768720a81841e8",
+    "rule": "AS-SEC-002",
+    "severity": "critical",
+    "confidence": "high",
+    "title": "Private key material committed",
+    "evidence": {
+      "path": "artifacts/cert/server.key",
+      "startLine": 1,
+      "endLine": 1,
+      "kind": "observed",
+      "excerpt": "[REDACTED:private-key] [REDACTED]"
+    },
+    "populationInGroup": 2,
+    "id": "S021"
+  },
+  {
+    "repo": "django/django",
+    "kind": "general",
+    "sha": "a05e16a7230fe33d3f43f4a3aaed103cebb42efc",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "django/db/migrations/questioner.py",
+      "startLine": 168,
+      "endLine": 168,
+      "kind": "observed",
+      "excerpt": "return eval(code, {}, {\"datetime\": datetime, \"timezone\": timezone})"
+    },
+    "populationInGroup": 3,
+    "id": "S022"
+  },
+  {
+    "repo": "vuejs/core",
+    "kind": "general",
+    "sha": "24c9d0bffb2299635b8112a978d74a38723aaa10",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "packages/compiler-core/src/validateExpression.ts",
+      "startLine": 43,
+      "endLine": 43,
+      "kind": "observed",
+      "excerpt": "new Function("
+    },
+    "populationInGroup": 3,
+    "id": "S023"
+  },
+  {
+    "repo": "pallets/flask",
+    "kind": "general",
+    "sha": "49943b5a94413a530761350f04e896f76e8d620e",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "src/flask/cli.py",
+      "startLine": 1022,
+      "endLine": 1022,
+      "kind": "observed",
+      "excerpt": "eval(compile(f.read(), startup, \"exec\"), ctx)"
+    },
+    "populationInGroup": 3,
+    "id": "S024"
+  },
+  {
+    "repo": "digininja/DVWA",
+    "kind": "vulnerable-by-design",
+    "sha": "a1978a2fed195acd093010af6395f86a281537ca",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "vulnerabilities/view_help.php",
+      "startLine": 20,
+      "endLine": 20,
+      "kind": "observed",
+      "excerpt": "eval( '?>' . file_get_contents( DVWA_WEB_PAGE_TO_ROOT . \"vulnerabilities/{$id}/help/help.php\" ) . '<?php ' );"
+    },
+    "populationInGroup": 4,
+    "id": "S025"
+  },
+  {
+    "repo": "juice-shop/juice-shop",
+    "kind": "vulnerable-by-design",
+    "sha": "717f5efa886b0417eeecb52378b03cf10567b7e2",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "lib/xml.ts",
+      "startLine": 12,
+      "endLine": 12,
+      "kind": "observed",
+      "excerpt": "const dynamicImport = new Function('specifier', 'return import(specifier)') as (specifier: string) => Promise<any>"
+    },
+    "populationInGroup": 4,
+    "id": "S026"
+  },
+  {
+    "repo": "appsecco/dvna",
+    "kind": "vulnerable-by-design",
+    "sha": "9ba473add536f66ac9007966acb2a775dd31277a",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "core/appHandler.js",
+      "startLine": 197,
+      "endLine": 197,
+      "kind": "observed",
+      "excerpt": "output: mathjs.eval(req.body.eqn)"
+    },
+    "populationInGroup": 4,
+    "id": "S027"
+  },
+  {
+    "repo": "OWASP/NodeGoat",
+    "kind": "vulnerable-by-design",
+    "sha": "c5cb68a7084e4ae7dcc60e6a98768720a81841e8",
+    "rule": "AS-SEC-004",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "Dynamic code or shell execution",
+    "evidence": {
+      "path": "app/routes/contributions.js",
+      "startLine": 32,
+      "endLine": 32,
+      "kind": "observed",
+      "excerpt": "const preTax = eval(req.body.preTax);"
+    },
+    "populationInGroup": 4,
+    "id": "S028"
+  },
+  {
+    "repo": "sequelize/sequelize",
+    "kind": "general",
+    "sha": "53d1e8a6199fff85a8d6cd7d9bf0f3487f0cf798",
+    "rule": "AS-SEC-005",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "SQL built by string concatenation or interpolation",
+    "evidence": {
+      "path": "packages/core/src/abstract-dialect/query-generator-typescript.ts",
+      "startLine": 970,
+      "endLine": 970,
+      "kind": "observed",
+      "excerpt": "return `SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = ${this.escape(table.tableName)} AND TABLE_SCHEMA = ${t..."
+    },
+    "populationInGroup": 3,
+    "id": "S029"
+  },
+  {
+    "repo": "django/django",
+    "kind": "general",
+    "sha": "a05e16a7230fe33d3f43f4a3aaed103cebb42efc",
+    "rule": "AS-SEC-005",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "SQL built by string concatenation or interpolation",
+    "evidence": {
+      "path": "django/core/cache/backends/db.py",
+      "startLine": 136,
+      "endLine": 136,
+      "kind": "observed",
+      "excerpt": "cursor.execute(\"SELECT COUNT(*) FROM %s\" % table)"
+    },
+    "populationInGroup": 3,
+    "id": "S030"
+  },
+  {
+    "repo": "typeorm/typeorm",
+    "kind": "general",
+    "sha": "5bdc67882dee5a02d975d5ed140c9c3f91661116",
+    "rule": "AS-SEC-005",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "SQL built by string concatenation or interpolation",
+    "evidence": {
+      "path": "packages/typeorm/src/driver/aurora-mysql/AuroraMysqlQueryRunner.ts",
+      "startLine": 120,
+      "endLine": 120,
+      "kind": "observed",
+      "excerpt": "await this.query(`SAVEPOINT typeorm_${this.transactionDepth}`)"
+    },
+    "populationInGroup": 3,
+    "id": "S031"
+  },
+  {
+    "repo": "appsecco/dvna",
+    "kind": "vulnerable-by-design",
+    "sha": "9ba473add536f66ac9007966acb2a775dd31277a",
+    "rule": "AS-SEC-005",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "SQL built by string concatenation or interpolation",
+    "evidence": {
+      "path": "core/appHandler.js",
+      "startLine": 10,
+      "endLine": 10,
+      "kind": "observed",
+      "excerpt": "var query = \"SELECT name,id FROM Users WHERE login='\" + req.body.login + \"'\";"
+    },
+    "populationInGroup": 3,
+    "id": "S032"
+  },
+  {
+    "repo": "WebGoat/WebGoat",
+    "kind": "vulnerable-by-design",
+    "sha": "be2c186b94201bcbdfa46c3a6f5f53dd83262d6a",
+    "rule": "AS-SEC-005",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "SQL built by string concatenation or interpolation",
+    "evidence": {
+      "path": "src/main/java/org/owasp/webgoat/lessons/jwt/claimmisuse/JWTHeaderKIDEndpoint.java",
+      "startLine": 76,
+      "endLine": 76,
+      "kind": "observed",
+      "excerpt": "\"SELECT key FROM jwt_keys WHERE id = '\" + kid + \"'\");"
+    },
+    "populationInGroup": 3,
+    "id": "S033"
+  },
+  {
+    "repo": "juice-shop/juice-shop",
+    "kind": "vulnerable-by-design",
+    "sha": "717f5efa886b0417eeecb52378b03cf10567b7e2",
+    "rule": "AS-SEC-005",
+    "severity": "high",
+    "confidence": "medium",
+    "title": "SQL built by string concatenation or interpolation",
+    "evidence": {
+      "path": "data/static/codefixes/dbSchemaChallenge_1.ts",
+      "startLine": 5,
+      "endLine": 5,
+      "kind": "observed",
+      "excerpt": "models.sequelize.query(\"SELECT * FROM Products WHERE ((name LIKE '%\"+criteria+\"%' OR description LIKE '%\"+criteria+\"%') AND deletedAt IS NULL) ORDER BY name\")"
+    },
+    "populationInGroup": 3,
+    "id": "S034"
+  }
+]

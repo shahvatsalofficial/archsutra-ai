@@ -23,9 +23,9 @@ skills/         canonical Agent Skills (SKILL.md + references/)
 agents/         canonical agent role contracts
 schemas/        findings.schema.json
 templates/      ADR template
-fixtures/       labeled fixtures for evaluation (brownfield-monolith, clean-service)
+fixtures/       labeled fixtures for regression (brownfield-monolith, clean-service)
 examples/       committed sample outputs
-scripts/        eval.mjs, build-docs.mjs
+scripts/        eval, realworld, labeled-recall, bench, contrast, compare, build-docs
 test/           archsutra.test.mjs, eval.test.mjs
 docs/           handbook (source), generated HTML site, RFC, ADRs, proof
 install/        thin install.sh / install.ps1 / install.cmd wrappers around npx
@@ -42,14 +42,17 @@ Shared types: `Finding`, `Evidence`, `Corpus`, `ArchMap`, `AuditResult`, `ScoreE
 - `safeJoin(root, rel)`: resolves and rejects any path outside `root`.
 - `readLines(file)`: reads once, caches, returns `null` for binary (NUL byte) or unreadable files.
 
-Defaults: 5000 files, 512 KiB per file, 15 000 ms.
+Defaults: 5000 files, 512 KiB per file, 120 MiB total bytes, 15 000 ms traversal. The text cache stops growing at 160 MiB. The time budget covers directory traversal; the scan after it is bounded by the file, size and byte caps.
 
 ### 3.3 `redact.ts`
 Pattern set: AWS access key, GitHub tokens (`gh[pousr]_`, `github_pat_`), `sk-` style keys, Slack tokens, Google API keys, private key headers, and quoted credential assignments (`password`, `secret`, `api_key`, `token`, `access_key`). `detectSecrets(line)` returns kinds only. `redact(text)` masks values. `excerpt(line, max)` redacts then truncates. Every evidence excerpt goes through `excerpt`.
 
+### 3.3b `heuristics.ts`
+Shared precision helpers: `TEST_PATH`, `DEV_TOOLING_PATH`, `isVendoredPath`, `isMinified`, `looksThirdParty`, `isDataLike`, `commentMask` (whole-line comments, block comments and Python docstrings), and `plausibleSecretValue` (length, character classes, dummy-value list, interpolation and `[REDACTED]` markers). Each helper exists because of a labeled false positive in the [real-world evaluation](14-real-world-evaluation.md).
+
 ### 3.4 `map.ts`
 - `moduleOf(rel)`: module name is `group/name` for `packages|apps|services|libs|modules|internal|cmd`, `src/name` for `src/<dir>/...`, else the top directory, else `(root)`.
-- Imports: JS/TS relative specifiers via regex on `from`, `import()`, `require()`; Python absolute imports whose first segment matches a module. Edges are aggregated per module pair with a count and a first-seen example (path, line, redacted excerpt).
+- Imports: JS/TS relative specifiers via regex on `from`, `import()`, `require()` (comment lines, test files and non-code targets such as `.json` are ignored; the `(root)` pseudo-module is excluded from cycle detection); Python absolute imports whose first segment matches a module. Edges are aggregated per module pair with a count and a first-seen example (path, line, redacted excerpt).
 - `findCycles`: Tarjan strongly connected components; components with more than one module are cycles.
 - Manifest parsing: `package.json` (frameworks, datastores, main), `requirements.txt` and `pyproject.toml` (package names).
 - Output `ArchMap` includes ecosystems (sorted by file count), frameworks, datastores, infra, entry points, modules (sorted by lines), edges, cycles, blind spots, coverage.
@@ -143,7 +146,12 @@ Memory: file contents are cached per run (bounded by 5000 x 512 KiB worst case, 
 ```bash
 npm ci
 npm run typecheck
-npm test            # build + node --test (20 tests)
+npm test            # build + node --test (28 tests)
+npm run coverage    # coverage report
+node scripts/realworld.mjs run <dir> <batch> [tag]
+node scripts/labeled-recall.mjs <dir>
+node scripts/bench.mjs
+node scripts/contrast.mjs
 npm run verify      # archsutra verify .
 node scripts/eval.mjs
 node scripts/build-docs.mjs

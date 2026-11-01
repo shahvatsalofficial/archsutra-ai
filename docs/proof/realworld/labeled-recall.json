@@ -1,0 +1,77 @@
+{
+  "generatedAt": "2026-11-01T17:45:49.225Z",
+  "labeledValid": {
+    "total": 64,
+    "stillReported": 59,
+    "retention": 0.921875,
+    "lost": [
+      {
+        "repo": "OWASP/railsgoat",
+        "set": "baseline (tuning set)",
+        "id": "S030",
+        "rule": "AS-SEC-001",
+        "path": "app/assets/javascripts/bootstrap-image-gallery-main.js",
+        "line": 61,
+        "verdict": "valid",
+        "reason": "Real-looking 32-hex API key literal, but in a commented-out example inside a vendored library."
+      },
+      {
+        "repo": "sqlalchemy/sqlalchemy",
+        "set": "baseline (tuning set)",
+        "id": "S046",
+        "rule": "AS-SEC-005",
+        "path": "lib/sqlalchemy/dialects/postgresql/pg8000.py",
+        "line": 361,
+        "verdict": "valid",
+        "reason": "SQL assembled by concatenation with an internal cursor identifier; low risk."
+      },
+      {
+        "repo": "webpack/webpack",
+        "set": "holdout (round-1 fixes)",
+        "id": "S011",
+        "rule": "AS-OPS-003",
+        "path": ".github/runtimes/Dockerfile",
+        "line": 1,
+        "verdict": "valid",
+        "reason": "Dockerfile has no USER but is never built; it only pins versions for Dependabot."
+      },
+      {
+        "repo": "OWASP/WrongSecrets",
+        "set": "holdout (round-1 fixes)",
+        "id": "S013",
+        "rule": "AS-OPS-003",
+        "path": ".devcontainer/Dockerfile",
+        "line": 1,
+        "verdict": "valid",
+        "reason": "Dev container image without USER."
+      },
+      {
+        "repo": "spring-projects/spring-petclinic",
+        "set": "holdout (round-1 fixes)",
+        "id": "S012",
+        "rule": "AS-OPS-003",
+        "path": ".devcontainer/Dockerfile",
+        "line": 1,
+        "verdict": "valid",
+        "reason": "Unused devcontainer Dockerfile without USER."
+      }
+    ]
+  },
+  "labeledFalsePositive": {
+    "total": 34,
+    "nowSuppressed": 33,
+    "stillReported": [
+      {
+        "repo": "OWASP/WrongSecrets",
+        "set": "holdout (round-1 fixes)",
+        "id": "S020",
+        "rule": "AS-SEC-001",
+        "path": ".github/workflows/minikube-k8s-test.yml",
+        "line": 160,
+        "verdict": "false_positive",
+        "reason": "Test constant in a CI workflow script for a training challenge; not a credential."
+      }
+    ]
+  },
+  "caveat": "The baseline false positives drove the fixes, so their suppression is expected (tuning set). Retention of labeled true positives is the meaningful number here."
+}

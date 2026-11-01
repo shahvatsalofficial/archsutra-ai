@@ -1,0 +1,156 @@
+[
+  {
+    "theme": "light",
+    "pair": "text on bg",
+    "ratio": 17.2,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "pair": "text on surface",
+    "ratio": 17.78,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "pair": "muted on bg",
+    "ratio": 6.31,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "pair": "muted on surface",
+    "ratio": 6.52,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "pair": "muted on surface-2",
+    "ratio": 5.88,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "pair": "accent link on bg",
+    "ratio": 7.65,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "pair": "accent link on surface",
+    "ratio": 7.9,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "pair": "accent on accent-soft (nav current)",
+    "ratio": 6.68,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "pair": "primary button text on accent",
+    "ratio": 7.9,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "pair": "text on code background",
+    "ratio": 16.18,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "light",
+    "pair": "focus ring (accent) on bg, non-text",
+    "ratio": 7.65,
+    "required": 3,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "pair": "text on bg",
+    "ratio": 16.08,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "pair": "text on surface",
+    "ratio": 14.92,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "pair": "muted on bg",
+    "ratio": 8.3,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "pair": "muted on surface",
+    "ratio": 7.7,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "pair": "muted on surface-2",
+    "ratio": 7.07,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "pair": "accent link on bg",
+    "ratio": 8.82,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "pair": "accent link on surface",
+    "ratio": 8.18,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "pair": "accent on accent-soft (nav current)",
+    "ratio": 7.03,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "pair": "primary button text on accent",
+    "ratio": 8.82,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "pair": "text on code background",
+    "ratio": 15.34,
+    "required": 4.5,
+    "pass": true
+  },
+  {
+    "theme": "dark",
+    "pair": "focus ring (accent) on bg, non-text",
+    "ratio": 8.82,
+    "required": 3,
+    "pass": true
+  }
+]

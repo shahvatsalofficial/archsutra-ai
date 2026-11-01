@@ -64,7 +64,13 @@ async function renderDiagrams() {
   });
   try {
     mermaidApi ??= (await import(MERMAID_SRC)).default;
-    mermaidApi.initialize({ startOnLoad: false, securityLevel: 'strict', theme: currentTheme() === 'dark' ? 'dark' : 'neutral', fontFamily: 'ui-sans-serif, system-ui, sans-serif' });
+    const dark = currentTheme() === 'dark';
+    mermaidApi.initialize({
+      startOnLoad: false, securityLevel: 'strict', theme: 'base', fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+      themeVariables: dark
+        ? { background: '#131820', primaryColor: '#1f2340', primaryTextColor: '#e8ebf2', primaryBorderColor: '#a5a8ff', lineColor: '#a2abbb', secondaryColor: '#1a202a', tertiaryColor: '#131820', edgeLabelBackground: '#131820', textColor: '#e8ebf2', noteBkgColor: '#1a202a', noteTextColor: '#e8ebf2' }
+        : { background: '#ffffff', primaryColor: '#eceafd', primaryTextColor: '#15181e', primaryBorderColor: '#4338ca', lineColor: '#565e6e', secondaryColor: '#f2f3f8', tertiaryColor: '#ffffff', edgeLabelBackground: '#ffffff', textColor: '#15181e', noteBkgColor: '#f2f3f8', noteTextColor: '#15181e' },
+    });
     await mermaidApi.run({ nodes });
   } catch {
     /* offline or blocked: the diagram source stays visible as text */

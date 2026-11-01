@@ -1,0 +1,320 @@
+{
+  "batch": "holdout",
+  "generatedAt": "2026-11-01T17:27:35.676Z",
+  "node": "v24.15.0",
+  "results": [
+    {
+      "name": "pallets/jinja",
+      "kind": "general",
+      "lang": "Python",
+      "batch": "holdout",
+      "commit": "5ef70112a1ff19c05324ff889dd30405b1002044",
+      "files": 105,
+      "truncated": false,
+      "ms": 332,
+      "findings": 1,
+      "byRule": {
+        "AS-ARC-003": 1
+      },
+      "bySeverity": {
+        "low": 1
+      },
+      "modules": 5,
+      "cycles": 0
+    },
+    {
+      "name": "webpack/webpack",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "holdout",
+      "commit": "558d02c8cd78b74095c5be1e28d3c426ddce2d27",
+      "files": 5000,
+      "truncated": true,
+      "ms": 34661,
+      "findings": 4,
+      "byRule": {
+        "AS-SEC-003": 1,
+        "AS-SEC-004": 1,
+        "AS-SUP-001": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "high": 2,
+        "medium": 1,
+        "info": 1
+      },
+      "modules": 11,
+      "cycles": 0
+    },
+    {
+      "name": "eslint/eslint",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "holdout",
+      "commit": "11c66ba08381cb7cff7679d662c9f6654b6fe712",
+      "files": 2248,
+      "truncated": false,
+      "ms": 11765,
+      "findings": 4,
+      "byRule": {
+        "AS-SEC-004": 1,
+        "AS-SUP-001": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "high": 1,
+        "medium": 1,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 9,
+      "cycles": 0
+    },
+    {
+      "name": "mochajs/mocha",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "holdout",
+      "commit": "5b5afa7b12e3f76f4e0c6afa12e960c0b378358c",
+      "files": 676,
+      "truncated": false,
+      "ms": 3354,
+      "findings": 3,
+      "byRule": {
+        "AS-SEC-004": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "high": 1,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 7,
+      "cycles": 0
+    },
+    {
+      "name": "reduxjs/redux",
+      "kind": "general",
+      "lang": "TS",
+      "batch": "holdout",
+      "commit": "61ebf8596654cf3c4b197e426e302fcb3c2bc13e",
+      "files": 333,
+      "truncated": false,
+      "ms": 1237,
+      "findings": 1,
+      "byRule": {
+        "AS-ARC-001": 1
+      },
+      "bySeverity": {
+        "medium": 1
+      },
+      "modules": 7,
+      "cycles": 1
+    },
+    {
+      "name": "vuejs/vue",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "holdout",
+      "commit": "9e88707940088cb1f4cd7dd210c9168a50dc347c",
+      "files": 503,
+      "truncated": false,
+      "ms": 1552,
+      "findings": 4,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-004": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 1,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 17,
+      "cycles": 0
+    },
+    {
+      "name": "prettier/prettier",
+      "kind": "general",
+      "lang": "JS",
+      "batch": "holdout",
+      "commit": "bed4edbb1cf2a9db4004215b0ce5707cdb02b5d9",
+      "files": 5000,
+      "truncated": true,
+      "ms": 33443,
+      "findings": 4,
+      "byRule": {
+        "AS-ARC-001": 1,
+        "AS-SUP-001": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "medium": 2,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 26,
+      "cycles": 1
+    },
+    {
+      "name": "spring-projects/spring-petclinic",
+      "kind": "general",
+      "lang": "Java",
+      "batch": "holdout",
+      "commit": "500158f732419217507c7656904b8e6aa1bcc0d6",
+      "files": 121,
+      "truncated": false,
+      "ms": 716,
+      "findings": 0,
+      "byRule": {},
+      "bySeverity": {},
+      "modules": 2,
+      "cycles": 0
+    },
+    {
+      "name": "gin-gonic/gin",
+      "kind": "general",
+      "lang": "Go",
+      "batch": "holdout",
+      "commit": "0f09c3a9b4626d9fe9979cf4d0521d6ae32ab646",
+      "files": 130,
+      "truncated": false,
+      "ms": 521,
+      "findings": 1,
+      "byRule": {
+        "AS-SEC-002": 1
+      },
+      "bySeverity": {
+        "critical": 1
+      },
+      "modules": 8,
+      "cycles": 0
+    },
+    {
+      "name": "laravel/laravel",
+      "kind": "general",
+      "lang": "PHP",
+      "batch": "holdout",
+      "commit": "def7ce14811161f3c689a71ca8abc1369da44bd6",
+      "files": 65,
+      "truncated": false,
+      "ms": 341,
+      "findings": 1,
+      "byRule": {
+        "AS-SUP-001": 1
+      },
+      "bySeverity": {
+        "medium": 1
+      },
+      "modules": 9,
+      "cycles": 0
+    },
+    {
+      "name": "bridgecrewio/terragoat",
+      "kind": "vulnerable-by-design",
+      "lang": "Terraform",
+      "batch": "holdout",
+      "commit": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "files": 69,
+      "truncated": false,
+      "ms": 595,
+      "findings": 3,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-IAC-001": 1,
+        "AS-OPS-003": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "medium": 2
+      },
+      "modules": 0,
+      "cycles": 0
+    },
+    {
+      "name": "madhuakula/kubernetes-goat",
+      "kind": "vulnerable-by-design",
+      "lang": "K8s/Shell",
+      "batch": "holdout",
+      "commit": "723a0db478f050d173d23b4ce5044b65bce0bdd0",
+      "files": 244,
+      "truncated": false,
+      "ms": 907,
+      "findings": 7,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-003": 1,
+        "AS-IAC-001": 1,
+        "AS-OPS-001": 1,
+        "AS-OPS-003": 1,
+        "AS-SUP-001": 1,
+        "AS-SUP-003": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 1,
+        "medium": 4,
+        "low": 1
+      },
+      "modules": 3,
+      "cycles": 0
+    },
+    {
+      "name": "snyk-labs/nodejs-goof",
+      "kind": "vulnerable-by-design",
+      "lang": "JS",
+      "batch": "holdout",
+      "commit": "add14ba59e98240d9e00a235dd7d42cd61ae9912",
+      "files": 50,
+      "truncated": false,
+      "ms": 196,
+      "findings": 5,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-004": 1,
+        "AS-OPS-003": 1,
+        "AS-SUP-001": 1,
+        "AS-SUP-002": 1
+      },
+      "bySeverity": {
+        "critical": 1,
+        "high": 1,
+        "medium": 3
+      },
+      "modules": 6,
+      "cycles": 0
+    },
+    {
+      "name": "OWASP/WrongSecrets",
+      "kind": "vulnerable-by-design",
+      "lang": "Java",
+      "batch": "holdout",
+      "commit": "588f89b140b3ec121a174e9f3b2674bbfaf10436",
+      "files": 908,
+      "truncated": false,
+      "ms": 3066,
+      "findings": 5,
+      "byRule": {
+        "AS-SEC-001": 1,
+        "AS-SEC-002": 1,
+        "AS-OPS-003": 1,
+        "AS-ARC-003": 1,
+        "AS-DOC-002": 1
+      },
+      "bySeverity": {
+        "critical": 2,
+        "medium": 1,
+        "low": 1,
+        "info": 1
+      },
+      "modules": 9,
+      "cycles": 0
+    }
+  ]
+}

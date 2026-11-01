@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-11-01T17:35:13.060Z",
+  "env": {
+    "node": "v24.15.0",
+    "os": "win32 10.0.26300",
+    "cpus": 14,
+    "cpuModel": "Intel(R) Core(TM) Ultra 7 155U",
+    "ramGB": 31
+  },
+  "rows": [
+    {
+      "label": "small",
+      "files": 200,
+      "lines": 100,
+      "ms": 674,
+      "filesScanned": 201,
+      "truncated": false,
+      "findings": 3,
+      "maxRssMB": 57
+    },
+    {
+      "label": "medium",
+      "files": 1000,
+      "lines": 100,
+      "ms": 1768,
+      "filesScanned": 1001,
+      "truncated": false,
+      "findings": 4,
+      "maxRssMB": 94
+    },
+    {
+      "label": "at default limit",
+      "files": 5000,
+      "lines": 100,
+      "ms": 15189,
+      "filesScanned": 5000,
+      "truncated": true,
+      "findings": 4,
+      "maxRssMB": 233
+    },
+    {
+      "label": "over limit (20k files, truncated)",
+      "files": 20000,
+      "lines": 100,
+      "ms": 8672,
+      "filesScanned": 5000,
+      "truncated": true,
+      "findings": 4,
+      "maxRssMB": 234
+    }
+  ]
+}

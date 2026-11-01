@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Performance and quality metrics | ArchSutra AI</title>
+<meta name="description" content="Measured speed, memory, test coverage and robustness checks, with the exact commands and caveats.">
+<link rel="canonical" href="https://shahvatsalofficial.github.io/archsutra-ai/handbook/16-performance-and-quality-metrics.html">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Performance and quality metrics | ArchSutra AI">
+<meta property="og:description" content="Measured speed, memory, test coverage and robustness checks, with the exact commands and caveats.">
+<meta property="og:url" content="https://shahvatsalofficial.github.io/archsutra-ai/handbook/16-performance-and-quality-metrics.html">
+<meta property="og:site_name" content="ArchSutra AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Performance and quality metrics | ArchSutra AI">
+<meta name="twitter:description" content="Measured speed, memory, test coverage and robustness checks, with the exact commands and caveats.">
+<meta name="author" content="Vatsal Shah">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<script>try{var t=localStorage.getItem('as-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Performance and quality metrics","description":"Measured speed, memory, test coverage and robustness checks, with the exact commands and caveats.","author":{"@type":"Person","name":"Vatsal Shah"},"inLanguage":"en","isPartOf":{"@type":"WebSite","name":"ArchSutra AI","url":"https://shahvatsalofficial.github.io/archsutra-ai"}}</script>
+</head>
+<body class="doc">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">Menu</button>
+    <a class="brand" href="../index.html" aria-label="ArchSutra AI home"><svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor" opacity=".12"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ArchSutra <b>AI</b></span></a>
+    <nav class="top-links" aria-label="Primary"><a href="../handbook/index.html">Handbook</a><a href="../handbook/05-user-guide.html">Get started</a><a href="../handbook/08-testing-and-proof.html">Proof</a><a href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">GitHub</a></nav>
+    <button class="theme-btn" type="button" aria-label="Toggle color theme"><span class="sun" aria-hidden="true">Light</span><span class="moon" aria-hidden="true">Dark</span></button>
+  </div>
+</header>
+<div class="layout">
+  <aside id="sidebar" class="sidebar" aria-label="Documentation"><div class="nav-group"><p class="nav-title">Handbook</p><ul><li><a href="../handbook/index.html">Overview</a></li><li><a href="../handbook/01-executive-summary.html">Executive summary</a></li><li><a href="../handbook/02-functional-specification.html">Functional specification</a></li><li><a href="../handbook/03-technical-specification.html">Technical specification</a></li><li><a href="../handbook/04-architecture.html">Architecture</a></li><li><a href="../handbook/05-user-guide.html">User guide</a></li><li><a href="../handbook/06-cli-reference.html">CLI reference</a></li><li><a href="../handbook/07-security-privacy-legal.html">Security, privacy and legal</a></li><li><a href="../handbook/08-testing-and-proof.html">Testing and proof</a></li><li><a href="../handbook/09-compatibility-and-roadmap.html">Compatibility and roadmap</a></li><li><a href="../handbook/10-contributor-guide.html">Contributor guide</a></li><li><a href="../handbook/11-glossary-and-faq.html">Glossary and FAQ</a></li><li><a href="../handbook/12-rule-catalog.html">Audit rule catalog</a></li><li><a href="../handbook/13-trust-and-assurance.html">Trust and assurance</a></li><li><a href="../handbook/14-real-world-evaluation.html">Real-world evaluation</a></li><li><a href="../handbook/15-supply-chain-and-release.html">Supply chain and release</a></li><li><a href="../handbook/16-performance-and-quality-metrics.html" aria-current="page">Performance and quality metrics</a></li></ul></div><div class="nav-group"><p class="nav-title">Reference</p><ul><li><a href="../architecture/overview.html">Architecture overview</a></li><li><a href="../architecture/threat-model.html">Threat model (ArchSutra CLI and skills)</a></li><li><a href="../compatibility/matrix.html">Compatibility matrix</a></li><li><a href="../rfc/0001-archsutra-v0.1.html">RFC 0001: ArchSutra AI v0.1</a></li><li><a href="../decisions/ADR-0001-deterministic-cli-plus-ide-skills.html">ADR-0001: Deterministic CLI plus IDE-native skills</a></li><li><a href="../compatibility/smoke-tests/index.html">Live smoke tests</a></li><li><a href="../community/good-first-issues.html">Good first issues (ready to file)</a></li><li><a href="../legal/trademark-and-name-clearance.html">Name and trademark clearance</a></li><li><a href="../legal/legal-review-brief.html">Legal review brief</a></li><li><a href="../proof/accessibility.html">Accessibility audit of the documentation site</a></li></ul></div></aside>
+  <main id="main" class="content"><article class="prose"><p class="crumbs"><a href="../index.html">ArchSutra AI</a> / Handbook</p><h1 id="performance-and-quality-metrics">Performance and quality metrics</h1>
+<p class="lede">Measured speed, memory, test coverage and robustness checks, with the exact commands and caveats.</p><p class="meta">Version 0.1.1 &middot; Source: <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/docs/handbook/16-performance-and-quality-metrics.md" rel="noopener">docs/handbook/16-performance-and-quality-metrics.md</a></p>
+<p>All numbers are measured, reproducible, and from a developer laptop (Windows 11), so absolute timings are pessimistic compared with Linux CI because of slower file-system access and antivirus scanning.</p>
+<h2 id="speed-and-memory-synthetic-repositories">Speed and memory (synthetic repositories)<a class="anchor" href="#speed-and-memory-synthetic-repositories" aria-label="Link to this section">#</a></h2>
+<p>Generated by <code>node scripts/bench.mjs</code> into <a href="../proof/benchmarks.md"><code>docs/proof/benchmarks.md</code></a>. Each case runs in a fresh process so peak memory is meaningful.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table 1: Speed and memory (synthetic repositories)"><table><thead><tr><th scope="col">Case</th><th scope="col">Files scanned</th><th scope="col">Time</th><th scope="col">Peak RSS</th></tr></thead><tbody><tr><td>small (200 files)</td><td>201</td><td>about 0.4 s</td><td>about 60 MB</td></tr><tr><td>medium (1 000 files)</td><td>1 001</td><td>about 2 s</td><td>about 100 MB</td></tr><tr><td>at the default file limit (5 000)</td><td>5 000</td><td>about 6 to 10 s</td><td>about 240 MB</td></tr><tr><td>over the limit (20 000 generated)</td><td>5 000, <strong>reported as truncated</strong></td><td>about 7 s</td><td>about 240 MB</td></tr></tbody></table></div>
+<h2 id="speed-on-real-repositories">Speed on real repositories<a class="anchor" href="#speed-on-real-repositories" aria-label="Link to this section">#</a></h2>
+<p>From <code>docs/proof/realworld/results*.json</code> (52 repositories, shallow clones): median 1.2 s per repository; typical small libraries under 0.5 s; the largest (5 000-file limit reached: django, webpack, prettier) take roughly 8 to 10 s on a quiet machine and up to 35 s when the machine is busy. Timings include reading files and all rules.</p>
+<h2 id="bounds-why-runtime-is-limited">Bounds (why runtime is limited)<a class="anchor" href="#bounds-why-runtime-is-limited" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table 2: Bounds (why runtime is limited)"><table><thead><tr><th scope="col">Limit</th><th scope="col">Default</th><th scope="col">Effect</th></tr></thead><tbody><tr><td>Files</td><td>5 000</td><td>stop collecting, mark truncated</td></tr><tr><td>Size per file</td><td>512 KiB</td><td>larger files skipped and counted</td></tr><tr><td>Total bytes</td><td>120 MiB</td><td>stop collecting, mark truncated</td></tr><tr><td>Traversal time</td><td>15 s</td><td>stop walking, mark truncated</td></tr><tr><td>Text cache</td><td>160 MiB</td><td>beyond that files are re-read instead of cached</td></tr><tr><td>Line length scanned</td><td>2 000 characters</td><td>longer lines skipped (also a ReDoS guard)</td></tr></tbody></table></div>
+<p>The 15-second budget covers the directory traversal only; the rule scan after it is bounded by the file, size and byte caps. Truncation is always reported in the output (&quot;TRUNCATED&quot; and a blind-spot line), never silent.</p>
+<h2 id="test-coverage">Test coverage<a class="anchor" href="#test-coverage" aria-label="Link to this section">#</a></h2>
+<p>Node's built-in coverage over <code>dist/</code> (report: <a href="../proof/coverage.txt"><code>docs/proof/coverage.txt</code></a>):</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table 3: Test coverage"><table><thead><tr><th scope="col">Metric</th><th scope="col">Value</th></tr></thead><tbody><tr><td>Lines</td><td>91.4%</td></tr><tr><td>Branches</td><td>79.7%</td></tr><tr><td>Functions</td><td>90.3%</td></tr></tbody></table></div>
+<p>Weakest areas: CLI argument-error branches and rarely used <code>verify</code> branches. CI prints coverage on every run; no minimum is enforced yet.</p>
+<h2 id="robustness-checks-in-the-test-suite">Robustness checks in the test suite<a class="anchor" href="#robustness-checks-in-the-test-suite" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table 4: Robustness checks in the test suite"><table><thead><tr><th scope="col">Check</th><th scope="col">Test</th></tr></thead><tbody><tr><td>Pathological and very long lines finish under 3 s (ReDoS guard)</td><td><code>adversarial inputs: long and pathological lines ...</code></td></tr><tr><td>Hostile file names, binary content, bidi characters never crash or execute</td><td><code>hostile file names and binary content ...</code></td></tr><tr><td>Path traversal rejected</td><td><code>safeJoin rejects traversal</code>, <code>export ... blocks escaping --output</code></td></tr><tr><td>Symlinks not followed</td><td><code>walk does not follow symlinks</code></td></tr><tr><td>Secrets never appear in output</td><td><code>redact ...</code>, <code>audit finds seeded problems ...</code></td></tr><tr><td>Total-byte budget reported as truncation</td><td><code>total-bytes budget truncates and reports it</code></td></tr></tbody></table></div>
+<h2 id="quality-gates-in-ci">Quality gates in CI<a class="anchor" href="#quality-gates-in-ci" aria-label="Link to this section">#</a></h2>
+<p>Typecheck (strict TypeScript), 28 tests on 3 operating systems and 2 Node versions, structural verification of skills, agents, links and diagrams, a self-audit with <code>--fail-on high</code>, a production-dependency check, CodeQL, and (on pull requests) the DCO check.</p></article></main>
+  <aside class="rail"><nav class="toc" aria-label="On this page"><p class="nav-title">On this page</p><ul><li class="l2"><a href="#speed-and-memory-synthetic-repositories">Speed and memory (synthetic repositories)</a></li><li class="l2"><a href="#speed-on-real-repositories">Speed on real repositories</a></li><li class="l2"><a href="#bounds-why-runtime-is-limited">Bounds (why runtime is limited)</a></li><li class="l2"><a href="#test-coverage">Test coverage</a></li><li class="l2"><a href="#robustness-checks-in-the-test-suite">Robustness checks in the test suite</a></li><li class="l2"><a href="#quality-gates-in-ci">Quality gates in CI</a></li></ul></nav></aside>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <p><strong>ArchSutra AI</strong> v0.1.1. Design. Audit. Evolve. Created by <a href="https://github.com/shahvatsalofficial" rel="noopener">Vatsal Shah</a>. Licensed under <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>
+    <p class="fine">Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Not affiliated with Anthropic, OpenAI, Cursor, GitHub or Google; product names belong to their owners. <a href="../handbook/07-security-privacy-legal.html">Legal details</a>.</p>
+  </div>
+</footer>
+<script src="../assets/site.js" type="module"></script>
+</body>
+</html>

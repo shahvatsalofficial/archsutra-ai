@@ -26,14 +26,14 @@ export interface HostSpec {
 export const HOSTS: HostSpec[] = [
   { id: 'claude', label: 'Claude Code', support: 'adapter', skillsDir: '.claude/skills', agentsDir: '.claude/agents', agentSuffix: '.md',
     notes: 'Skills and subagents. Subagent files get a read-only tools list.', docs: 'https://code.claude.com/docs/' },
-  { id: 'cursor', label: 'Cursor', support: 'adapter', skillsDir: '.cursor/skills',
-    notes: 'Agent Skills only. No custom subagent files are written.', docs: 'https://cursor.com/docs/skills' },
+  { id: 'cursor', label: 'Cursor', support: 'adapter', skillsDir: '.cursor/skills', agentsDir: '.cursor/agents', agentSuffix: '.md',
+    notes: 'Skills plus subagents (.cursor/agents). Cursor also reads .agents/skills and .claude/skills, so install one host per project to avoid duplicates.', docs: 'https://cursor.com/docs/skills' },
   { id: 'codex', label: 'OpenAI Codex', support: 'adapter', skillsDir: '.agents/skills', agentsMdBlock: true,
     notes: 'Agent Skills plus a managed block in AGENTS.md.', docs: 'https://developers.openai.com/codex/' },
   { id: 'copilot', label: 'GitHub Copilot', support: 'adapter', skillsDir: '.github/skills', agentsDir: '.github/agents', agentSuffix: '.agent.md',
     notes: 'Skills plus custom agents (.agent.md); only description and tools are written.', docs: 'https://docs.github.com/en/copilot/concepts/customizations/custom-agents' },
-  { id: 'gemini', label: 'Gemini CLI', support: 'experimental', skillsDir: '.gemini/skills',
-    notes: 'Skill layout unconfirmed against the current Gemini CLI release. Use `export --host manual` as fallback.', docs: 'https://github.com/google-gemini/gemini-cli' },
+  { id: 'gemini', label: 'Gemini CLI', support: 'adapter', skillsDir: '.gemini/skills',
+    notes: 'Layout matches the Gemini CLI skills docs read on 2026-11-01. The docs site announces Antigravity CLI as the successor; re-verify before relying on it.', docs: 'https://geminicli.com/docs/cli/skills/' },
 ];
 
 export const MANIFEST_PATH = '.archsutra/install-manifest.json';
@@ -112,6 +112,14 @@ export function renderAgent(host: HostSpec, content: string): string {
   const desc = fm.data.description ?? '';
   if (host.id === 'claude') {
     return `---\nname: ${fm.data.name}\ndescription: ${desc}\ntools: Read, Grep, Glob\n---\n${fm.body}`;
+  }
+  if (host.id === 'cursor') {
+    return `---
+name: ${fm.data.name}
+description: ${desc}
+readonly: true
+---
+${fm.body}`;
   }
   if (host.id === 'copilot') {
     return `---\ndescription: ${desc}\ntools: ['read', 'search']\n---\n${fm.body}`;

@@ -1,0 +1,257 @@
+{
+  "labeler": "Claude (AI model) reading each cited line in context; one labeler, not independent. Labels are open to challenge by pull request.",
+  "labeledOn": "2026-11-01",
+  "definitions": {
+    "valid": "The code at the cited location is a genuine instance of what the rule claims (e.g. SQL assembled from non-constant strings, an actual eval call, a real private key).",
+    "false_positive": "Not an instance: a comment or docstring, documentation text, vendored or generated code, test data, a placeholder value, or a data file mistaken for code.",
+    "unclear": "Could not be decided from the cited evidence; excluded from precision.",
+    "actionable": "A maintainer of that project would plausibly change something because of the finding. Many valid pattern matches are intentional, low-risk or by design."
+  },
+  "labels": {
+    "S001": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Cycle includes the \"(root)\" pseudo-module made of top-level files; not a real architectural module."
+    },
+    "S002": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Edge to \"(root)\" caused by importing ../../../package.json, a data file, not code."
+    },
+    "S003": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Cycle edge originates in a test/spec file; tests importing across packages is not an architectural cycle."
+    },
+    "S004": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Cycle involves \"(root)\" pseudo-module (gulpfile and root config)."
+    },
+    "S005": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Cycle involves \"(root)\" pseudo-module."
+    },
+    "S006": {
+      "verdict": "unclear",
+      "actionable": false,
+      "reason": "Appears tangled (data/lib/models/routes) but the cycle also includes \"(root)\"; reverse edges not individually verified."
+    },
+    "S007": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "src/flask/app.py is a very large production module."
+    },
+    "S008": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Large production source file."
+    },
+    "S009": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "lib/adapters/http.js is large production code."
+    },
+    "S010": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "codegen.ts is a large production module."
+    },
+    "S011": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Generated data table (contract ABIs), not hand-written code."
+    },
+    "S012": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Vendored third-party library (Parsedown)."
+    },
+    "S013": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Vendored third-party library (jquery.form)."
+    },
+    "S014": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Vendored third-party library (bootstrap.js)."
+    },
+    "S015": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "privileged: true present in a dev docker-compose; the DB2 image requires it, so not actionable."
+    },
+    "S016": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "0.0.0.0/0 on port 80 for a public listener; rule has no port awareness and its own caveat says this is legitimate."
+    },
+    "S017": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Dockerfile has no USER; runs as root."
+    },
+    "S018": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Dockerfile has no USER; runs as root."
+    },
+    "S019": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Dockerfile has no USER; runs as root."
+    },
+    "S020": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Dockerfile has no USER; runs as root."
+    },
+    "S021": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "String contains the word token in Python code (\"%HOMEPATH%\\\\\"); not a credential."
+    },
+    "S022": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Option-name mapping in connection-string parsing; the literal is not a secret."
+    },
+    "S023": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Template text written into generated example config; value \"password\" is a placeholder."
+    },
+    "S024": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Editor theme token name (\"token: keyword.operator\"); not a credential."
+    },
+    "S025": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Documentation (.rst) example command with a dummy password."
+    },
+    "S026": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Obvious dummy value in sample app data."
+    },
+    "S027": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Test data in an integration test file under src/it."
+    },
+    "S028": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "SQL text containing the word password and a PHP variable; not a credential."
+    },
+    "S029": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Hard-coded admin credential in seed data."
+    },
+    "S030": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Real-looking 32-hex API key literal, but in a commented-out example inside a vendored library."
+    },
+    "S031": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "HTML tutorial text showing SQL; not a credential."
+    },
+    "S032": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Private key committed; it is a TLS test fixture for integration tests."
+    },
+    "S033": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Private key committed in artifacts/cert."
+    },
+    "S034": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Private key literal embedded in Terraform."
+    },
+    "S035": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Real eval() of text typed interactively by a developer during migrations; by design."
+    },
+    "S036": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Text inside a doc comment describing new Function; not executed code."
+    },
+    "S037": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Text inside a docstring saying eval() is no longer used."
+    },
+    "S038": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "eval(compile(...)) of the PYTHONSTARTUP script in flask shell; by design."
+    },
+    "S039": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "new Function with a constant string to hide dynamic import from tsc; no external input."
+    },
+    "S040": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Comment text mentioning eval()."
+    },
+    "S041": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "Vendored minified third-party script."
+    },
+    "S042": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "mathjs.eval on request body: a real injection sink (intentionally vulnerable app)."
+    },
+    "S043": {
+      "verdict": "false_positive",
+      "actionable": false,
+      "reason": "JSDoc @example comment, not executed code."
+    },
+    "S044": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "SQL assembled with % formatting; the interpolated table name is internal and quoted, so low risk."
+    },
+    "S045": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "SQL assembled with template literal; values pass through escape(), low risk."
+    },
+    "S046": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "SQL assembled by concatenation with an internal cursor identifier; low risk."
+    },
+    "S047": {
+      "verdict": "valid",
+      "actionable": false,
+      "reason": "Intentionally vulnerable teaching snippet; SQL concatenation is real."
+    },
+    "S048": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Real SQL injection by concatenating request input (intentionally vulnerable app)."
+    },
+    "S049": {
+      "verdict": "valid",
+      "actionable": true,
+      "reason": "Real SQL string concatenation with a user-controlled value."
+    }
+  }
+}

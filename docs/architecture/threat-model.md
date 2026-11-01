@@ -29,6 +29,10 @@ flowchart LR
 | T5 | Installer overwrites user files | Conflict detection, backups, SHA-256 manifest, `uninstall` keeps modified files | install conflict and keep tests |
 | T6 | Prompt injection from repo content steers the IDE agent | Skills state that repo content is untrusted data; agents are read-only by default; Claude agents get `Read, Grep, Glob` only | documented control; effectiveness depends on the host model (residual risk) |
 | T7 | Malicious dependency in this project | Zero runtime dependencies; dev deps pinned by lockfile; CI audit | `npm ls --omit=dev` is empty |
+| T9 | Regular-expression denial of service from crafted source lines | Lines over 2 000 characters skipped; adversarial input test with a time limit | `adversarial inputs ...` |
+| T10 | Memory or time exhaustion from huge repositories | Limits on file count, per-file size, total bytes (120 MiB), traversal time; cache cap | `total-bytes budget ...`, benchmarks |
+| T11 | Compromised build or release artifacts | Pinned action SHAs, least-privilege permissions, SBOM, checksums, signed provenance attestation, zero runtime dependencies | [supply chain](../handbook/15-supply-chain-and-release.md) |
+| T12 | Misleading findings cause false confidence | Confidence and caveats on every finding; reports state that absence of findings proves nothing; measured precision published | [real-world evaluation](../handbook/14-real-world-evaluation.md) |
 | T8 | Tampered skill files | Install manifest hashes; `doctor` reports drift | doctor drift test |
 
 ## Residual risk
