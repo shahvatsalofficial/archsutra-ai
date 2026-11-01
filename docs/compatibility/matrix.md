@@ -17,7 +17,8 @@ Overlap warning: Cursor and Copilot also read `.claude/skills` and `.agents/skil
 | OS | Status |
 |---|---|
 | Windows, macOS, Linux (GitHub Actions, Node 20 and 22) | typecheck, tests, verify and self-audit pass in CI on the v0.1.0 commit; re-confirm on the latest commit |
-| Windows 11 with Node 24 | developer machine, all tests pass |
+| Windows 11 with Node 24.15.0 and 26.13.0 (latest stable on 2026-11-01) | developer machine; typecheck, 28 tests, verify and self-audit pass on both |
+| CI matrix (after the next push) | adds Node 24 on all three OSes and Node latest on Ubuntu |
 
 ## Live smoke tests
 
