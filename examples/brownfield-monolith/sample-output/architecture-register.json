@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-11-04T17:35:11.738Z",
+  "generatedAt": "2026-11-04T17:46:15.947Z",
   "artifacts": [
     {
       "path": "README.md",
@@ -9,7 +9,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "94397f6475836dffacabc8d4fbdbc52ab50e03bff6ac7c72d9a7f945287f26bd",
+      "sha256": "1a47d2d4f22fea15aa3dee744e99c8b2aba871e951b3f05a44e3a0b05b011d56",
       "supersedes": null
     },
     {
@@ -19,7 +19,7 @@
     },
     {
       "path": "current-state.html",
-      "sha256": "3ef1c47c5837b5aa5fb24e6d8c3233059622e2a87a3232bf5fafcac0385fc690",
+      "sha256": "a8a6a24300bb3652660245a6fb6e0e6574fecc385f8f6a8c8d4f45f690daae9a",
       "supersedes": null
     },
     {
@@ -29,7 +29,7 @@
     },
     {
       "path": "audit-report.html",
-      "sha256": "ad2aee7938379f25e4be7795139f53f2324cc66f2275e7a8827b866084686e4f",
+      "sha256": "58636b1ed2eb4d3c3b0a804c89f686a5109e16b29bead3792b4c27e1d8259fa2",
       "supersedes": null
     },
     {
