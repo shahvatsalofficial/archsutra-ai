@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-11-04T17:35:11.738Z",
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "df101f6630e957ae7859b00fb19f5cd7c86b86f124e110e83a7b8b78c7599828",
+      "supersedes": null
+    },
+    {
+      "path": "index.html",
+      "sha256": "94397f6475836dffacabc8d4fbdbc52ab50e03bff6ac7c72d9a7f945287f26bd",
+      "supersedes": null
+    },
+    {
+      "path": "current-state.md",
+      "sha256": "59b1fb351258ed7f14c727f6daf6b75ff6dc2ef23462464bdc10d22c60dc6c28",
+      "supersedes": null
+    },
+    {
+      "path": "current-state.html",
+      "sha256": "3ef1c47c5837b5aa5fb24e6d8c3233059622e2a87a3232bf5fafcac0385fc690",
+      "supersedes": null
+    },
+    {
+      "path": "audit-report.md",
+      "sha256": "536676663de1772511957961389ef87f2925cb104503498a705427a8ced350a3",
+      "supersedes": null
+    },
+    {
+      "path": "audit-report.html",
+      "sha256": "ad2aee7938379f25e4be7795139f53f2324cc66f2275e7a8827b866084686e4f",
+      "supersedes": null
+    },
+    {
+      "path": "findings.json",
+      "sha256": "c2cdb40b804e5ca53176d689fb764a51dee599c0c28758a94f2d19cf8111adeb",
+      "supersedes": null
+    },
+    {
+      "path": "findings.sarif",
+      "sha256": "7fd0c3400346a392347ed22b4cea593b0250f46294db2e44cef589d4b7854526",
+      "supersedes": null
+    }
+  ]
+}

@@ -70,6 +70,9 @@ Design notes:
 ### 3.6 `report.ts`
 Pure functions that render Markdown, Mermaid (`flowchart`), findings JSON (`schemaVersion: "1.0.0"`), SARIF 2.1.0 (rule list plus one result per evidence location, severity mapped critical/high to `error`, medium to `warning`, low/info to `note`), and the artifact register with SHA-256.
 
+### 3.6b `html.ts`
+Renders the same data as `report.ts` into self-contained HTML (inline CSS, light and dark themes, print styles, severity filter, collapsible findings). Every dynamic value goes through `esc()` because repository text is untrusted; a Content-Security-Policy meta tag blocks everything except inline styles and scripts and the pinned Mermaid CDN script. Diagrams degrade to readable source when offline.
+
 ### 3.7 `verify.ts`
 Parses frontmatter (simple `key: value`), validates skills and agents, resolves relative links outside code fences, checks Mermaid structure, validates `findings.json`.
 
@@ -146,7 +149,7 @@ Memory: file contents are cached per run (bounded by 5000 x 512 KiB worst case, 
 ```bash
 npm ci
 npm run typecheck
-npm test            # build + node --test (28 tests)
+npm test            # build + node --test (29 tests)
 npm run coverage    # coverage report
 node scripts/realworld.mjs run <dir> <batch> [tag]
 node scripts/labeled-recall.mjs <dir>

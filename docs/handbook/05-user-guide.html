@@ -51,7 +51,7 @@
 <h2 id="4-generate-a-documentation-set">4. Generate a documentation set<a class="anchor" href="#4-generate-a-documentation-set" aria-label="Link to this section">#</a></h2>
 <div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-bash">npx github:shahvatsalofficial/archsutra-ai export . --dry-run         # preview
 npx github:shahvatsalofficial/archsutra-ai export . --output docs/architecture</code></pre></div>
-<p>Files written: <code>README.md</code>, <code>current-state.md</code>, <code>audit-report.md</code>, <code>findings.json</code>, <code>findings.sarif</code>, <code>architecture-register.json</code>.</p>
+<p>Files written: <code>index.html</code> (open this one first in a browser), <code>README.md</code>, <code>audit-report.html</code> and <code>audit-report.md</code>, <code>current-state.html</code> and <code>current-state.md</code>, <code>findings.json</code>, <code>findings.sarif</code>, <code>architecture-register.json</code>. Every report exists as readable HTML and as Markdown. For one page only: <code>archsutra audit . --format html &gt; audit-report.html</code>.</p>
 <h2 id="5-install-the-skills-into-your-ai-ide">5. Install the skills into your AI IDE<a class="anchor" href="#5-install-the-skills-into-your-ai-ide" aria-label="Link to this section">#</a></h2>
 <p>Choose your host: <code>claude</code>, <code>cursor</code>, <code>codex</code>, <code>copilot</code>, <code>gemini</code>.</p>
 <div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-bash">npx github:shahvatsalofficial/archsutra-ai install --host claude --target . --dry-run

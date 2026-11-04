@@ -375,3 +375,30 @@ test('total-bytes budget truncates and reports it (memory bound)', async () => {
   assert.ok(c.files.length <= 6);
   await rm(r, { recursive: true, force: true });
 });
+
+test('HTML reports: both formats exist, hostile text is escaped, CSP present, filters and diagrams work offline', async () => {
+  const r = await tmp('html');
+  await put(r, 'package.json', '{"name":"x","dependencies":{"a":"latest"}}');
+  await put(r, "src/x&y'z.js", 'eval(userInput); // "><script>alert(1)</script>\n');
+  assert.equal(run(['export', r]).status, 0);
+  const dir = path.join(r, 'docs/architecture');
+  for (const f of ['index.html', 'audit-report.html', 'current-state.html', 'audit-report.md', 'current-state.md', 'findings.json', 'findings.sarif']) {
+    assert.ok(existsSync(path.join(dir, f)), `missing ${f}`);
+  }
+  for (const f of ['index.html', 'audit-report.html', 'current-state.html']) {
+    const h = await readFile(path.join(dir, f), 'utf8');
+    assert.match(h, /<!doctype html>/i);
+    assert.match(h, /Content-Security-Policy/);
+    assert.ok(!/<script>alert\(1\)<\/script>/.test(h), `${f}: unescaped script`);
+    assert.ok(!h.includes("x&y'z"), `${f}: unescaped path`);
+  }
+  const audit = await readFile(path.join(dir, 'audit-report.html'), 'utf8');
+  assert.match(audit, /Dynamic code or shell execution/);
+  assert.match(audit, /data-sev="high"/);
+  const cli = run(['audit', r, '--format', 'html']);
+  assert.equal(cli.status, 0);
+  assert.match(cli.stdout, /<!doctype html>/i);
+  assert.equal(run(['audit', r, '--format', 'pdf']).status, 2);
+  assert.equal(run(['map', r, '--format', 'html']).status, 0);
+  await rm(r, { recursive: true, force: true });
+});

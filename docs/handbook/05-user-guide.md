@@ -45,7 +45,7 @@ npx github:shahvatsalofficial/archsutra-ai export . --dry-run         # preview
 npx github:shahvatsalofficial/archsutra-ai export . --output docs/architecture
 ```
 
-Files written: `README.md`, `current-state.md`, `audit-report.md`, `findings.json`, `findings.sarif`, `architecture-register.json`.
+Files written: `index.html` (open this one first in a browser), `README.md`, `audit-report.html` and `audit-report.md`, `current-state.html` and `current-state.md`, `findings.json`, `findings.sarif`, `architecture-register.json`. Every report exists as readable HTML and as Markdown. For one page only: `archsutra audit . --format html > audit-report.html`.
 
 ## 5. Install the skills into your AI IDE
 

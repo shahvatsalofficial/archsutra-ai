@@ -29,6 +29,7 @@ archsutra <command> [path] [options]
 | Option | Applies to | Meaning |
 |---|---|---|
 | `--json` | most | Machine-readable output |
+| `--format <md\|html>` | `audit`, `map` | Report format printed to stdout (default `md`). `export` always writes both |
 | `--dry-run` | `export`, `install`, `uninstall` | Show what would change; write nothing |
 | `--output <dir>` | `export` | Output directory inside the project (default `docs/architecture`); paths that escape the project are rejected |
 | `--host <id>` | `install`, `uninstall` | `claude`, `cursor`, `codex`, `copilot`, `gemini` |
@@ -53,9 +54,10 @@ archsutra <command> [path] [options]
 
 | File | Format | Contents |
 |---|---|---|
+| `index.html` | HTML | Overview page linking every report (open this first in a browser) |
 | `README.md` | Markdown | Index of the set |
-| `current-state.md` | Markdown + Mermaid | Stack, C4-style context and module diagrams, module table, cycles, blind spots |
-| `audit-report.md` | Markdown | Summary, scorecard, findings, scope and blind spots |
+| `current-state.md` / `current-state.html` | Markdown + Mermaid / HTML | Stack, C4-style context and module diagrams, module table, cycles, blind spots |
+| `audit-report.md` / `audit-report.html` | Markdown / HTML | Summary, scorecard, findings, scope and blind spots. The HTML version has severity cards, a severity filter and collapsible findings |
 | `findings.json` | JSON, schema 1.0.0 | Findings, scorecard, coverage, blind spots, failed checks |
 | `findings.sarif` | SARIF 2.1.0 | One result per evidence location |
 | `architecture-register.json` | JSON | Artifact list with SHA-256 hashes and timestamp |
@@ -67,6 +69,7 @@ Real examples: [`examples/brownfield-monolith/sample-output/`](../../examples/br
 ```bash
 archsutra audit . --fail-on high              # CI gate
 archsutra audit . --json | jq '.findings[] | {id, severity, title}'
+archsutra audit . --format html > audit-report.html   # one readable web page
 archsutra export . --output docs/architecture
 archsutra install --host copilot --target . --dry-run
 archsutra install --host codex --target .

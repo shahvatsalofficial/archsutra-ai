@@ -40,7 +40,7 @@
 <div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-bash">git clone https://github.com/shahvatsalofficial/archsutra-ai
 cd archsutra-ai
 npm ci
-npm test                       # builds, then runs 28 tests
+npm test                       # builds, then runs 29 tests
 npm run coverage               # line, branch, function coverage
 node scripts/eval.mjs          # labeled-fixture precision / recall (regression suite)
 node dist/cli.js verify .      # validates skills, agents, links, diagrams
@@ -48,12 +48,12 @@ node dist/cli.js audit .       # the tool audits itself
 node scripts/bench.mjs         # synthetic performance benchmark
 node scripts/contrast.mjs      # WCAG contrast of the docs site tokens</code></pre></div>
 <h2 id="2-automated-test-results">2. Automated test results<a class="anchor" href="#2-automated-test-results" aria-label="Link to this section">#</a></h2>
-<p>Captured output (Node 24, Windows 11; stored at <a href="../proof/test-results.txt"><code>docs/proof/test-results.txt</code></a>): <strong>28 tests, 28 passed, 0 failed.</strong></p>
+<p>Captured output (Node 24, Windows 11; stored at <a href="../proof/test-results.txt"><code>docs/proof/test-results.txt</code></a>): <strong>29 tests, 29 passed, 0 failed.</strong></p>
 <p>Groups:</p>
 <div class="table-wrap" tabindex="0" role="region" aria-label="Table 1: 2. Automated test results"><table><thead><tr><th scope="col">Group</th><th scope="col">What it covers</th></tr></thead><tbody><tr><td>Safety</td><td>secret redaction, path traversal, symlinks not followed, hostile file names, binary files, byte and file budgets, pathological long lines (ReDoS guard)</td></tr><tr><td>Analysis</td><td>module map, cycles, stack detection, seeded findings with evidence, clean project has no high findings</td></tr><tr><td>Precision regressions</td><td>each class of false positive found in the real-world evaluation has a test (comments, docstrings, dummy credentials, vendored files, shell vs SQL, public web ports, JWT <code>verify=False</code>, dev-tooling Dockerfiles)</td></tr><tr><td>Installer</td><td>idempotent install and uninstall for all hosts, conflict protection, backups, user-edited files kept, documented frontmatter only (Claude, Cursor, Copilot)</td></tr><tr><td>CLI</td><td>exit codes, JSON schema validity, <code>--fail-on</code>, export, dry-run, escaping output paths blocked</td></tr><tr><td>Quality gates</td><td>the repository's own skills, agents, links and diagrams verify; labeled fixtures give expected rules</td></tr></tbody></table></div>
 <p>The symlink test returns early (passes without asserting) on systems where creating a symlink or junction is not permitted.</p>
 <h2 id="3-coverage">3. Coverage<a class="anchor" href="#3-coverage" aria-label="Link to this section">#</a></h2>
-<p><code>node --test --experimental-test-coverage</code> over <code>dist/</code>: <strong>91.4% lines, 79.7% branches, 90.3% functions</strong> (<a href="../proof/coverage.txt">report</a>). Details and weak spots: <a href="16-performance-and-quality-metrics.html">Performance and quality metrics</a>.</p>
+<p><code>node --test --experimental-test-coverage</code> over <code>dist/</code>: <strong>92.1% lines, 80.9% branches, 91.0% functions</strong> (<a href="../proof/coverage.txt">report</a>). Details and weak spots: <a href="16-performance-and-quality-metrics.html">Performance and quality metrics</a>.</p>
 <h2 id="4-continuous-integration">4. Continuous integration<a class="anchor" href="#4-continuous-integration" aria-label="Link to this section">#</a></h2>
 <p>Workflow: <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/.github/workflows/ci.yml" rel="noopener"><code>.github/workflows/ci.yml</code></a>. Matrix: Ubuntu, Windows, macOS x Node 20, 22 = 6 jobs; each runs <code>npm ci</code>, typecheck, tests, <code>verify</code>, a self-audit with <code>--fail-on high</code>, and a check that production dependencies are empty. Extra jobs: coverage report, DCO sign-off check on pull requests. Other workflows: CodeQL, OpenSSF Scorecard, docs-site deploy, tagged release, manual tool comparison.</p>
 <p>History worth knowing: the first CI run <strong>failed on Node 20</strong> (a test glob unsupported there); the fix was committed and the matrix passed 6 of 6 on the v0.1.0 commit. A later push had the two macOS jobs still queued when last checked, so &quot;green on the latest commit&quot; must be confirmed on the Actions page: <a href="https://github.com/shahvatsalofficial/archsutra-ai/actions" rel="noopener">https://github.com/shahvatsalofficial/archsutra-ai/actions</a></p>

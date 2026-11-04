@@ -134,8 +134,9 @@ export function renderOverview(r: AuditResult): string {
   return [
     '# Architecture Documentation',
     '',
-    '- [current-state.md](current-state.md) - observed structure with diagrams',
-    '- [audit-report.md](audit-report.md) - findings with evidence',
+    '- [index.html](index.html) - the same reports as readable web pages (open in a browser)',
+    '- [current-state.md](current-state.md) - observed structure with diagrams ([HTML](current-state.html))',
+    '- [audit-report.md](audit-report.md) - findings with evidence ([HTML](audit-report.html))',
     '- [findings.json](findings.json) - machine-readable findings (schema v' + FINDINGS_SCHEMA_VERSION + ')',
     '- [findings.sarif](findings.sarif) - SARIF 2.1.0 for code-scanning UIs',
     '- [architecture-register.json](architecture-register.json) - artifact index',

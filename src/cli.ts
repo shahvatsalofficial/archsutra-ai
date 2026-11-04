@@ -5,6 +5,7 @@ import { HOSTS, detectHosts, doctor, install, packageRoot, planInstall, uninstal
 import { runAudit } from './audit.js';
 import { exists } from './fsutil.js';
 import { buildMap } from './map.js';
+import { renderAuditHtml, renderCurrentStateHtml, renderOverviewHtml } from './html.js';
 import { findingsJson, registerJson, renderAuditReport, renderCurrentState, renderOverview, renderSarif } from './report.js';
 import type { Severity } from './types.js';
 import { verifyProject } from './verify.js';
@@ -32,6 +33,7 @@ Model-backed workflows (${MODEL_COMMANDS.join(', ')}):
 
 Options:
   --json             machine-readable output
+  --format <md|html> report format for audit and map (default md); export always writes both
   --dry-run          show what would change; write nothing
   --output <dir>     output directory for export (default docs/architecture)
   --host <id>        claude | cursor | codex | copilot | gemini
@@ -51,7 +53,7 @@ interface Args {
 function parse(argv: string[]): Args {
   const flags: Args['flags'] = {};
   const pos: string[] = [];
-  const withValue = new Set(['output', 'host', 'target', 'fail-on']);
+  const withValue = new Set(['output', 'host', 'target', 'fail-on', 'format']);
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a.startsWith('--')) {
@@ -111,12 +113,22 @@ async function main(): Promise<number> {
     }
     case 'map': {
       const map = await buildMap(target);
-      out(json, map, renderCurrentState(map));
+      const fmt = String(args.flags.format ?? 'md');
+      if (!['md', 'html'].includes(fmt)) {
+        process.stderr.write(`Invalid --format "${fmt}" (use md or html)\n`);
+        return EXIT.usage;
+      }
+      out(json, map, fmt === 'html' ? renderCurrentStateHtml(map) : renderCurrentState(map));
       return EXIT.ok;
     }
     case 'audit': {
       const res = await runAudit(target);
-      out(json, findingsJson(res), renderAuditReport(res));
+      const fmt = String(args.flags.format ?? 'md');
+      if (!['md', 'html'].includes(fmt)) {
+        process.stderr.write(`Invalid --format "${fmt}" (use md or html)\n`);
+        return EXIT.usage;
+      }
+      out(json, findingsJson(res), fmt === 'html' ? renderAuditHtml(res) : renderAuditReport(res));
       const order: Severity[] = ['critical', 'high', 'medium', 'low', 'info'];
       const th = args.flags['fail-on'] as string | undefined;
       if (th) {
@@ -144,8 +156,11 @@ async function main(): Promise<number> {
       const res = await runAudit(target);
       const files = [
         { path: 'README.md', content: renderOverview(res) },
+        { path: 'index.html', content: renderOverviewHtml(res) },
         { path: 'current-state.md', content: renderCurrentState(res.map) },
+        { path: 'current-state.html', content: renderCurrentStateHtml(res.map) },
         { path: 'audit-report.md', content: renderAuditReport(res) },
+        { path: 'audit-report.html', content: renderAuditHtml(res) },
         { path: 'findings.json', content: JSON.stringify(findingsJson(res), null, 2) },
         { path: 'findings.sarif', content: JSON.stringify(renderSarif(res), null, 2) },
       ];

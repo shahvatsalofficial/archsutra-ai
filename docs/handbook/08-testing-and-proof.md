@@ -10,7 +10,7 @@ Trust should be earned with evidence you can re-run. Everything below is reprodu
 git clone https://github.com/shahvatsalofficial/archsutra-ai
 cd archsutra-ai
 npm ci
-npm test                       # builds, then runs 28 tests
+npm test                       # builds, then runs 29 tests
 npm run coverage               # line, branch, function coverage
 node scripts/eval.mjs          # labeled-fixture precision / recall (regression suite)
 node dist/cli.js verify .      # validates skills, agents, links, diagrams
@@ -21,7 +21,7 @@ node scripts/contrast.mjs      # WCAG contrast of the docs site tokens
 
 ## 2. Automated test results
 
-Captured output (Node 24, Windows 11; stored at [`docs/proof/test-results.txt`](../proof/test-results.txt)): **28 tests, 28 passed, 0 failed.**
+Captured output (Node 24, Windows 11; stored at [`docs/proof/test-results.txt`](../proof/test-results.txt)): **29 tests, 29 passed, 0 failed.**
 
 Groups:
 
@@ -38,7 +38,7 @@ The symlink test returns early (passes without asserting) on systems where creat
 
 ## 3. Coverage
 
-`node --test --experimental-test-coverage` over `dist/`: **91.4% lines, 79.7% branches, 90.3% functions** ([report](../proof/coverage.txt)). Details and weak spots: [Performance and quality metrics](16-performance-and-quality-metrics.md).
+`node --test --experimental-test-coverage` over `dist/`: **92.1% lines, 80.9% branches, 91.0% functions** ([report](../proof/coverage.txt)). Details and weak spots: [Performance and quality metrics](16-performance-and-quality-metrics.md).
 
 ## 4. Continuous integration
 

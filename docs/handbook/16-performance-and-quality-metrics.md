@@ -38,9 +38,9 @@ Node's built-in coverage over `dist/` (report: [`docs/proof/coverage.txt`](../pr
 
 | Metric | Value |
 |---|---|
-| Lines | 91.4% |
-| Branches | 79.7% |
-| Functions | 90.3% |
+| Lines | 92.1% |
+| Branches | 80.9% |
+| Functions | 91.0% |
 
 Weakest areas: CLI argument-error branches and rarely used `verify` branches. CI prints coverage on every run; no minimum is enforced yet.
 
@@ -57,4 +57,4 @@ Weakest areas: CLI argument-error branches and rarely used `verify` branches. CI
 
 ## Quality gates in CI
 
-Typecheck (strict TypeScript), 28 tests on 3 operating systems and 2 Node versions, structural verification of skills, agents, links and diagrams, a self-audit with `--fail-on high`, a production-dependency check, CodeQL, and (on pull requests) the DCO check.
+Typecheck (strict TypeScript), 29 tests on 3 operating systems and 2 Node versions, structural verification of skills, agents, links and diagrams, a self-audit with `--fail-on high`, a production-dependency check, CodeQL, and (on pull requests) the DCO check.

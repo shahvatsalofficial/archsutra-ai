@@ -55,6 +55,7 @@ IDs are stable. "Status" is implemented and tested (**T**), implemented not live
 | F-22 | Render `findings.sarif` (SARIF 2.1.0) | T |
 | F-23 | Render `architecture-register.json` with SHA-256 per artifact | T |
 | F-24 | `--dry-run` writes nothing; `--output` cannot escape the project | T |
+| F-25 | Every Markdown report also exists as a self-contained HTML page (`index.html`, `audit-report.html`, `current-state.html`); `audit` and `map` accept `--format html`. HTML escapes all repository-derived text and ships a Content-Security-Policy | T |
 
 ### 3.4 Verification
 

@@ -12,8 +12,9 @@ Trust, accuracy and supply-chain release.
 - Gemini CLI adapter promoted to `adapter` (path confirmed in vendor docs); Cursor adapter now also writes `.cursor/agents`.
 
 ### Added
+- **HTML reports.** `export` now writes every report as both Markdown and a self-contained HTML page (`index.html`, `audit-report.html`, `current-state.html`) with severity cards, a severity filter, collapsible findings, light/dark themes, print styles and a Content-Security-Policy; `audit` and `map` accept `--format html`. All repository-derived text is escaped (tested).
 - Real-world evaluation harness, labels, summaries and a labeled-recall check (`scripts/realworld.mjs`, `scripts/labeled-recall.mjs`, `docs/proof/realworld/`).
-- Benchmarks, coverage report, contrast checks, axe-core accessibility audit, ReDoS and hostile-input tests (28 tests).
+- Benchmarks, coverage report, contrast checks, axe-core accessibility audit, ReDoS and hostile-input tests (29 tests).
 - Workflows: release (tarball, CycloneDX SBOMs, checksums, provenance attestation), OpenSSF Scorecard, manual tool comparison; all actions pinned to SHAs; DCO check; coverage job.
 - Governance, support, DCO, CODEOWNERS, issue templates, `security.txt`, good-first-issue backlog.
 - Handbook chapters 13 to 16, name-clearance record, legal review brief, live smoke-test protocol.

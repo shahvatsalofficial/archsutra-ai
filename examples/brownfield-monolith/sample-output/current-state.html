@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; connect-src https://cdn.jsdelivr.net; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="color-scheme" content="light dark">
+<meta name="generator" content="ArchSutra AI">
+<title>Current State (observed)</title>
+<style>
+:root{--bg:#fbfbfd;--card:#fff;--soft:#f2f3f8;--text:#15181e;--muted:#565e6e;--line:#e1e4ec;--accent:#4338ca;--crit:#b42318;--high:#c2410c;--med:#8a5a00;--low:#1d4ed8;--info:#565e6e;--ok:#17794a;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--bg:#0c0f14;--card:#131820;--soft:#1a202a;--text:#e8ebf2;--muted:#a2abbb;--line:#262e3b;--accent:#a5a8ff;--crit:#ff8a80;--high:#ffab70;--med:#f0c36a;--low:#8fb4ff;--info:#a2abbb;--ok:#5fd39a;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent)}code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em}
+:not(pre)>code{background:var(--soft);border:1px solid var(--line);padding:.1em .35em;border-radius:6px;overflow-wrap:anywhere}
+.wrap{max-width:1000px;margin:0 auto;padding:24px 20px 56px}
+header.top{border-bottom:1px solid var(--line);background:var(--card)}header.top .wrap{padding-block:18px}
+h1{font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:-.02em;margin:.1em 0}h2{font-size:1.35rem;margin:2em 0 .6em;padding-top:1em;border-top:1px solid var(--line)}h3{margin:0;font-size:1.02rem}
+.muted{color:var(--muted)}.nav a{margin-right:14px}.lede{color:var(--muted);margin:.2em 0 0}
+.notice{margin:16px 0;padding:12px 16px;border-left:4px solid var(--accent);background:var(--soft);border-radius:0 10px 10px 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:16px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}.card b{display:block;font-size:1.8rem;line-height:1.1}.card span{color:var(--muted);font-size:.85rem}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card);margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{text-align:left;vertical-align:top;padding:9px 13px;border-bottom:1px solid var(--line)}th{background:var(--soft)}tr:last-child td{border-bottom:0}
+.badge{display:inline-block;padding:1px 9px;border-radius:999px;border:1px solid currentColor;font-size:.78rem;font-weight:650;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+.sev-critical{color:var(--crit)}.sev-high{color:var(--high)}.sev-medium{color:var(--med)}.sev-low{color:var(--low)}.sev-info{color:var(--info)}
+.r-strong{color:var(--ok)}.r-adequate{color:var(--med)}.r-weak{color:var(--high)}.r-critical{color:var(--crit)}.r-not{color:var(--muted)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.filters button{font:inherit;font-size:.88rem;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer}
+.filters button[aria-pressed=true]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+details.finding{background:var(--card);border:1px solid var(--line);border-left-width:5px;border-radius:12px;margin:10px 0;padding:4px 16px}
+details.finding.sev-critical{border-left-color:var(--crit)}details.finding.sev-high{border-left-color:var(--high)}details.finding.sev-medium{border-left-color:var(--med)}details.finding.sev-low{border-left-color:var(--low)}details.finding.sev-info{border-left-color:var(--info)}
+details.finding summary{cursor:pointer;padding:10px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.fid{font-family:ui-monospace,monospace;font-size:.82rem;color:var(--muted)}
+.fbody{padding:4px 0 14px}.fbody dt{font-weight:650;margin-top:.8em}.fbody dd{margin:.15em 0 0}.ev{list-style:none;padding:0;margin:.2em 0}.ev li{margin:.2em 0}
+pre{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow:auto}
+figure.diagram{margin:12px 0;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow-x:auto}pre.mermaid{background:transparent;border:0;padding:0;text-align:center}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+@media print{.filters,.nav{display:none}details.finding{break-inside:avoid}details.finding:not([open])>*{display:block}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><nav class="nav" aria-label="Report pages"><a href="index.html">Overview</a><a href="audit-report.html">Audit report</a><a href="current-state.html">Current state</a></nav><h1>Current State (observed)</h1><p class="lede">Generated by ArchSutra AI. Deterministic static scan, read-only.</p></div></header>
+<main class="wrap">
+
+<h2 style="border-top:0;margin-top:0">Stack</h2>
+<div class="table-wrap"><table><tbody><tr><th scope="row">Ecosystems</th><td>TypeScript, Node.js</td></tr><tr><th scope="row">Frameworks (from manifests)</th><td>Express</td></tr><tr><th scope="row">Datastores / messaging (from manifests)</th><td>PostgreSQL</td></tr><tr><th scope="row">Infrastructure files</th><td>Docker</td></tr><tr><th scope="row">Entry points</th><td>none detected</td></tr></tbody></table></div>
+<h2>System context (C4 level 1, inferred from manifests)</h2>
+<figure class="diagram"><pre class="mermaid">flowchart TB
+  user([&quot;Users / Clients&quot;])
+  system[&quot;System under review&lt;br/&gt;TypeScript, Node.js&quot;]
+  user --&gt; system
+  ds0[(&quot;PostgreSQL&quot;)]
+  system --&gt; ds0
+  inf0{{&quot;Docker&quot;}}
+  inf0 -.-&gt; system</pre><figcaption class="muted">Diagram source is shown if it cannot be rendered offline.</figcaption></figure>
+<h2>Modules and dependencies (observed imports)</h2>
+<figure class="diagram"><pre class="mermaid">flowchart LR
+  src_services[&quot;src/services&lt;br/&gt;2 files, 9 lines&quot;]
+  src_api[&quot;src/api&lt;br/&gt;1 files, 3 lines&quot;]
+  src_db[&quot;src/db&lt;br/&gt;1 files, 3 lines&quot;]
+  src_api --&gt;|1| src_db
+  src_db --&gt;|1| src_api</pre><figcaption class="muted">Numbers on arrows are import counts.</figcaption></figure>
+<div class="table-wrap"><table><thead><tr><th scope="col">Module</th><th scope="col">Files</th><th scope="col">Lines</th><th scope="col">Languages</th></tr></thead><tbody><tr><td><code>src/services</code></td><td>2</td><td>9</td><td>TypeScript</td></tr><tr><td><code>src/api</code></td><td>1</td><td>3</td><td>TypeScript</td></tr><tr><td><code>src/db</code></td><td>1</td><td>3</td><td>TypeScript</td></tr></tbody></table></div>
+<h2>Dependency cycles</h2>
+<ul><li><code>src/api &lt;-&gt; src/db</code></li></ul>
+<h2>Blind spots</h2>
+<ul><li>Runtime behaviour, deployed topology, and data volumes are not observable from source alone.</li><li>Dependency edges are module-level and based on relative imports; dynamic imports and DI wiring may be missed.</li></ul>
+<footer>Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Findings marked <code>inferred</code> or <code>unknown</code> are hypotheses; absence of findings does not prove absence of problems. Secrets are redacted.</footer>
+</main>
+<script type="module">
+const dark=matchMedia('(prefers-color-scheme: dark)').matches;
+try{const m=(await import('https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.esm.min.mjs')).default;
+m.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:dark?{primaryColor:'#1f2340',primaryTextColor:'#e8ebf2',primaryBorderColor:'#a5a8ff',lineColor:'#a2abbb',edgeLabelBackground:'#131820',textColor:'#e8ebf2'}:{primaryColor:'#eceafd',primaryTextColor:'#15181e',primaryBorderColor:'#4338ca',lineColor:'#565e6e',edgeLabelBackground:'#ffffff',textColor:'#15181e'}});
+await m.run({nodes:document.querySelectorAll('pre.mermaid')});}catch(e){/* offline: diagram source stays visible */}</script>
+</body>
+</html>

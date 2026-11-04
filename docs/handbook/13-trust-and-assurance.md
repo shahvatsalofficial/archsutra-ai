@@ -14,7 +14,7 @@ An independent-style review of this project listed 15 gaps that stop people from
 | 6 | OpenSSF Scorecard | **Partly** | [Workflow](../../.github/workflows/scorecard.yml) added (publishes results and SARIF). No score exists until it runs on GitHub; do not quote one |
 | 7 | Pinned install and pinned actions | **Done** | README and user guide show tag-pinned `npx` usage; every GitHub Action in all workflows is pinned to a commit SHA with a version comment, kept fresh by Dependabot |
 | 8 | Performance data | **Done** | [Benchmarks](../proof/benchmarks.md) (synthetic, 200 to 20 000 files) and real-repository timings in `docs/proof/realworld/results*.json`. Found and fixed a gap: added a total-bytes budget and cache cap so memory is bounded |
-| 9 | Test coverage | **Done** | 91% lines, 80% branches, 90% functions over `dist/` ([report](../proof/coverage.txt)); CI prints coverage on every run. No threshold is enforced yet |
+| 9 | Test coverage | **Done** | 92% lines, 81% branches, 91% functions over `dist/` ([report](../proof/coverage.txt)); CI prints coverage on every run. No threshold is enforced yet |
 | 10 | Third-party review | **Not possible yet** | No external review exists. Added: pinned CodeQL, Scorecard, DCO, `security.txt`, ReDoS and hostile-input tests, and an open invitation in [SECURITY.md](../../SECURITY.md). Counts as done only after someone independent reports |
 | 11 | Accessibility audit | **Partly** | axe-core on 19 pages x 2 themes: 0 violations after fixing 3 found issues; 22 contrast checks pass ([accessibility](../proof/accessibility.md)). No screen-reader test; no formal conformance claim |
 | 12 | Project maturity signals | **Not possible yet** | Added governance, support, templates, CODEOWNERS, [good-first-issue backlog](../community/good-first-issues.md), Discussions. Stars, users and track record take time and cannot be manufactured |
@@ -24,7 +24,7 @@ An independent-style review of this project listed 15 gaps that stop people from
 
 ## What a reader can verify in five minutes
 
-1. `git clone` and `npm ci && npm test` (28 tests).
+1. `git clone` and `npm ci && npm test` (29 tests).
 2. `node scripts/realworld.mjs report holdout2` reproduces the headline accuracy table from the committed samples and labels.
 3. Read ten labels in `docs/proof/realworld/labels-holdout2.json` and open the cited lines.
 4. `npm ls --omit=dev` shows no runtime dependencies.
