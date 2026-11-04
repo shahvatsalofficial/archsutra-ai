@@ -402,3 +402,34 @@ test('HTML reports: both formats exist, hostile text is escaped, CSP present, fi
   assert.equal(run(['map', r, '--format', 'html']).status, 0);
   await rm(r, { recursive: true, force: true });
 });
+
+test('agent standard: all agents valid; validator rejects each violation; Claude profile uses documented keys', async () => {
+  const { validateAgent } = await import('../dist/verify.js');
+  const dir = path.join(REPO, 'agents');
+  const { readdirSync } = await import('node:fs');
+  const files = readdirSync(dir).filter((f) => f.endsWith('.md'));
+  assert.equal(files.length, 12);
+  const colors = new Set();
+  for (const f of files) {
+    const txt = await readFile(path.join(dir, f), 'utf8');
+    assert.deepEqual(validateAgent(txt), [], f);
+    colors.add(/^color: (\w+)$/m.exec(txt)[1]);
+  }
+  assert.ok(colors.size >= 5, 'agents should use varied colors');
+  const good = await readFile(path.join(dir, 'prime.md'), 'utf8');
+  for (const [label, bad] of [
+    ['description', good.replace('Use this agent when', 'This agent helps when')],
+    ['model', good.replace('model: inherit', 'model: gpt')],
+    ['color', good.replace('color: blue', 'color: pink')],
+    ['name', good.replace('name: archsutra-prime', 'name: Prime_Agent')],
+    ['second person', good.replace('You are ArchSutra Prime', 'I am ArchSutra Prime')],
+    ['heading', good.replace('## Edge cases', '## Misc')],
+  ]) assert.ok(validateAgent(bad).length > 0, `validator accepted bad ${label}`);
+  const t = await tmp('claude-fm');
+  await install(await planInstall('claude', t));
+  const out = await readFile(path.join(t, '.claude/agents/prime.md'), 'utf8');
+  const keys = out.split('---')[1].split('\n').filter(Boolean).map((l) => l.split(':')[0]);
+  assert.deepEqual(keys.sort(), ['color', 'description', 'model', 'name', 'tools']);
+  assert.match(out, /^tools: Read, Grep, Glob$/m);
+  await rm(t, { recursive: true, force: true });
+});

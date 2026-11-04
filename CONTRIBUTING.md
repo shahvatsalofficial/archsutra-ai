@@ -25,7 +25,7 @@ npm test
 
 ## Add an agent specialization
 
-Copy an existing file in `agents/`, keep the required headings (Purpose, When to invoke, Required inputs, Tools and policy, Outputs, Quality criteria, Escalation). `archsutra verify .` enforces them.
+Copy an existing file in `agents/` and follow the agent standard in the [contributor guide](docs/handbook/10-contributor-guide.md): trigger-style `description`, `model`, `color`, read-only `tools`, a second-person body, and the headings Purpose, When to invoke, Required inputs, Tools and policy, Process, Outputs, Quality criteria, Edge cases, Escalation. `archsutra verify .` enforces them.
 
 ## Add a host adapter
 

@@ -9,7 +9,7 @@ An independent-style review of this project listed 15 gaps that stop people from
 | 1 | Real-world accuracy | **Partly** | 52 public repositories, 98 labeled findings, three batches, precision with confidence intervals: [Real-world evaluation](14-real-world-evaluation.md). Single labeler, small samples, no recall on real code |
 | 2 | Live proof in AI IDEs | **Pending** | Layouts checked against vendor docs on 2026-11-01; protocol and empty results log: [smoke tests](../compatibility/smoke-tests/README.md). Needs the owner or community with access to each IDE |
 | 3 | Head-to-head comparison | **Pending** | Workflow and script ready ([`comparison.yml`](../../.github/workflows/comparison.yml), `scripts/compare.mjs`); first run needs the repository on GitHub with Actions. A plain-AI-prompt comparison is deliberately not offered (not reproducible) |
-| 4 | CI confirmed on all platforms | **Partly** | 6-job matrix passed on the v0.1.0 commit; a later commit had macOS jobs still queued when last checked. Dependabot is now limited and grouped to stop queue floods. Needs a fresh green run after the next push |
+| 4 | CI confirmed on all platforms | **Partly** | the v0.1.0 matrix passed (6 jobs); Ubuntu and Windows pass on every later commit; on one later run three macOS jobs never got a runner and GitHub cancelled them (no steps ran), so the matrix now keeps a single macOS job (Node 24). Dependabot is now limited and grouped to stop queue floods. Needs a fresh green run after the next push |
 | 5 | Signed releases, provenance, SBOM | **Partly** | Release workflow builds the tarball, CycloneDX SBOMs, SHA-256 checksums and a signed build-provenance attestation on every tag ([supply chain](15-supply-chain-and-release.md)). First attested release has not happened yet; not published to npm |
 | 6 | OpenSSF Scorecard | **Partly** | [Workflow](../../.github/workflows/scorecard.yml) added (publishes results and SARIF). No score exists until it runs on GitHub; do not quote one |
 | 7 | Pinned install and pinned actions | **Done** | README and user guide show tag-pinned `npx` usage; every GitHub Action in all workflows is pinned to a commit SHA with a version comment, kept fresh by Dependabot |
@@ -24,7 +24,7 @@ An independent-style review of this project listed 15 gaps that stop people from
 
 ## What a reader can verify in five minutes
 
-1. `git clone` and `npm ci && npm test` (29 tests).
+1. `git clone` and `npm ci && npm test` (30 tests).
 2. `node scripts/realworld.mjs report holdout2` reproduces the headline accuracy table from the committed samples and labels.
 3. Read ten labels in `docs/proof/realworld/labels-holdout2.json` and open the cited lines.
 4. `npm ls --omit=dev` shows no runtime dependencies.
@@ -44,7 +44,7 @@ An independent-style review of this project listed 15 gaps that stop people from
 |---|---|
 | Gap 2 Done | A passing smoke-test row per host |
 | Gap 3 Done | One run of the comparison workflow, results reviewed by a human |
-| Gap 4 Done | A green 6-job run on the latest commit |
+| Gap 4 Done | A green run of the full matrix on the latest commit |
 | Gap 5 Done | Push a version tag; verify the attestation with `gh attestation verify` |
 | Gap 6 Done | Scorecard run completes; link the public result |
 | Gap 10 Done | An independent security review or audit report |

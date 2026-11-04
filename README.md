@@ -11,7 +11,7 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Runtime dependencies](https://img.shields.io/badge/runtime%20dependencies-0-brightgreen)
-![Tests](https://img.shields.io/badge/tests-29%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-30%20passing-brightgreen)
 ![Coverage](https://img.shields.io/badge/coverage-92%25%20lines-brightgreen)
 
 [**Documentation site**](https://shahvatsalofficial.github.io/archsutra-ai/) &middot; [Handbook](docs/handbook/README.md) &middot; [**Trust and assurance register**](docs/handbook/13-trust-and-assurance.md) &middot; [Real-world evaluation](docs/handbook/14-real-world-evaluation.md) &middot; [Sample report](examples/brownfield-monolith/sample-output/audit-report.md)
@@ -102,9 +102,9 @@ We published the 50% baseline, fixed the false positives it exposed (each has a 
 
 | Evidence | Result |
 |---|---|
-| Automated tests (`npm test`) | **29 passed, 0 failed** ([output](docs/proof/test-results.txt)) |
+| Automated tests (`npm test`) | **30 passed, 0 failed** ([output](docs/proof/test-results.txt)) |
 | Test coverage | 92% lines, 81% branches, 91% functions ([report](docs/proof/coverage.txt)) |
-| CI matrix | Ubuntu, Windows, macOS x Node 20, 22: all 6 jobs passed on the v0.1.0 commit ([Actions](https://github.com/shahvatsalofficial/archsutra-ai/actions)); confirm the latest run there |
+| CI matrix | Ubuntu and Windows x Node 20, 22, 24 plus macOS on Node 24 and Ubuntu on the newest Node; all passed on the v0.1.0 and v0.1.1-preview commits (macOS runners were once unavailable and GitHub cancelled the queued jobs, which was not a code failure) ([Actions](https://github.com/shahvatsalofficial/archsutra-ai/actions)); confirm the latest run there |
 | Robustness | ReDoS guard, hostile file names, binary files, path traversal, symlinks, byte and file budgets, all tested |
 | Performance | median 1.2 s per real repository; bounded by file, size, byte and time limits ([benchmarks](docs/proof/benchmarks.md)) |
 | Accessibility of the docs site | axe-core: 0 violations over 19 pages x 2 themes; 22 contrast checks pass ([audit](docs/proof/accessibility.md)); no screen-reader test yet |

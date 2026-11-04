@@ -1,5 +1,5 @@
 // ArchSutra AI docs: theme toggle, mobile nav, copy buttons, active TOC, Mermaid rendering.
-const MERMAID_SRC = 'https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.esm.min.mjs';
+const MERMAID_SRC = 'https://cdn.jsdelivr.net/npm/mermaid@12.3.0/dist/mermaid.esm.min.mjs';
 const root = document.documentElement;
 
 const store = {

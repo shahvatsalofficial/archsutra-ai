@@ -30,7 +30,7 @@ All five layouts were checked against the vendors' current documentation on 2026
 |---|---|
 | Ubuntu (latest), Node 20 and 22 | CI passes |
 | Windows (latest), Node 20 and 22 | CI passes on the v0.1.0 commit; run locally on Windows 11 with Node 24 |
-| macOS (latest), Node 20 and 22 | CI passes |
+| macOS (latest), Node 24 | CI (v0.1.0 commit passed on Node 20 and 22; the matrix now runs Node 24 only on macOS because macOS runners are scarce) |
 
 ## 4. Language support in analysis
 

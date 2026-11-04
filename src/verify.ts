@@ -20,7 +20,28 @@ export function parseFrontmatter(text: string): { data: Record<string, string>; 
 }
 
 const NAME_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
-const AGENT_HEADINGS = ['Purpose', 'When to invoke', 'Required inputs', 'Tools and policy', 'Outputs', 'Quality criteria', 'Escalation'];
+const AGENT_HEADINGS = ['Purpose', 'When to invoke', 'Required inputs', 'Tools and policy', 'Process', 'Outputs', 'Quality criteria', 'Edge cases', 'Escalation'];
+const AGENT_MODELS = new Set(['inherit', 'sonnet', 'opus', 'haiku']);
+const AGENT_COLORS = new Set(['blue', 'cyan', 'green', 'yellow', 'magenta', 'red']);
+
+/** Checks an agent file against the plugin agent standard. Returns a list of problems (empty = valid). */
+export function validateAgent(text: string): string[] {
+  const fm = parseFrontmatter(text);
+  if (!fm) return ['missing frontmatter'];
+  const p: string[] = [];
+  const { name = '', description = '', model = '', color = '', tools = '' } = fm.data;
+  if (!/^[a-z0-9][a-z0-9-]{1,48}[a-z0-9]$/.test(name)) p.push('name must be 3-50 chars: lowercase letters, digits, hyphens, starting and ending alphanumeric');
+  if (description.length < 10 || description.length > 5000) p.push('description must be 10-5000 chars');
+  if (!/^Use this agent when /.test(description)) p.push('description must start with "Use this agent when"');
+  if (!/When to invoke/.test(description)) p.push('description must point to "When to invoke" in the body');
+  if (!AGENT_MODELS.has(model)) p.push('model must be inherit, sonnet, opus or haiku');
+  if (!AGENT_COLORS.has(color)) p.push('color must be blue, cyan, green, yellow, magenta or red');
+  if (tools && !/^\[.*\]$|^[A-Za-z, ]+$/.test(tools)) p.push('tools must be a list or a comma-separated string');
+  if (!/^You are /.test(fm.body.trimStart())) p.push('body must be written in second person and start with "You are"');
+  if (fm.body.length > 10000) p.push('body over 10000 characters');
+  for (const h of AGENT_HEADINGS) if (!new RegExp(`^##\\s+${h}\\b`, 'mi').test(fm.body)) p.push(`missing "## ${h}"`);
+  return p;
+}
 const MERMAID_TYPES = /^(flowchart|graph|sequenceDiagram|classDiagram|stateDiagram(-v2)?|erDiagram|journey|gantt|pie|C4Context|C4Container|C4Component|C4Dynamic|C4Deployment|timeline|mindmap)\b/;
 
 export function checkMermaid(src: string): string | null {
@@ -99,14 +120,7 @@ export async function verifyProject(root: string): Promise<Check[]> {
   const agentsDir = path.join(root, 'agents');
   if (await exists(agentsDir)) {
     for (const f of (await fs.readdir(agentsDir)).filter((x) => x.endsWith('.md'))) {
-      const fm = parseFrontmatter(await fs.readFile(path.join(agentsDir, f), 'utf8'));
-      if (!fm) {
-        add(`agent:${f}`, false, 'missing frontmatter');
-        continue;
-      }
-      const problems: string[] = [];
-      if (!fm.data.name || !fm.data.description) problems.push('name and description required');
-      for (const h of AGENT_HEADINGS) if (!new RegExp(`^##\\s+${h}\\b`, 'mi').test(fm.body)) problems.push(`missing "## ${h}"`);
+      const problems = validateAgent(await fs.readFile(path.join(agentsDir, f), 'utf8'));
       add(`agent:${f}`, !problems.length, problems.join('; ') || 'valid');
     }
   }

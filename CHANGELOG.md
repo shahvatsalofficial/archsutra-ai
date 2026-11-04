@@ -11,10 +11,14 @@ Trust, accuracy and supply-chain release.
 - Scans are now also bounded by total bytes (120 MiB) and the text cache is capped.
 - Gemini CLI adapter promoted to `adapter` (path confirmed in vendor docs); Cursor adapter now also writes `.cursor/agents`.
 
+### Changed (tooling)
+- Upgraded to the latest toolchain: TypeScript 7.0.2 (`tsconfig` now sets `types: ["node"]`), `@types/node` 26, Mermaid 12.3.0 (pinned CDN version for diagrams in the docs site and HTML reports). All 30 tests pass on Node 24 and 26.
+- **Agents brought up to the plugin agent standard**: every agent now has a "Use this agent when ..." description with typical triggers and exclusions, `model`, `color`, read-only `tools`, a second-person prompt, and Process and Edge cases sections. `archsutra verify` validates all of this (`validateAgent`), and the Claude adapter writes `name`, `description`, `tools`, `model`, `color`.
+
 ### Added
 - **HTML reports.** `export` now writes every report as both Markdown and a self-contained HTML page (`index.html`, `audit-report.html`, `current-state.html`) with severity cards, a severity filter, collapsible findings, light/dark themes, print styles and a Content-Security-Policy; `audit` and `map` accept `--format html`. All repository-derived text is escaped (tested).
 - Real-world evaluation harness, labels, summaries and a labeled-recall check (`scripts/realworld.mjs`, `scripts/labeled-recall.mjs`, `docs/proof/realworld/`).
-- Benchmarks, coverage report, contrast checks, axe-core accessibility audit, ReDoS and hostile-input tests (29 tests).
+- Benchmarks, coverage report, contrast checks, axe-core accessibility audit, ReDoS and hostile-input tests (30 tests).
 - Workflows: release (tarball, CycloneDX SBOMs, checksums, provenance attestation), OpenSSF Scorecard, manual tool comparison; all actions pinned to SHAs; DCO check; coverage job.
 - Governance, support, DCO, CODEOWNERS, issue templates, `security.txt`, good-first-issue backlog.
 - Handbook chapters 13 to 16, name-clearance record, legal review brief, live smoke-test protocol.

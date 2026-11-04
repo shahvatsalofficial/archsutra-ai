@@ -1,39 +1,40 @@
 # npm test output
-# Captured: 2026-11-04T17:38:19Z  Node v24.15.0  Windows 11
-✔ redact masks secrets and never returns the value (4.6288ms)
-✔ safeJoin rejects traversal (0.7982ms)
-✔ walk skips node_modules, respects file limit and flags truncation (99.4545ms)
-✔ walk does not follow symlinks (19.4244ms)
-✔ map detects modules, cycles and stack (91.6239ms)
-✔ audit finds seeded problems with evidence and redacted excerpts (103.9298ms)
-✔ audit on a clean small project has no high-severity findings (67.5446ms)
-✔ audit does not flag secrets inside test files or env lookups (29.8621ms)
-✔ install/uninstall roundtrip is idempotent and reversible (1531.9422ms)
-✔ install refuses to overwrite foreign files without --force and backs up when forced (247.1113ms)
-✔ uninstall keeps files the user modified (313.1351ms)
-✔ copilot and claude agent profiles contain only supported frontmatter (137.6981ms)
-✔ mermaid checker flags bad diagrams (1.2929ms)
-✔ repository itself verifies (skills, agents, links) (167.3129ms)
-✔ cli: version, help, unknown command, model-only command exit codes (3178.5528ms)
-✔ cli: audit --json emits schema-valid output; --fail-on sets exit 1 (2537.7385ms)
-✔ cli: export writes files, honours --dry-run, blocks escaping --output (3612.849ms)
-✔ cli: install blocked on conflict returns exit 1, doctor reports (3268.7863ms)
-✔ audit ignores rule text quoted inside html/json/markdown and fixture manifests (dogfooding regressions) (41.3124ms)
-✔ adversarial inputs: long and pathological lines finish quickly (ReDoS guard) (20.9488ms)
-✔ hostile file names and binary content do not crash the scan (36.1819ms)
-✔ cursor agent profile contains only documented keys (117.9472ms)
-✔ precision fixes from the real-world evaluation (each label from docs/proof/realworld/labels.json) (73.2112ms)
-✔ module cycles ignore tests, data-file imports and the root pseudo-module (47.7046ms)
-✔ round-2 precision fixes from the holdout batch (47.1832ms)
-✔ verify=False on a JWT decode is not reported as disabled TLS verification (13.6587ms)
-✔ total-bytes budget truncates and reports it (memory bound) (88.4131ms)
-✔ HTML reports: both formats exist, hostile text is escaped, CSP present, filters and diagrams work offline (2863.1409ms)
-✔ labeled fixtures: precision and recall on seeded rules (125.6747ms)
-ℹ tests 29
+# Captured: 2026-11-04T18:23:41Z  Node v24.15.0  Windows 11
+✔ redact masks secrets and never returns the value (1.7694ms)
+✔ safeJoin rejects traversal (0.3397ms)
+✔ walk skips node_modules, respects file limit and flags truncation (319.8875ms)
+✔ walk does not follow symlinks (33.9171ms)
+✔ map detects modules, cycles and stack (119.9713ms)
+✔ audit finds seeded problems with evidence and redacted excerpts (118.3798ms)
+✔ audit on a clean small project has no high-severity findings (51.6736ms)
+✔ audit does not flag secrets inside test files or env lookups (22.4975ms)
+✔ install/uninstall roundtrip is idempotent and reversible (1229.0164ms)
+✔ install refuses to overwrite foreign files without --force and backs up when forced (150.3562ms)
+✔ uninstall keeps files the user modified (235.0922ms)
+✔ copilot and claude agent profiles contain only supported frontmatter (136.0832ms)
+✔ mermaid checker flags bad diagrams (1.3604ms)
+✔ repository itself verifies (skills, agents, links) (159.2851ms)
+✔ cli: version, help, unknown command, model-only command exit codes (2795.0285ms)
+✔ cli: audit --json emits schema-valid output; --fail-on sets exit 1 (2045.361ms)
+✔ cli: export writes files, honours --dry-run, blocks escaping --output (3018.0234ms)
+✔ cli: install blocked on conflict returns exit 1, doctor reports (2776.0012ms)
+✔ audit ignores rule text quoted inside html/json/markdown and fixture manifests (dogfooding regressions) (37.2106ms)
+✔ adversarial inputs: long and pathological lines finish quickly (ReDoS guard) (27.9218ms)
+✔ hostile file names and binary content do not crash the scan (57.2092ms)
+✔ cursor agent profile contains only documented keys (327.4542ms)
+✔ precision fixes from the real-world evaluation (each label from docs/proof/realworld/labels.json) (56.5064ms)
+✔ module cycles ignore tests, data-file imports and the root pseudo-module (42.9526ms)
+✔ round-2 precision fixes from the holdout batch (44.3587ms)
+✔ verify=False on a JWT decode is not reported as disabled TLS verification (18.5378ms)
+✔ total-bytes budget truncates and reports it (memory bound) (92.0308ms)
+✔ HTML reports: both formats exist, hostile text is escaped, CSP present, filters and diagrams work offline (2858.3202ms)
+✔ agent standard: all agents valid; validator rejects each violation; Claude profile uses documented keys (103.0858ms)
+✔ labeled fixtures: precision and recall on seeded rules (67.7884ms)
+ℹ tests 30
 ℹ suites 0
-ℹ pass 29
+ℹ pass 30
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 19758.5492
+ℹ duration_ms 17564.4817

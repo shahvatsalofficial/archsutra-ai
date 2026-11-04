@@ -92,7 +92,7 @@ IDs are stable. "Status" is implemented and tested (**T**), implemented not live
 
 ### 3.7 Agent team
 
-Twelve roles with a fixed contract (purpose, when to invoke, inputs, tools and policy, outputs, quality criteria, escalation): Prime, Atlas, Blueprint, Sentinel, Cloud, Data, Nexus, Neural, Scale, Ledger, Forge, Verify. Prime orchestrates; if the host cannot spawn subagents, Prime performs specialist reviews sequentially.
+Twelve roles with a fixed contract (purpose, when to invoke, inputs, tools and policy, process, outputs, quality criteria, edge cases, escalation), validated against the plugin agent standard (trigger-style description, `model`, `color`, read-only `tools`, second-person prompt): Prime, Atlas, Blueprint, Sentinel, Cloud, Data, Nexus, Neural, Scale, Ledger, Forge, Verify. Prime orchestrates; if the host cannot spawn subagents, Prime performs specialist reviews sequentially.
 
 ## 4. Non-functional requirements
 

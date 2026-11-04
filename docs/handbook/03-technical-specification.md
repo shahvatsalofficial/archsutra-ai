@@ -6,11 +6,11 @@
 
 | Aspect | Choice |
 |---|---|
-| Language | TypeScript 5.x, `strict: true` |
+| Language | TypeScript 7.x (native compiler), `strict: true`, `types: ["node"]` |
 | Module system | ESM (`"type": "module"`, `NodeNext`) |
 | Runtime | Node.js >= 20 |
 | Runtime dependencies | none |
-| Dev dependencies | `typescript`, `@types/node` |
+| Dev dependencies | `typescript` 7.x, `@types/node` 26.x (CI also runs Node 20, 22, 24 and the newest Node) |
 | Test runner | built-in `node --test` |
 | Build | `tsc` to `dist/`; `prepare` builds on install from Git |
 | Entry point | `dist/cli.js` (bin `archsutra`) |
@@ -149,7 +149,7 @@ Memory: file contents are cached per run (bounded by 5000 x 512 KiB worst case, 
 ```bash
 npm ci
 npm run typecheck
-npm test            # build + node --test (29 tests)
+npm test            # build + node --test (30 tests)
 npm run coverage    # coverage report
 node scripts/realworld.mjs run <dir> <batch> [tag]
 node scripts/labeled-recall.mjs <dir>
@@ -160,4 +160,4 @@ node scripts/eval.mjs
 node scripts/build-docs.mjs
 ```
 
-CI runs the same on Ubuntu, Windows and macOS for Node 20 and 22, then a self-audit with `--fail-on high` and a check that production dependencies are empty.
+CI runs the same on Ubuntu and Windows x Node 20, 22, 24, Ubuntu on the newest Node, and macOS on Node 24, then a self-audit with `--fail-on high` and a check that production dependencies are empty.

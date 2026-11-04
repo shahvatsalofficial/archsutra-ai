@@ -1,7 +1,7 @@
 import { mermaidContainers, mermaidContext } from './report.js';
 import type { ArchMap, AuditResult, Evidence, Finding } from './types.js';
 
-const MERMAID_SRC = 'https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.esm.min.mjs';
+const MERMAID_SRC = 'https://cdn.jsdelivr.net/npm/mermaid@12.3.0/dist/mermaid.esm.min.mjs';
 
 /** Every dynamic value (file paths, excerpts, titles) comes from untrusted repositories: always escape. */
 export const esc = (s: unknown): string =>

@@ -10,7 +10,7 @@ const DOCS = path.join(ROOT, 'docs');
 const pkg = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 const SITE = 'https://shahvatsalofficial.github.io/archsutra-ai';
 const REPO = 'https://github.com/shahvatsalofficial/archsutra-ai';
-const MERMAID = 'https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.esm.min.mjs';
+const MERMAID = 'https://cdn.jsdelivr.net/npm/mermaid@12.3.0/dist/mermaid.esm.min.mjs';
 
 const GROUPS = [
   { title: 'Handbook', pages: ['handbook/README.md', 'handbook/01-executive-summary.md', 'handbook/02-functional-specification.md', 'handbook/03-technical-specification.md', 'handbook/04-architecture.md', 'handbook/05-user-guide.md', 'handbook/06-cli-reference.md', 'handbook/07-security-privacy-legal.md', 'handbook/08-testing-and-proof.md', 'handbook/09-compatibility-and-roadmap.md', 'handbook/10-contributor-guide.md', 'handbook/11-glossary-and-faq.md', 'handbook/12-rule-catalog.md', 'handbook/13-trust-and-assurance.md', 'handbook/14-real-world-evaluation.md', 'handbook/15-supply-chain-and-release.md', 'handbook/16-performance-and-quality-metrics.md'] },
@@ -252,7 +252,7 @@ for (const src of ALL) {
 
 // ---- Landing page ----
 const stats = [
-  ['29', 'automated tests'],
+  ['30', 'automated tests'],
   ['3 OS', 'CI matrix, Node 20 and 22'],
   ['0', 'runtime dependencies'],
   ['52', 'real repositories evaluated'],

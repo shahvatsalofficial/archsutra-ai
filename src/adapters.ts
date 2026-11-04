@@ -111,7 +111,8 @@ export function renderAgent(host: HostSpec, content: string): string {
   if (!fm) return content;
   const desc = fm.data.description ?? '';
   if (host.id === 'claude') {
-    return `---\nname: ${fm.data.name}\ndescription: ${desc}\ntools: Read, Grep, Glob\n---\n${fm.body}`;
+    const tools = (fm.data.tools ?? '["Read", "Grep", "Glob"]').replace(/[[\]"']/g, '').replace(/\s*,\s*/g, ', ').trim();
+    return `---\nname: ${fm.data.name}\ndescription: ${desc}\ntools: ${tools}\nmodel: ${fm.data.model ?? 'inherit'}\ncolor: ${fm.data.color ?? 'blue'}\n---\n${fm.body}`;
   }
   if (host.id === 'cursor') {
     return `---

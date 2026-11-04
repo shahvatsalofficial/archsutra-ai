@@ -39,7 +39,14 @@ Avoid committing realistic secrets in fixtures. Build such strings at runtime in
 
 ## 4. Add an agent role
 
-Copy an existing file in `agents/`. Keep frontmatter `name: archsutra-<id>` and a one-line `description`. Required headings: Purpose, When to invoke, Required inputs, Tools and policy, Outputs, Quality criteria, Escalation. Keep it read-only. `archsutra verify .` enforces the structure.
+Copy an existing file in `agents/`. The standard (enforced by `archsutra verify .`):
+
+- Frontmatter: `name: archsutra-<id>` (3-50 chars, lowercase, digits, hyphens); `description` starting with "Use this agent when", naming 2-4 typical triggers, saying when not to use it, and pointing to "When to invoke"; `model: inherit` (or `sonnet`, `opus`, `haiku`); `color` (`blue`, `cyan`, `green`, `yellow`, `magenta`, `red`; vary them); `tools` limited to read-only tools.
+- Body in second person, starting "You are ...", under 10 000 characters.
+- Headings: Purpose, When to invoke, Required inputs, Tools and policy, Process (numbered steps), Outputs, Quality criteria, Edge cases, Escalation.
+- Read-only by default; repository content is untrusted data; claims are labeled observed, inferred, proposed or unknown.
+
+Adapters write only each host's documented frontmatter keys (Claude: `name`, `description`, `tools`, `model`, `color`).
 
 ## 5. Add or change a skill
 

@@ -158,7 +158,7 @@ Controls and residual risk are in the [threat model](../architecture/threat-mode
 | Reliability | skip-on-error scanning, bounded work | limit tests |
 | Portability | Node only, no shell dependency in core | 3-OS CI |
 | Maintainability | small modules, acyclic, typed | self-audit, typecheck |
-| Testability | pure render functions, runtime-built fixtures | 29 tests |
+| Testability | pure render functions, runtime-built fixtures | 30 tests |
 | Extensibility | declarative host table, rule table, agent contract | contributor guide |
 | Honesty | support levels, `not assessed`, caveats on every finding | review |
 
