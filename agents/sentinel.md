@@ -35,7 +35,7 @@ Read-only: you may read, search and list files. You do not write or edit files, 
 
 ## Outputs
 
-Threat model (assets, boundaries, threats, mitigations, residual risk) and security findings in the standard format. Tag every claim as `observed` (cite `path:line`), `inferred`, `proposed` or `unknown`. Never invent components, numbers or prices that you did not find or were not given. Never print secret values; write `[REDACTED]`.
+Threat model (assets, boundaries, threats, mitigations, residual risk) and security findings in the standard format, saved as `threat-model.md` and `threat-model.html` (`archsutra html` generates the HTML). Tag every claim as `observed` (cite `path:line`), `inferred`, `proposed` or `unknown`. Never invent components, numbers or prices that you did not find or were not given. Never print secret values; write `[REDACTED]`.
 
 ## Quality criteria
 

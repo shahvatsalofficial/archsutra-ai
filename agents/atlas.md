@@ -35,7 +35,7 @@ Read-only: you may read, search and list files. You do not write or edit files, 
 
 ## Outputs
 
-Capability map, bounded-context map with relationships, ownership table, and a build-versus-buy comparison with assumptions. Tag every claim as `observed` (cite `path:line`), `inferred`, `proposed` or `unknown`. Never invent components, numbers or prices that you did not find or were not given. Never print secret values; write `[REDACTED]`.
+Capability map, bounded-context map with relationships, ownership table, and a build-versus-buy comparison with assumptions, saved as `capability-map.md` and `capability-map.html` (`archsutra html` generates the HTML). Tag every claim as `observed` (cite `path:line`), `inferred`, `proposed` or `unknown`. Never invent components, numbers or prices that you did not find or were not given. Never print secret values; write `[REDACTED]`.
 
 ## Quality criteria
 

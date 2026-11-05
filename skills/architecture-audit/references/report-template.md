@@ -1,5 +1,7 @@
 # Report template
 
+Deliver this report as both `audit-report.md` and `audit-report.html` (see the skill: `archsutra audit --output`, then `archsutra html` for any extra narrative). Do not deliver only one format.
+
 1. Executive summary (goals, top 3 risks, business impact)
 2. Scope, method, coverage, blind spots
 3. Current state (diagrams, components, data flows)

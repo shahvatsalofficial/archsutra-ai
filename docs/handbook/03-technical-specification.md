@@ -71,7 +71,7 @@ Design notes:
 Pure functions that render Markdown, Mermaid (`flowchart`), findings JSON (`schemaVersion: "1.0.0"`), SARIF 2.1.0 (rule list plus one result per evidence location, severity mapped critical/high to `error`, medium to `warning`, low/info to `note`), and the artifact register with SHA-256.
 
 ### 3.6b `html.ts`
-Renders the same data as `report.ts` into self-contained HTML (inline CSS, light and dark themes, print styles, severity filter, collapsible findings). Every dynamic value goes through `esc()` because repository text is untrusted; a Content-Security-Policy meta tag blocks everything except inline styles and scripts and the pinned Mermaid CDN script. Diagrams degrade to readable source when offline.
+Renders the same data as `report.ts` into self-contained HTML (inline CSS, light and dark themes, print styles, severity filter, collapsible findings). `renderMarkdownHtml` turns a narrative Markdown file into the same page chrome (headings, lists, tables, fenced code, Mermaid fences, links). Raw HTML in that Markdown is escaped. Links must be `http(s)`, `mailto`, a fragment, or a relative path; `javascript:` and `data:` URLs are left as text. Every dynamic value goes through `esc()` because repository text is untrusted; a Content-Security-Policy meta tag blocks everything except inline styles and scripts and the pinned Mermaid CDN script. Diagrams degrade to readable source when offline.
 
 ### 3.7 `verify.ts`
 Parses frontmatter (simple `key: value`), validates skills and agents, resolves relative links outside code fences, checks Mermaid structure, validates `findings.json`.
@@ -85,7 +85,7 @@ Parses frontmatter (simple `key: value`), validates skills and agents, resolves 
 - `renderAgent`: Claude gets `name`, `description`, `tools: Read, Grep, Glob`. Copilot gets `description` and `tools: ['read', 'search']`. No other keys are ever written.
 
 ### 3.9 `cli.ts`
-Hand-written argument parser (flags with values: `output`, `host`, `target`, `fail-on`). Commands dispatch to the modules above. Exit codes: 0 ok, 1 findings or conflict or failed doctor, 2 usage, 3 needs a model, 4 verification failed, 5 internal error. See the [CLI reference](06-cli-reference.md).
+Hand-written argument parser (flags with values: `output`, `host`, `target`, `fail-on`, `format`). Commands dispatch to the modules above. `audit --output` and `export` share one file bundle (Markdown and HTML for each report). `html` reads a Markdown file and writes HTML. Exit codes: 0 ok, 1 findings or conflict or failed doctor, 2 usage, 3 needs a model, 4 verification failed, 5 internal error. See the [CLI reference](06-cli-reference.md).
 
 ## 4. Data formats
 
@@ -149,7 +149,7 @@ Memory: file contents are cached per run (bounded by 5000 x 512 KiB worst case, 
 ```bash
 npm ci
 npm run typecheck
-npm test            # build + node --test (30 tests)
+npm test            # build + node --test (31 tests)
 npm run coverage    # coverage report
 node scripts/realworld.mjs run <dir> <batch> [tag]
 node scripts/labeled-recall.mjs <dir>
@@ -160,4 +160,4 @@ node scripts/eval.mjs
 node scripts/build-docs.mjs
 ```
 
-CI runs the same on Ubuntu and Windows x Node 20, 22, 24, Ubuntu on the newest Node, and macOS on Node 24, then a self-audit with `--fail-on high` and a check that production dependencies are empty.
+CI runs the same on Ubuntu and Windows x Node 20, 22, 24, plus Ubuntu on the newest Node, and macOS in a separate workflow, then a self-audit with `--fail-on high` and a check that production dependencies are empty.

@@ -11,7 +11,7 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Runtime dependencies](https://img.shields.io/badge/runtime%20dependencies-0-brightgreen)
-![Tests](https://img.shields.io/badge/tests-30%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-31%20passing-brightgreen)
 ![Coverage](https://img.shields.io/badge/coverage-92%25%20lines-brightgreen)
 
 [**Documentation site**](https://shahvatsalofficial.github.io/archsutra-ai/) &middot; [Handbook](docs/handbook/README.md) &middot; [**Trust and assurance register**](docs/handbook/13-trust-and-assurance.md) &middot; [Real-world evaluation](docs/handbook/14-real-world-evaluation.md) &middot; [Sample report](examples/brownfield-monolith/sample-output/audit-report.md)
@@ -45,25 +45,24 @@ Created by **[Vatsal Shah](https://github.com/shahvatsalofficial)**. Licensed un
 Requires Node.js 20+.
 
 ```bash
-# audit any repo: read-only, offline, no API key
-npx github:shahvatsalofficial/archsutra-ai audit .
+# audit any repo: offline, no API key. Writes Markdown and HTML.
+npx github:shahvatsalofficial/archsutra-ai audit . --output docs/architecture
+# open docs/architecture/index.html
 
 # install the skills into your project for your AI IDE (preview first)
 npx github:shahvatsalofficial/archsutra-ai install --host claude --target . --dry-run
 npx github:shahvatsalofficial/archsutra-ai install --host claude --target .
 ```
 
-For anything beyond a first try, **pin a tag or commit** so the code cannot change under you: `npx github:shahvatsalofficial/archsutra-ai#v0.1.1 audit .` (see [supply chain](docs/handbook/15-supply-chain-and-release.md)). Install **one** host per project; several hosts read the same skill folders.
+For anything beyond a first try, **pin a tag or commit** so the code cannot change under you: `npx github:shahvatsalofficial/archsutra-ai#v0.1.2 audit . --output docs/architecture` (see [supply chain](docs/handbook/15-supply-chain-and-release.md)). Install **one** host per project; several hosts read the same skill folders.
+
+Without `--output`, `audit` and `map` print one format to the terminal (`--format md` or `--format html`) and write nothing. With `--output`, every report is written as both a Markdown file and an HTML page.
 
 Then ask your assistant:
 
 > ArchSutra Prime: audit this repository's architecture. Establish what the code actually does first, then give findings with file and line evidence, severity and confidence, prioritized fixes, ADR recommendations and a phased roadmap. Stay read-only and label unknowns.
 
-Write the full report set (HTML and Markdown, open `docs/architecture/index.html` in a browser):
-
-```bash
-npx github:shahvatsalofficial/archsutra-ai export . --output docs/architecture
-```
+`audit --output` writes the full report set (same files as `export`). Open `docs/architecture/index.html` in a browser. Narrative reports (design, threat model, migration plan, verification) are Markdown plus HTML too: save the `.md` file, then `archsutra html <file.md>`.
 
 ## What you get
 
@@ -102,9 +101,9 @@ We published the 50% baseline, fixed the false positives it exposed (each has a 
 
 | Evidence | Result |
 |---|---|
-| Automated tests (`npm test`) | **30 passed, 0 failed** ([output](docs/proof/test-results.txt)) |
+| Automated tests (`npm test`) | **31 passed, 0 failed** ([output](docs/proof/test-results.txt)) |
 | Test coverage | 92% lines, 81% branches, 91% functions ([report](docs/proof/coverage.txt)) |
-| CI matrix | Ubuntu and Windows x Node 20, 22, 24 plus macOS on Node 24 and Ubuntu on the newest Node; all passed on the v0.1.0 and v0.1.1-preview commits (macOS runners were once unavailable and GitHub cancelled the queued jobs, which was not a code failure) ([Actions](https://github.com/shahvatsalofficial/archsutra-ai/actions)); confirm the latest run there |
+| CI matrix | Ubuntu and Windows x Node 20, 22, 24 plus Ubuntu on the newest Node, passing; macOS runs in a separate workflow because GitHub's macOS runners were unavailable and cancelled queued jobs (no steps ran). macOS passed on the v0.1.0 commit; re-confirmation is pending ([Actions](https://github.com/shahvatsalofficial/archsutra-ai/actions)); confirm the latest run there |
 | Robustness | ReDoS guard, hostile file names, binary files, path traversal, symlinks, byte and file budgets, all tested |
 | Performance | median 1.2 s per real repository; bounded by file, size, byte and time limits ([benchmarks](docs/proof/benchmarks.md)) |
 | Accessibility of the docs site | axe-core: 0 violations over 19 pages x 2 themes; 22 contrast checks pass ([audit](docs/proof/accessibility.md)); no screen-reader test yet |
@@ -135,7 +134,7 @@ Scorecard: Security weak, Maintainability adequate; Reliability, Performance,
 Scalability, Data integrity, Cost: not assessed (needs runtime evidence)
 ```
 
-Every report comes in **HTML and Markdown**: open [`index.html`](examples/brownfield-monolith/sample-output/index.html) (readable web pages: [audit](examples/brownfield-monolith/sample-output/audit-report.html), [current state](examples/brownfield-monolith/sample-output/current-state.html)) or use the Markdown files in pull requests. Also generated: [`findings.json`](examples/brownfield-monolith/sample-output/findings.json) (schema v1.0.0) and [`findings.sarif`](examples/brownfield-monolith/sample-output/findings.sarif). One page only: `archsutra audit . --format html > audit-report.html`.
+Every report comes in **HTML and Markdown**: open [`index.html`](examples/brownfield-monolith/sample-output/index.html) (readable web pages: [audit](examples/brownfield-monolith/sample-output/audit-report.html), [current state](examples/brownfield-monolith/sample-output/current-state.html)) or use the Markdown files in pull requests. Also generated: [`findings.json`](examples/brownfield-monolith/sample-output/findings.json) (schema v1.0.0) and [`findings.sarif`](examples/brownfield-monolith/sample-output/findings.sarif). Terminal only, no files: `archsutra audit . --format html`.
 
 Every finding carries: stable ID, severity, confidence, evidence (`observed` / `inferred` / `unknown`), impact, why it matters, fix, verification, acceptance criteria, owner type, effort, caveats and references. Schema: [`schemas/findings.schema.json`](schemas/findings.schema.json).
 
@@ -176,6 +175,7 @@ Real sub-agent spawning depends on the host. Where unavailable, Prime performs t
 
 ```text
 archsutra init|doctor|map|audit|verify|export [path]
+archsutra html <file.md>
 archsutra install|uninstall --host <claude|cursor|codex|copilot|gemini> [--target dir] [--dry-run] [--force]
 archsutra hosts
 Flags: --json  --format <md|html>  --dry-run  --output <dir>  --fail-on <critical|high|medium|low>  --verbose  --version  --help
@@ -188,7 +188,7 @@ Exit codes: `0` ok, `1` findings at or above `--fail-on` / install conflict / fa
 ## Use it in CI
 
 ```yaml
-- run: npx --yes github:shahvatsalofficial/archsutra-ai#v0.1.1 audit . --fail-on high
+- run: npx --yes github:shahvatsalofficial/archsutra-ai#v0.1.2 audit . --fail-on high
 ```
 
 Upload SARIF to GitHub code scanning: see the [user guide](docs/handbook/05-user-guide.md). Start with `--fail-on critical` on an existing codebase and tighten later; roughly half of valid findings need no action.

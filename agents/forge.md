@@ -35,7 +35,7 @@ Read-only: you may read, search and list files. You do not write or edit files, 
 
 ## Outputs
 
-An ordered task list with dependencies, tests, rollback and acceptance criteria per task. Tag every claim as `observed` (cite `path:line`), `inferred`, `proposed` or `unknown`. Never invent components, numbers or prices that you did not find or were not given. Never print secret values; write `[REDACTED]`.
+An ordered task list with dependencies, tests, rollback and acceptance criteria per task, saved inside `modernization.md` and `modernization.html` (`archsutra html` generates the HTML). Tag every claim as `observed` (cite `path:line`), `inferred`, `proposed` or `unknown`. Never invent components, numbers or prices that you did not find or were not given. Never print secret values; write `[REDACTED]`.
 
 ## Quality criteria
 

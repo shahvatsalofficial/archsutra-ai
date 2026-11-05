@@ -2,6 +2,19 @@
 
 All notable changes follow [Semantic Versioning](https://semver.org/).
 
+## 0.1.2 - 2026-11-06
+
+Reports a person can open, and a CI split so a missing macOS runner does not fail the main workflow.
+
+### Added
+- `archsutra audit --output <dir>` writes the full report set. Every human report is both Markdown and HTML: `audit-report.md` / `audit-report.html`, `current-state.md` / `current-state.html`, `index.html` / `README.md`, plus JSON and SARIF.
+- `archsutra map --output <dir>` writes `current-state.md` and `current-state.html`.
+- `archsutra html <file.md>` renders a narrative Markdown report (design, threat model, modernization, verification) to a self-contained HTML page. Repository text is escaped. `javascript:` and `data:` links are not turned into links.
+- Skills and agents tell the assistant to save that pair of files instead of leaving the report only in chat.
+
+### Changed
+- macOS CI moved to `.github/workflows/ci-macos.yml` (`macos-14`, Node 24). The main CI workflow no longer waits on macOS runners. A cancelled macOS queue is an infrastructure outcome, not a failure of the main CI.
+
 ## 0.1.1 - 2026-11-01
 
 Trust, accuracy and supply-chain release.

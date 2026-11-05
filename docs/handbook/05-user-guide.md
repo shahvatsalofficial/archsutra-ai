@@ -29,13 +29,15 @@ You will see a summary, a scorecard and findings. Each finding shows severity, c
 For machine-readable output:
 
 ```bash
-npx github:shahvatsalofficial/archsutra-ai audit . --json > findings.json
+npx github:shahvatsalofficial/archsutra-ai audit . --output docs/architecture
 ```
 
-To see only the structure of the codebase:
+Open `docs/architecture/index.html`. The same directory holds `audit-report.md` and `audit-report.html`, `current-state.md` and `current-state.html`. Terminal only (no files): `audit .` or `audit . --format html`. Machine readable: `audit . --json`.
+
+To see only the structure of the codebase, as both files:
 
 ```bash
-npx github:shahvatsalofficial/archsutra-ai map .
+npx github:shahvatsalofficial/archsutra-ai map . --output docs/architecture
 ```
 
 ## 4. Generate a documentation set
@@ -45,7 +47,15 @@ npx github:shahvatsalofficial/archsutra-ai export . --dry-run         # preview
 npx github:shahvatsalofficial/archsutra-ai export . --output docs/architecture
 ```
 
-Files written: `index.html` (open this one first in a browser), `README.md`, `audit-report.html` and `audit-report.md`, `current-state.html` and `current-state.md`, `findings.json`, `findings.sarif`, `architecture-register.json`. Every report exists as readable HTML and as Markdown. For one page only: `archsutra audit . --format html > audit-report.html`.
+`export` writes the same files as `audit --output`: `index.html` (open this one first in a browser), `README.md`, `audit-report.html` and `audit-report.md`, `current-state.html` and `current-state.md`, `findings.json`, `findings.sarif`, `architecture-register.json`. Every human report exists as readable HTML and as Markdown.
+
+Narrative reports from the skills (design, threat model, modernization, verification) are not produced by the scanner. Save the Markdown, then:
+
+```bash
+npx github:shahvatsalofficial/archsutra-ai html docs/architecture/design.md
+```
+
+That writes `design.html` beside it. The page escapes repository text and ships a Content-Security-Policy. Do not hand-write the HTML.
 
 ## 5. Install the skills into your AI IDE
 

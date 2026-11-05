@@ -403,6 +403,44 @@ test('HTML reports: both formats exist, hostile text is escaped, CSP present, fi
   await rm(r, { recursive: true, force: true });
 });
 
+test('audit and map --output write Markdown and HTML together; html command escapes narrative', async () => {
+  const r = await tmp('both');
+  await put(r, 'package.json', '{"name":"x","dependencies":{"a":"latest"}}');
+  await put(r, 'src/a.js', 'eval(userInput);\n');
+  const dry = run(['audit', r, '--output', 'docs/architecture', '--dry-run']);
+  assert.equal(dry.status, 0);
+  assert.match(dry.stdout, /audit-report\.md/);
+  assert.match(dry.stdout, /audit-report\.html/);
+  assert.match(dry.stdout, /current-state\.md/);
+  assert.ok(!existsSync(path.join(r, 'docs/architecture/audit-report.html')));
+  assert.equal(run(['audit', r, '--output', 'docs/architecture']).status, 0);
+  const dir = path.join(r, 'docs/architecture');
+  for (const f of ['audit-report.md', 'audit-report.html', 'current-state.md', 'current-state.html', 'index.html', 'README.md']) {
+    assert.ok(existsSync(path.join(dir, f)), `missing ${f}`);
+  }
+  const reportHtml = await readFile(path.join(dir, 'audit-report.html'), 'utf8');
+  const reportMd = await readFile(path.join(dir, 'audit-report.md'), 'utf8');
+  assert.match(reportHtml, /<!doctype html>/i);
+  assert.match(reportMd, /AS-SEC-004/);
+  assert.equal(run(['audit', r, '--output', '../escape']).status, 2);
+  assert.equal(run(['map', r, '--output', 'docs/map']).status, 0);
+  assert.ok(existsSync(path.join(r, 'docs/map/current-state.md')));
+  assert.ok(existsSync(path.join(r, 'docs/map/current-state.html')));
+  const narrative = path.join(r, 'design.md');
+  await writeFile(narrative, '# Design\n\nSee <script>alert(1)</script> and [x](javascript:alert(1)).\n\n**Keep** `code`.\n', 'utf8');
+  assert.equal(run(['html', narrative]).status, 0);
+  const page = await readFile(path.join(r, 'design.html'), 'utf8');
+  assert.match(page, /<!doctype html>/i);
+  assert.match(page, /Content-Security-Policy/);
+  assert.ok(!page.includes('<script>alert(1)</script>'));
+  assert.ok(!/href="javascript:/i.test(page));
+  assert.match(page, /<strong>Keep<\/strong>/);
+  assert.match(page, /<code>code<\/code>/);
+  assert.equal(run(['html']).status, 2);
+  assert.equal(run(['html', narrative, '--output', 'not-html.txt']).status, 2);
+  await rm(r, { recursive: true, force: true });
+});
+
 test('agent standard: all agents valid; validator rejects each violation; Claude profile uses documented keys', async () => {
   const { validateAgent } = await import('../dist/verify.js');
   const dir = path.join(REPO, 'agents');

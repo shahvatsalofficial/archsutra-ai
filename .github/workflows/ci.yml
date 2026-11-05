@@ -13,15 +13,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # macOS runs in its own workflow (ci-macos.yml): GitHub's macOS runners are often unavailable and a
+        # cancelled queue must not turn this workflow red.
+        os: [ubuntu-latest, windows-latest]
         node: [20, 22, 24]
-        # macOS runners are scarce: jobs there once waited 45 minutes for a runner and were cancelled by GitHub
-        # (no steps ran, so not a code failure). Keep one macOS job; Windows and Linux cover Node 20, 22 and 24.
-        exclude:
-          - os: macos-latest
-            node: 20
-          - os: macos-latest
-            node: 22
         include:
           # newest stable Node line, to catch breakage early
           - os: ubuntu-latest

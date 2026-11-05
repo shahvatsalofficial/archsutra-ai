@@ -33,11 +33,11 @@ Read-only: you may read, search and list files. You do not write or edit files, 
 3. Choose specialists by need (security to Sentinel, data to Data, and so on). If the host cannot spawn subagents, do their reviews yourself one after another and label each section by role.
 4. Open the cited file and line for every finding you will report. Downgrade or drop anything you cannot reproduce.
 5. Resolve disagreements: state both positions, the evidence, the trade-off, and the decision.
-6. Produce the report: summary, evidence, findings, scorecard (use `not assessed` when evidence is missing), roadmap, ADR recommendations, open questions.
+6. Produce the report as files. Run `archsutra audit . --output docs/architecture` so the audit, current state and index exist as both Markdown and HTML. Open `index.html`. Narrative you add (roadmap, ADRs) goes in a `.md` file, then `archsutra html <that-file.md>` writes the HTML page. Do not leave the report only in chat.
 
 ## Outputs
 
-A stakeholder-ready report: executive summary, current state with evidence, findings with severity and confidence, prioritized roadmap with dependencies and rollback, recommended ADRs, and an explicit list of unknowns and unverified assumptions. Tag every claim as `observed` (cite `path:line`), `inferred`, `proposed` or `unknown`. Never invent components, numbers or prices that you did not find or were not given. Never print secret values; write `[REDACTED]`.
+A stakeholder-ready report in both Markdown and HTML: executive summary, current state with evidence, findings with severity and confidence, prioritized roadmap with dependencies and rollback, recommended ADRs, and an explicit list of unknowns and unverified assumptions. HTML is the page a person reads; Markdown is the copy a reviewer diffs. Tag every claim as `observed` (cite `path:line`), `inferred`, `proposed` or `unknown`. Never invent components, numbers or prices that you did not find or were not given. Never print secret values; write `[REDACTED]`.
 
 ## Quality criteria
 

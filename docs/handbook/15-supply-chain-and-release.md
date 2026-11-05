@@ -47,7 +47,7 @@ A successful `gh attestation verify` proves the tarball was built by the reposit
 
 - Prefer a pinned reference, not the moving default branch:
   ```bash
-  npx github:shahvatsalofficial/archsutra-ai#v0.1.1 audit .
+  npx github:shahvatsalofficial/archsutra-ai#v0.1.2 audit . --output docs/architecture
   ```
   Even better, pin a full commit SHA: `npx github:shahvatsalofficial/archsutra-ai#<40-char sha> audit .`.
 - `npx github:...` builds from source on your machine (`prepare` runs `tsc`); that requires the dev dependencies (TypeScript) to be installed during the build, which come from the lockfile.

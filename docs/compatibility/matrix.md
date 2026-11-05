@@ -16,9 +16,9 @@ Overlap warning: Cursor and Copilot also read `.claude/skills` and `.agents/skil
 
 | OS | Status |
 |---|---|
-| Windows and Linux (GitHub Actions, Node 20, 22, 24; Linux also newest Node), macOS (Node 24) | typecheck, tests, verify and self-audit pass in CI on the v0.1.0 commit; re-confirm on the latest commit |
+| Windows and Linux (GitHub Actions, Node 20, 22, 24; Linux also newest Node) | typecheck, tests, verify and self-audit pass in CI on the v0.1.0 commit; re-confirm on the latest commit |
 | Windows 11 with Node 24.15.0 and 26.13.0 (latest stable on 2026-11-01) | developer machine; typecheck, 28 tests, verify and self-audit pass on both |
-| CI matrix (after the next push) | adds Node 24 on all three OSes and Node latest on Ubuntu |
+| macOS | passed on the v0.1.0 commit (Node 20, 22); now in `ci-macos.yml` (`macos-14`, Node 24) because GitHub's macOS runners were unavailable and cancelled queued jobs; re-confirmation pending |
 
 ## Live smoke tests
 

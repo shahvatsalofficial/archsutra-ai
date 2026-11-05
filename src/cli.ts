@@ -5,7 +5,7 @@ import { HOSTS, detectHosts, doctor, install, packageRoot, planInstall, uninstal
 import { runAudit } from './audit.js';
 import { exists } from './fsutil.js';
 import { buildMap } from './map.js';
-import { renderAuditHtml, renderCurrentStateHtml, renderOverviewHtml } from './html.js';
+import { markdownTitle, renderAuditHtml, renderCurrentStateHtml, renderMarkdownHtml, renderOverviewHtml } from './html.js';
 import { findingsJson, registerJson, renderAuditReport, renderCurrentState, renderOverview, renderSarif } from './report.js';
 import type { Severity } from './types.js';
 import { verifyProject } from './verify.js';
@@ -23,7 +23,8 @@ Deterministic commands (no AI, no network, read-only unless noted):
   map [path]         reverse-engineer modules, dependencies, cycles
   audit [path]       evidence-linked findings + scorecard
   verify [path]      validate skills, agents, links, diagrams, findings.json
-  export [path]      write docs/architecture/* (use --output; writes files)
+  export [path]      write every report as Markdown and HTML (use --output)
+  html <file.md>     write a readable HTML page next to a Markdown report
   install            install skills/agents into a project (--host, --target)
   uninstall          remove files ArchSutra installed (--host, --target)
   hosts              list adapters and their support level
@@ -33,9 +34,10 @@ Model-backed workflows (${MODEL_COMMANDS.join(', ')}):
 
 Options:
   --json             machine-readable output
-  --format <md|html> report format for audit and map (default md); export always writes both
+  --format <md|html> stdout format for audit and map when not writing files (default md)
   --dry-run          show what would change; write nothing
-  --output <dir>     output directory for export (default docs/architecture)
+  --output <dir>     directory for audit, map and export (export default docs/architecture).
+                     audit and map write Markdown and HTML together. For html, a .html file path.
   --host <id>        claude | cursor | codex | copilot | gemini
   --target <dir>     project to install into (default .)
   --force            overwrite modified files (backups kept)
@@ -67,6 +69,40 @@ function parse(argv: string[]): Args {
 
 function out(json: boolean, data: unknown, text: string): void {
   process.stdout.write(json ? `${JSON.stringify(data, null, 2)}\n` : `${text}\n`);
+}
+
+type ReportFile = { path: string; content: string };
+
+function insideProject(target: string, outputFlag: string): string | undefined {
+  const outDir = path.resolve(target, outputFlag);
+  const rel = path.relative(target, outDir);
+  if (rel.startsWith('..') || path.isAbsolute(rel)) return undefined;
+  return outDir;
+}
+
+function reportBundle(res: Awaited<ReturnType<typeof runAudit>>): ReportFile[] {
+  const files: ReportFile[] = [
+    { path: 'README.md', content: renderOverview(res) },
+    { path: 'index.html', content: renderOverviewHtml(res) },
+    { path: 'current-state.md', content: renderCurrentState(res.map) },
+    { path: 'current-state.html', content: renderCurrentStateHtml(res.map) },
+    { path: 'audit-report.md', content: renderAuditReport(res) },
+    { path: 'audit-report.html', content: renderAuditHtml(res) },
+    { path: 'findings.json', content: JSON.stringify(findingsJson(res), null, 2) },
+    { path: 'findings.sarif', content: JSON.stringify(renderSarif(res), null, 2) },
+  ];
+  files.push({ path: 'architecture-register.json', content: JSON.stringify(registerJson(files), null, 2) });
+  return files;
+}
+
+async function writeReportFiles(outDir: string, files: ReportFile[], dry: boolean): Promise<void> {
+  if (dry) return;
+  await fs.mkdir(outDir, { recursive: true });
+  for (const f of files) await fs.writeFile(path.join(outDir, f.path), f.content, 'utf8');
+}
+
+function wroteLine(dry: boolean, outDir: string, files: ReportFile[], hint: string): string {
+  return `${dry ? 'Would write' : 'Wrote'} ${files.length} files to ${outDir}\n${files.map((f) => `  ${f.path}`).join('\n')}\n${hint}`;
 }
 
 async function main(): Promise<number> {
@@ -114,9 +150,23 @@ async function main(): Promise<number> {
     case 'map': {
       const map = await buildMap(target);
       const fmt = String(args.flags.format ?? 'md');
-      if (!['md', 'html'].includes(fmt)) {
+      if (args.flags.format && !['md', 'html'].includes(fmt)) {
         process.stderr.write(`Invalid --format "${fmt}" (use md or html)\n`);
         return EXIT.usage;
+      }
+      if ('output' in args.flags) {
+        const outDir = insideProject(target, String(args.flags.output || 'docs/architecture'));
+        if (!outDir) {
+          process.stderr.write('--output must stay inside the project directory.\n');
+          return EXIT.usage;
+        }
+        const files: ReportFile[] = [
+          { path: 'current-state.md', content: renderCurrentState(map) },
+          { path: 'current-state.html', content: renderCurrentStateHtml(map) },
+        ];
+        await writeReportFiles(outDir, files, dry);
+        out(json, { dryRun: dry, outDir, files: files.map((f) => f.path) }, wroteLine(dry, outDir, files, 'Open current-state.html in a browser. current-state.md is the same report in Markdown.'));
+        return EXIT.ok;
       }
       out(json, map, fmt === 'html' ? renderCurrentStateHtml(map) : renderCurrentState(map));
       return EXIT.ok;
@@ -124,11 +174,22 @@ async function main(): Promise<number> {
     case 'audit': {
       const res = await runAudit(target);
       const fmt = String(args.flags.format ?? 'md');
-      if (!['md', 'html'].includes(fmt)) {
+      if (args.flags.format && !['md', 'html'].includes(fmt)) {
         process.stderr.write(`Invalid --format "${fmt}" (use md or html)\n`);
         return EXIT.usage;
       }
-      out(json, findingsJson(res), fmt === 'html' ? renderAuditHtml(res) : renderAuditReport(res));
+      if ('output' in args.flags) {
+        const outDir = insideProject(target, String(args.flags.output || 'docs/architecture'));
+        if (!outDir) {
+          process.stderr.write('--output must stay inside the project directory.\n');
+          return EXIT.usage;
+        }
+        const files = reportBundle(res);
+        await writeReportFiles(outDir, files, dry);
+        out(json, { dryRun: dry, outDir, files: files.map((f) => f.path) }, wroteLine(dry, outDir, files, 'Open index.html in a browser. Each report also has a Markdown file beside it.'));
+      } else {
+        out(json, findingsJson(res), fmt === 'html' ? renderAuditHtml(res) : renderAuditReport(res));
+      }
       const order: Severity[] = ['critical', 'high', 'medium', 'low', 'info'];
       const th = args.flags['fail-on'] as string | undefined;
       if (th) {
@@ -141,35 +202,43 @@ async function main(): Promise<number> {
       }
       return EXIT.ok;
     }
+    case 'html': {
+      const srcArg = args.pos[0];
+      if (!srcArg) {
+        process.stderr.write('html requires a Markdown file.\n');
+        return EXIT.usage;
+      }
+      const src = path.resolve(srcArg);
+      const md = await fs.readFile(src, 'utf8');
+      const dest = args.flags.output ? path.resolve(String(args.flags.output)) : `${src.replace(/\.md$/i, '')}.html`;
+      if (path.extname(dest).toLowerCase() !== '.html') {
+        process.stderr.write('--output for html must be a .html file.\n');
+        return EXIT.usage;
+      }
+      const title = markdownTitle(md, path.basename(src, path.extname(src)));
+      const html = renderMarkdownHtml(md, title);
+      if (!dry) {
+        await fs.mkdir(path.dirname(dest), { recursive: true });
+        await fs.writeFile(dest, html, 'utf8');
+      }
+      out(json, { dryRun: dry, source: src, output: dest }, `${dry ? 'Would write' : 'Wrote'} ${dest}\nOpen it in a browser. The Markdown file stays beside it.`);
+      return EXIT.ok;
+    }
     case 'verify': {
       const checks = await verifyProject(target);
       out(json, checks, checks.map((c) => `${c.ok ? 'PASS' : 'FAIL'} ${c.id}: ${c.message}`).join('\n'));
       return checks.every((c) => c.ok) ? EXIT.ok : EXIT.verifyFailed;
     }
     case 'export': {
-      const outDir = path.resolve(target, String(args.flags.output ?? 'docs/architecture'));
-      const rel = path.relative(target, outDir);
-      if (rel.startsWith('..') || path.isAbsolute(rel)) {
+      const outDir = insideProject(target, String(args.flags.output || 'docs/architecture'));
+      if (!outDir) {
         process.stderr.write('--output must stay inside the project directory.\n');
         return EXIT.usage;
       }
       const res = await runAudit(target);
-      const files = [
-        { path: 'README.md', content: renderOverview(res) },
-        { path: 'index.html', content: renderOverviewHtml(res) },
-        { path: 'current-state.md', content: renderCurrentState(res.map) },
-        { path: 'current-state.html', content: renderCurrentStateHtml(res.map) },
-        { path: 'audit-report.md', content: renderAuditReport(res) },
-        { path: 'audit-report.html', content: renderAuditHtml(res) },
-        { path: 'findings.json', content: JSON.stringify(findingsJson(res), null, 2) },
-        { path: 'findings.sarif', content: JSON.stringify(renderSarif(res), null, 2) },
-      ];
-      files.push({ path: 'architecture-register.json', content: JSON.stringify(registerJson(files), null, 2) });
-      if (!dry) {
-        await fs.mkdir(outDir, { recursive: true });
-        for (const f of files) await fs.writeFile(path.join(outDir, f.path), f.content, 'utf8');
-      }
-      out(json, { dryRun: dry, outDir, files: files.map((f) => f.path) }, `${dry ? 'Would write' : 'Wrote'} ${files.length} files to ${outDir}\n${files.map((f) => `  ${f.path}`).join('\n')}`);
+      const files = reportBundle(res);
+      await writeReportFiles(outDir, files, dry);
+      out(json, { dryRun: dry, outDir, files: files.map((f) => f.path) }, wroteLine(dry, outDir, files, 'Open index.html in a browser. Each report also has a Markdown file beside it.'));
       return EXIT.ok;
     }
     case 'install': {

@@ -12,7 +12,7 @@
 | experimental | Layout unconfirmed for the current host release |
 | unsupported | Not supported |
 
-## 2. Host matrix (v0.1.1)
+## 2. Host matrix (v0.1.2)
 
 | Host | Level | Skills path | Agents path | Verified | Not verified |
 |---|---|---|---|---|---|
@@ -30,7 +30,7 @@ All five layouts were checked against the vendors' current documentation on 2026
 |---|---|
 | Ubuntu (latest), Node 20 and 22 | CI passes |
 | Windows (latest), Node 20 and 22 | CI passes on the v0.1.0 commit; run locally on Windows 11 with Node 24 |
-| macOS (latest), Node 24 | CI (v0.1.0 commit passed on Node 20 and 22; the matrix now runs Node 24 only on macOS because macOS runners are scarce) |
+| macOS | v0.1.0 commit passed on Node 20 and 22; now a separate workflow (`ci-macos.yml`, `macos-14`, Node 24) because GitHub's macOS runners were unavailable; re-confirmation pending |
 
 ## 4. Language support in analysis
 
@@ -47,7 +47,8 @@ Line-based security rules apply to all recognised source extensions where noted 
 | Milestone | Scope | Acceptance test |
 |---|---|---|
 | v0.1 (done) | Skills, agents, CLI, adapters, CI, docs | `npm test` green on 3 OS; fixtures match expected rules |
-| v0.1.1 (done locally, pending push) | Real-world evaluation and precision fixes, pinned actions, release/SBOM/attestation workflow, Scorecard, DCO, accessibility audit, coverage, benchmarks, governance | See [Trust and assurance](13-trust-and-assurance.md) |
+| v0.1.1 (released) | Real-world evaluation and precision fixes, pinned actions, release/SBOM/attestation workflow, Scorecard, DCO, accessibility audit, coverage, benchmarks, governance | See [Trust and assurance](13-trust-and-assurance.md) |
+| v0.1.2 | Dual-file reports (Markdown and HTML) for the audit set and for narrative skill output; macOS CI split into its own workflow | `audit --output` writes both formats; `html <file.md>` renders narrative pages; main CI does not include macOS |
 | v0.2 | Live smoke tests per host; upgrade verified hosts to `native`; matrix with versions | One issue-linked report per host with version and evidence |
 | v0.3 | More analyzers (Java/Kotlin, C#, Go, Rust import graphs); fitness-function generator; rule suppression file | New fixtures with expected rules; precision/recall stays 1.00 on fixtures |
 | v0.4 | Larger, multi-labeler corpus; recall estimate; comparison with other scanners published | At least 100 labeled findings by two labelers; first `comparison.yml` run reviewed |

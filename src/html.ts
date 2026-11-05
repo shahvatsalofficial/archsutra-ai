@@ -139,6 +139,155 @@ ${map.cycles.length ? `<ul>${map.cycles.map((cy) => `<li><code>${esc(cy.join(' <
   return page('Current State (observed)', NAV, body, { mermaid: true });
 }
 
+/** Safe subset of Markdown for narrative reports. Repository text is untrusted: no raw HTML. */
+export function markdownTitle(markdown: string, fallback: string): string {
+  const m = /^#\s+(.+)$/m.exec(markdown);
+  return (m?.[1] ?? fallback).replace(/[`*]/g, '').trim() || fallback;
+}
+
+function safeHref(href: string): boolean {
+  const h = href.trim();
+  if (/[\u0000-\u001f\s]/.test(h)) return false;
+  if (/^javascript:/i.test(h) || /^data:/i.test(h)) return false;
+  return /^(https?:|mailto:|#|\/|\.\/|\.\.\/)/i.test(h);
+}
+
+function inlineMd(raw: string): string {
+  const codes: string[] = [];
+  const slotted = raw.replace(/`([^`\n]+)`/g, (_m, c) => `\u0000${codes.push(c) - 1}\u0000`);
+  let s = esc(slotted);
+  s = s.replace(/!\[([^\]]*)\]\([^)\s]+\)/g, '$1');
+  s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, t, u) => {
+    const href = u.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+    if (!safeHref(href)) return t;
+    const ext = /^https?:/i.test(href);
+    return `<a href="${esc(href)}"${ext ? ' rel="noopener noreferrer"' : ''}>${t}</a>`;
+  });
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/(^|[^*\w])\*([^*\n]+)\*(?![*\w])/g, '$1<em>$2</em>');
+  return s.replace(/\u0000(\d+)\u0000/g, (_m, i) => `<code>${esc(codes[Number(i)])}</code>`);
+}
+
+function splitRow(line: string): string[] {
+  const cells: string[] = [];
+  let cur = '';
+  let tick = false;
+  const t = line.trim().replace(/^\|/, '').replace(/\|$/, '');
+  for (const ch of t) {
+    if (ch === '`') tick = !tick;
+    if (ch === '|' && !tick) {
+      cells.push(cur.trim());
+      cur = '';
+    } else cur += ch;
+  }
+  cells.push(cur.trim());
+  return cells;
+}
+
+function isTableSep(line: string): boolean {
+  return /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line.trim());
+}
+
+function markdownBody(markdown: string): { html: string; mermaid: boolean } {
+  const lines = markdown.replace(/\r\n/g, '\n').split('\n');
+  const blocks: string[] = [];
+  let mermaid = false;
+  let i = 0;
+  const pushPara = (buf: string[]): void => {
+    if (buf.length) blocks.push(`<p>${inlineMd(buf.join(' '))}</p>`);
+    buf.length = 0;
+  };
+  const para: string[] = [];
+  while (i < lines.length) {
+    const line = lines[i];
+    const fence = /^```(.*)$/.exec(line);
+    if (fence) {
+      pushPara(para);
+      const lang = fence[1].trim().toLowerCase();
+      const buf: string[] = [];
+      i++;
+      while (i < lines.length && !lines[i].startsWith('```')) {
+        buf.push(lines[i]);
+        i++;
+      }
+      i++;
+      const code = buf.join('\n');
+      if (lang === 'mermaid') {
+        mermaid = true;
+        blocks.push(`<figure class="diagram"><pre class="mermaid">${esc(code)}</pre></figure>`);
+      } else blocks.push(`<pre><code>${esc(code)}</code></pre>`);
+      continue;
+    }
+    if (!line.trim()) {
+      pushPara(para);
+      i++;
+      continue;
+    }
+    const heading = /^(#{1,6})\s+(.+)$/.exec(line);
+    if (heading) {
+      pushPara(para);
+      const level = Math.min(heading[1].length, 6);
+      const tag = level === 1 ? 'h2' : `h${level}`;
+      blocks.push(`<${tag}>${inlineMd(heading[2])}</${tag}>`);
+      i++;
+      continue;
+    }
+    if (/^(-{3,}|\*{3,})$/.test(line.trim())) {
+      pushPara(para);
+      blocks.push('<hr>');
+      i++;
+      continue;
+    }
+    if (line.includes('|') && i + 1 < lines.length && isTableSep(lines[i + 1])) {
+      pushPara(para);
+      const head = splitRow(line);
+      i += 2;
+      const rows: string[][] = [];
+      while (i < lines.length && lines[i].includes('|') && lines[i].trim()) {
+        rows.push(splitRow(lines[i]));
+        i++;
+      }
+      const th = head.map((c) => `<th scope="col">${inlineMd(c)}</th>`).join('');
+      const tb = rows.map((r) => `<tr>${r.map((c) => `<td>${inlineMd(c)}</td>`).join('')}</tr>`).join('');
+      blocks.push(`<div class="table-wrap"><table><thead><tr>${th}</tr></thead><tbody>${tb}</tbody></table></div>`);
+      continue;
+    }
+    const item = /^(\s*)([-*]|\d+\.)\s+(.*)$/.exec(line);
+    if (item) {
+      pushPara(para);
+      const ordered = /\d/.test(item[2]);
+      const items: string[] = [];
+      while (i < lines.length) {
+        const m = /^(\s*)([-*]|\d+\.)\s+(.*)$/.exec(lines[i]);
+        if (!m || (/\d/.test(m[2]) !== ordered)) break;
+        items.push(`<li>${inlineMd(m[3])}</li>`);
+        i++;
+      }
+      blocks.push(ordered ? `<ol>${items.join('')}</ol>` : `<ul>${items.join('')}</ul>`);
+      continue;
+    }
+    if (/^>\s?/.test(line)) {
+      pushPara(para);
+      const quote: string[] = [];
+      while (i < lines.length && /^>\s?/.test(lines[i])) {
+        quote.push(lines[i].replace(/^>\s?/, ''));
+        i++;
+      }
+      blocks.push(`<blockquote><p>${inlineMd(quote.join(' '))}</p></blockquote>`);
+      continue;
+    }
+    para.push(line.trim());
+    i++;
+  }
+  pushPara(para);
+  return { html: blocks.join('\n') || '<p class="notice">Empty report.</p>', mermaid };
+}
+
+export function renderMarkdownHtml(markdown: string, title: string): string {
+  const { html, mermaid } = markdownBody(markdown);
+  return page(title, '', html, { mermaid });
+}
+
 export function renderOverviewHtml(r: AuditResult): string {
   const c = sevCounts(r);
   const body = `

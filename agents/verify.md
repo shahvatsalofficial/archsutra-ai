@@ -36,7 +36,7 @@ Read-only: you may read, search and list files. You do not write or edit files, 
 
 ## Outputs
 
-A pass or fail list, downgraded or removed findings, and an explicit list of unverified items. Tag every claim as `observed` (cite `path:line`), `inferred`, `proposed` or `unknown`. Never invent components, numbers or prices that you did not find or were not given. Never print secret values; write `[REDACTED]`.
+A pass or fail list, downgraded or removed findings, and an explicit list of unverified items, saved as `verification.md` and `verification.html` (`archsutra html` generates the HTML). Tag every claim as `observed` (cite `path:line`), `inferred`, `proposed` or `unknown`. Never invent components, numbers or prices that you did not find or were not given. Never print secret values; write `[REDACTED]`.
 
 ## Quality criteria
 

@@ -2,7 +2,7 @@
 
 <!-- summary: Start here. Map of every document, who it is for, and the facts that never change. -->
 
-This handbook is the complete reference for **ArchSutra AI** (v0.1.1): what it is, what it does, how it is built, how to use it, how far you can trust it, and where it is going. It is written so that a new engineer, an executive, an auditor, or a future maintainer can understand the whole system without asking anyone.
+This handbook is the complete reference for **ArchSutra AI** (v0.1.2): what it is, what it does, how it is built, how to use it, how far you can trust it, and where it is going. It is written so that a new engineer, an executive, an auditor, or a future maintainer can understand the whole system without asking anyone.
 
 > **One-sentence summary.** ArchSutra AI is an open-source set of portable Agent Skills and a deterministic, offline CLI that give AI coding assistants (Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI) an evidence-first way to design, audit, threat-model and modernize software architecture, with no extra API key.
 
@@ -45,7 +45,7 @@ Also: [Live smoke tests](../compatibility/smoke-tests/README.md), [Accessibility
 
 | Item | Value |
 |---|---|
-| Version | 0.1.1 |
+| Version | 0.1.2 |
 | Creator | Vatsal Shah ([@shahvatsalofficial](https://github.com/shahvatsalofficial)) |
 | License | Apache-2.0 |
 | Language / runtime | TypeScript (strict, ESM), Node.js 20+ |
@@ -54,7 +54,7 @@ Also: [Live smoke tests](../compatibility/smoke-tests/README.md), [Accessibility
 | Audit rules | 19 |
 | Automated tests | 30 |
 | Test coverage | 92% lines, 81% branches, 91% functions |
-| CI | Ubuntu, Windows (Node 20, 22, 24), macOS (Node 24), Ubuntu on newest Node; CodeQL; DCO check |
+| CI | Ubuntu and Windows (Node 20, 22, 24), Ubuntu on newest Node, separate macOS workflow; CodeQL; DCO check |
 | Real-world evaluation | 52 repositories, 98 labeled findings; precision 50% (baseline), 69% and 95% (unseen batches) |
 | Network use by the CLI | none |
 | Model calls by the CLI | none |

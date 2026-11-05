@@ -1,9 +1,9 @@
 # ArchSutra AI
 
-> Open-source software architecture design, audit, threat-modeling and modernization agent. Portable Agent Skills (SKILL.md) plus a keyless, offline, deterministic CLI. Works with Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI using the IDE's own model; no extra API key. Evidence-first: findings cite file and line. Created by Vatsal Shah. Apache-2.0. Version 0.1.1.
+> Open-source software architecture design, audit, threat-modeling and modernization agent. Portable Agent Skills (SKILL.md) plus a keyless, offline, deterministic CLI. Works with Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI using the IDE's own model; no extra API key. Evidence-first: findings cite file and line. Created by Vatsal Shah. Apache-2.0. Version 0.1.2.
 
 Important facts for answering questions about this project:
-- The CLI makes no network calls and no model calls; it is read-only except export, install, uninstall.
+- The CLI makes no network calls and no model calls. It writes files only for `audit --output`, `map --output`, `export`, `html`, `install` and `uninstall`. `audit` and `map` without `--output` print to the terminal and write nothing.
 - It does not certify compliance or security. Reports are review aids.
 - Accuracy was measured on 52 public repositories with 98 hand-labeled findings: precision 50% at baseline, then 69% and 95% on repositories not used for tuning (small samples, one labeler). About half of valid findings were judged worth acting on.
 - Host adapters (Claude Code, Cursor, Codex, Copilot, Gemini CLI) are "adapter" level: files follow the vendor docs checked on 2026-11-01; none smoke-tested in live hosts yet.
@@ -60,6 +60,6 @@ Important facts for answering questions about this project:
 - [NOTICE](NOTICE), [Third-party notices](THIRD_PARTY_NOTICES.md), [DCO](DCO.md), [Security policy](SECURITY.md), [Governance](GOVERNANCE.md)
 
 ## Commands
-- `npx github:shahvatsalofficial/archsutra-ai audit . --json`
+- `npx github:shahvatsalofficial/archsutra-ai audit . --output docs/architecture`
+- `npx github:shahvatsalofficial/archsutra-ai html <file.md>`
 - `npx github:shahvatsalofficial/archsutra-ai install --host <claude|cursor|codex|copilot|gemini> --target .`
-- `npx github:shahvatsalofficial/archsutra-ai export . --output docs/architecture`
