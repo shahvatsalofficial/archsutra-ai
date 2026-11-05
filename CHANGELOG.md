@@ -2,6 +2,11 @@
 
 All notable changes follow [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Removed
+- macOS GitHub Actions workflow. GitHub cancelled those jobs before a runner started (no steps ran), which left a failed check. CI is Ubuntu and Windows only.
+
 ## 0.1.2 - 2026-11-06
 
 Reports a person can open, and a CI split so a missing macOS runner does not fail the main workflow.
@@ -13,7 +18,7 @@ Reports a person can open, and a CI split so a missing macOS runner does not fai
 - Skills and agents tell the assistant to save that pair of files instead of leaving the report only in chat.
 
 ### Changed
-- macOS CI moved to `.github/workflows/ci-macos.yml` (`macos-14`, Node 24). The main CI workflow no longer waits on macOS runners. A cancelled macOS queue is an infrastructure outcome, not a failure of the main CI.
+- macOS was taken out of the main CI matrix after GitHub cancelled those jobs before a runner started.
 
 ## 0.1.1 - 2026-11-01
 

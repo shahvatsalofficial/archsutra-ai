@@ -41,7 +41,7 @@
 cd archsutra-ai
 npm ci
 npm test</code></pre></div>
-<p>Windows, macOS and Linux are supported. Use Node 20 or newer.</p>
+<p>CI runs on Ubuntu and Windows. Use Node 20 or newer. macOS is not in CI.</p>
 <h2 id="2-principles">2. Principles<a class="anchor" href="#2-principles" aria-label="Link to this section">#</a></h2>
 <ol><li>Deterministic, offline, read-only by default.</li><li>Evidence over opinion: every finding cites a location or says it is <code>unknown</code>.</li><li>Never print secrets. Route excerpts through <code>excerpt()</code>.</li><li>Honesty over marketing: support levels, caveats, <code>not assessed</code>.</li><li>Small modules; no new runtime dependency without a maintainer decision.</li><li>Tests with every behavior change.</li></ol>
 <h2 id="3-add-an-audit-rule">3. Add an audit rule<a class="anchor" href="#3-add-an-audit-rule" aria-label="Link to this section">#</a></h2>

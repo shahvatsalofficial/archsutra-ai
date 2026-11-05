@@ -52,9 +52,9 @@ Also: [Live smoke tests](../compatibility/smoke-tests/README.md), [Accessibility
 | Runtime dependencies | 0 |
 | Skills / agents | 5 skills, 12 agent roles |
 | Audit rules | 19 |
-| Automated tests | 30 |
+| Automated tests | 31 |
 | Test coverage | 92% lines, 81% branches, 91% functions |
-| CI | Ubuntu and Windows (Node 20, 22, 24), Ubuntu on newest Node, separate macOS workflow; CodeQL; DCO check |
+| CI | Ubuntu and Windows (Node 20, 22, 24), Ubuntu on newest Node; CodeQL; DCO check. macOS is not in CI |
 | Real-world evaluation | 52 repositories, 98 labeled findings; precision 50% (baseline), 69% and 95% (unseen batches) |
 | Network use by the CLI | none |
 | Model calls by the CLI | none |

@@ -101,7 +101,7 @@ Twelve roles with a fixed contract (purpose, when to invoke, inputs, tools and p
 | N-01 | Privacy | No network calls or telemetry in the CLI | code review; no network imports; [threat model](../architecture/threat-model.md) |
 | N-02 | Safety | Read-only except `export`, `install`, `uninstall`, inside the project | tests T1, T5 |
 | N-03 | Performance | Bounded by file count, size and time | test `walk ... respects file limit` |
-| N-04 | Portability | Windows, macOS, Linux; Node 20+ | CI matrix |
+| N-04 | Portability | Node 20+ | CI on Ubuntu and Windows. macOS is not in CI |
 | N-05 | Supply chain | Zero runtime dependencies | CI `npm ls --omit=dev` |
 | N-06 | Determinism | Same input, same findings and IDs | repeated eval runs |
 | N-07 | Accessibility (docs site) | Semantic HTML, keyboard navigation, contrast, reduced motion | [site notes](04-architecture.md#documentation-site) |

@@ -35,7 +35,7 @@ The assistant's own model does the semantic reasoning. The CLI does the repeatab
 
 ## Status
 
-Version 0.1.1 (v0.1.0 is released; 0.1.1 adds the real-world evaluation, precision fixes and trust infrastructure, pending push). It is implemented in TypeScript with zero runtime dependencies and has 30 automated tests that pass on Windows, macOS and Linux in CI. Evidence is in [Testing and proof](08-testing-and-proof.md).
+Version 0.1.2. It is implemented in TypeScript with zero runtime dependencies and has 31 automated tests. CI runs on Ubuntu and Windows. macOS is not in CI. Evidence is in [Testing and proof](08-testing-and-proof.md).
 
 ## Cost and licensing
 

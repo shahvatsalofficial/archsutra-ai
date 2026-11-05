@@ -30,7 +30,7 @@ All five layouts were checked against the vendors' current documentation on 2026
 |---|---|
 | Ubuntu (latest), Node 20 and 22 | CI passes |
 | Windows (latest), Node 20 and 22 | CI passes on the v0.1.0 commit; run locally on Windows 11 with Node 24 |
-| macOS | v0.1.0 commit passed on Node 20 and 22; now a separate workflow (`ci-macos.yml`, `macos-14`, Node 24) because GitHub's macOS runners were unavailable; re-confirmation pending |
+| macOS | not in CI. GitHub cancelled macOS jobs before a runner started (no steps ran). No Mac is available to re-check. v0.1.0 did pass on Node 20 and 22 before those cancellations |
 
 ## 4. Language support in analysis
 
@@ -48,7 +48,7 @@ Line-based security rules apply to all recognised source extensions where noted 
 |---|---|---|
 | v0.1 (done) | Skills, agents, CLI, adapters, CI, docs | `npm test` green on 3 OS; fixtures match expected rules |
 | v0.1.1 (released) | Real-world evaluation and precision fixes, pinned actions, release/SBOM/attestation workflow, Scorecard, DCO, accessibility audit, coverage, benchmarks, governance | See [Trust and assurance](13-trust-and-assurance.md) |
-| v0.1.2 | Dual-file reports (Markdown and HTML) for the audit set and for narrative skill output; macOS CI split into its own workflow | `audit --output` writes both formats; `html <file.md>` renders narrative pages; main CI does not include macOS |
+| v0.1.2 | Dual-file reports (Markdown and HTML) for the audit set and for narrative skill output | `audit --output` writes both formats; `html <file.md>` renders narrative pages |
 | v0.2 | Live smoke tests per host; upgrade verified hosts to `native`; matrix with versions | One issue-linked report per host with version and evidence |
 | v0.3 | More analyzers (Java/Kotlin, C#, Go, Rust import graphs); fitness-function generator; rule suppression file | New fixtures with expected rules; precision/recall stays 1.00 on fixtures |
 | v0.4 | Larger, multi-labeler corpus; recall estimate; comparison with other scanners published | At least 100 labeled findings by two labelers; first `comparison.yml` run reviewed |

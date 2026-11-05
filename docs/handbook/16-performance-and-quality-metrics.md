@@ -57,4 +57,4 @@ Weakest areas: CLI argument-error branches and rarely used `verify` branches. CI
 
 ## Quality gates in CI
 
-Typecheck (strict TypeScript), 31 tests on Ubuntu and Windows across Node 20, 22 and 24 (plus Ubuntu on the newest Node), structural verification of skills, agents, links and diagrams, a self-audit with `--fail-on high`, a production-dependency check, CodeQL, and (on pull requests) the DCO check. macOS runs in a separate workflow.
+Typecheck (strict TypeScript), 31 tests on Ubuntu and Windows across Node 20, 22 and 24 (plus Ubuntu on the newest Node), structural verification of skills, agents, links and diagrams, a self-audit with `--fail-on high`, a production-dependency check, CodeQL, and (on pull requests) the DCO check. macOS is not in CI.

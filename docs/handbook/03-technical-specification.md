@@ -160,4 +160,4 @@ node scripts/eval.mjs
 node scripts/build-docs.mjs
 ```
 
-CI runs the same on Ubuntu and Windows x Node 20, 22, 24, plus Ubuntu on the newest Node, and macOS in a separate workflow, then a self-audit with `--fail-on high` and a check that production dependencies are empty.
+CI runs the same on Ubuntu and Windows x Node 20, 22, 24, plus Ubuntu on the newest Node, then a self-audit with `--fail-on high` and a check that production dependencies are empty. macOS is not in CI.

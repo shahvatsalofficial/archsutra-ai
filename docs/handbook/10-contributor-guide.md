@@ -13,7 +13,7 @@ npm ci
 npm test
 ```
 
-Windows, macOS and Linux are supported. Use Node 20 or newer.
+CI runs on Ubuntu and Windows. Use Node 20 or newer. macOS is not in CI.
 
 ## 2. Principles
 

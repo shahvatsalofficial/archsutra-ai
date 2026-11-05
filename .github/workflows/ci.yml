@@ -13,8 +13,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # macOS runs in its own workflow (ci-macos.yml): GitHub's macOS runners are often unavailable and a
-        # cancelled queue must not turn this workflow red.
+        # Ubuntu and Windows only. GitHub cancelled macOS jobs before a runner started (no steps ran),
+        # and there is no Mac here to re-check them, so macOS is not part of CI.
         os: [ubuntu-latest, windows-latest]
         node: [20, 22, 24]
         include:

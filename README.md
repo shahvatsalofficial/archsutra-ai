@@ -103,7 +103,7 @@ We published the 50% baseline, fixed the false positives it exposed (each has a 
 |---|---|
 | Automated tests (`npm test`) | **31 passed, 0 failed** ([output](docs/proof/test-results.txt)) |
 | Test coverage | 92% lines, 81% branches, 91% functions ([report](docs/proof/coverage.txt)) |
-| CI matrix | Ubuntu and Windows x Node 20, 22, 24 plus Ubuntu on the newest Node, passing; macOS runs in a separate workflow because GitHub's macOS runners were unavailable and cancelled queued jobs (no steps ran). macOS passed on the v0.1.0 commit; re-confirmation is pending ([Actions](https://github.com/shahvatsalofficial/archsutra-ai/actions)); confirm the latest run there |
+| CI matrix | Ubuntu and Windows x Node 20, 22, 24 plus Ubuntu on the newest Node ([Actions](https://github.com/shahvatsalofficial/archsutra-ai/actions)). macOS is not in CI: GitHub cancelled those jobs before a runner started, and there is no Mac available to re-check them |
 | Robustness | ReDoS guard, hostile file names, binary files, path traversal, symlinks, byte and file budgets, all tested |
 | Performance | median 1.2 s per real repository; bounded by file, size, byte and time limits ([benchmarks](docs/proof/benchmarks.md)) |
 | Accessibility of the docs site | axe-core: 0 violations over 19 pages x 2 themes; 22 contrast checks pass ([audit](docs/proof/accessibility.md)); no screen-reader test yet |

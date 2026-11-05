@@ -44,7 +44,7 @@ The symlink test returns early (passes without asserting) on systems where creat
 
 Workflow: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml). Matrix: Ubuntu and Windows x Node 20, 22, 24, plus Ubuntu on the newest Node = 7 test jobs; each runs `npm ci`, typecheck, tests, `verify`, a self-audit with `--fail-on high`, and a check that production dependencies are empty. Extra jobs: coverage report, DCO sign-off check on pull requests. Other workflows: CodeQL, OpenSSF Scorecard, docs-site deploy, tagged release, manual tool comparison.
 
-History worth knowing: the first CI run **failed on Node 20** (a test glob unsupported there); the fix was committed and the matrix passed 6 of 6 on the v0.1.0 commit. A later push had the two macOS jobs still queued when last checked, so "green on the latest commit" must be confirmed on the Actions page. Later, three macOS jobs never received a runner (no steps ran) and GitHub cancelled them after about 45 minutes; macOS now runs in its own workflow (`ci-macos.yml`, `macos-14`) so unavailable runners cannot turn the main CI red; a macOS run that was cancelled with no steps is an infrastructure outcome, not a test failure. Check: https://github.com/shahvatsalofficial/archsutra-ai/actions
+History worth knowing: the first CI run **failed on Node 20** (a test glob unsupported there); the fix was committed and the matrix passed 6 of 6 on the v0.1.0 commit. Later macOS jobs never received a runner (no steps ran) and GitHub cancelled them. Those jobs are no longer in CI. CI is Ubuntu and Windows only. Check: https://github.com/shahvatsalofficial/archsutra-ai/actions
 
 ## 5. Labeled fixtures (regression suite, not accuracy)
 
