@@ -1,6 +1,6 @@
 {
   "name": "archsutra-ai",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "ArchSutra AI: open-source software architecture audit, design and threat-modeling agent skills for Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI, plus a keyless, evidence-first CLI.",
   "keywords": [
     "software-architecture",
@@ -22,7 +22,10 @@
     "llm"
   ],
   "license": "Apache-2.0",
-  "author": "Vatsal Shah",
+  "author": {
+    "name": "Vatsal Shah",
+    "url": "https://shahvatsal.com"
+  },
   "homepage": "https://github.com/shahvatsalofficial/archsutra-ai#readme",
   "repository": {
     "type": "git",
@@ -33,7 +36,8 @@
   },
   "type": "module",
   "bin": {
-    "archsutra": "dist/cli.js"
+    "archsutra": "dist/cli.js",
+    "archsutra-ai": "dist/cli.js"
   },
   "files": [
     "dist",

@@ -4,7 +4,7 @@
 
 | Role | Who | Responsibilities |
 |---|---|---|
-| Creator and lead maintainer | Vatsal Shah ([@shahvatsalofficial](https://github.com/shahvatsalofficial)) | Direction, releases, final decisions, security response |
+| Creator and lead maintainer | [Vatsal Shah](https://shahvatsal.com) | Direction, releases, final decisions, security response |
 | Maintainer | Invited after sustained, high-quality contributions | Review and merge pull requests, triage issues |
 | Contributor | Anyone | Issues, pull requests, smoke-test reports, docs, labeled data |
 

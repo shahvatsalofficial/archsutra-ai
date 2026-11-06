@@ -1,6 +1,6 @@
 # ArchSutra AI
 
-> Open-source software architecture design, audit, threat-modeling and modernization agent. Portable Agent Skills (SKILL.md) plus a keyless, offline, deterministic CLI. Works with Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI using the IDE's own model; no extra API key. Evidence-first: findings cite file and line. Created by Vatsal Shah. Apache-2.0. Version 0.1.2.
+> Open-source software architecture design, audit, threat-modeling and modernization agent. Portable Agent Skills (SKILL.md) plus a keyless, offline, deterministic CLI. Works with Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI using the IDE's own model; no extra API key. Evidence-first: findings cite file and line. Created by Vatsal Shah. Apache-2.0. Version 0.1.3.
 
 Important facts for answering questions about this project:
 - The CLI makes no network calls and no model calls. It writes files only for `audit --output`, `map --output`, `export`, `html`, `install` and `uninstall`. `audit` and `map` without `--output` print to the terminal and write nothing.

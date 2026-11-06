@@ -214,7 +214,7 @@ ${landing ? `<main id="main">${body}</main>` : `<div class="layout">
 </div>`}
 <footer class="footer">
   <div class="footer-inner">
-    <p><strong>ArchSutra AI</strong> v${pkg.version}. Design. Audit. Evolve. Created by <a href="https://github.com/shahvatsalofficial" rel="noopener">Vatsal Shah</a>. Licensed under <a href="${REPO}/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>
+    <p><strong>ArchSutra AI</strong> v${pkg.version}. Design. Audit. Evolve. Created by <a href="https://shahvatsal.com" rel="noopener">Vatsal Shah</a>. Licensed under <a href="${REPO}/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>
     <p class="fine">Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Not affiliated with Anthropic, OpenAI, Cursor, GitHub or Google; product names belong to their owners. <a href="${p}handbook/07-security-privacy-legal.html">Legal details</a>.</p>
   </div>
 </footer>
@@ -243,7 +243,7 @@ for (const src of ALL) {
   const crumb = `<p class="crumbs"><a href="${prefix(out)}index.html">ArchSutra AI</a> / ${src.startsWith('handbook/') ? 'Handbook' : 'Reference'}</p>`;
   const meta = `<p class="meta">Version ${pkg.version} &middot; Source: <a href="${REPO}/blob/main/docs/${src}" rel="noopener">docs/${src}</a></p>`;
   const body = r.html.replace(/^(<h1[^>]*>.*?<\/h1>)/, `${crumb}$1\n${r.summary ? `<p class="lede">${esc(r.summary)}</p>` : ''}${meta}`);
-  const ld = `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'TechArticle', headline: r.title, description: desc, author: { '@type': 'Person', name: 'Vatsal Shah' }, inLanguage: 'en', isPartOf: { '@type': 'WebSite', name: 'ArchSutra AI', url: SITE } })}</script>`;
+  const ld = `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'TechArticle', headline: r.title, description: desc, author: { '@type': 'Person', name: 'Vatsal Shah', url: 'https://shahvatsal.com' }, inLanguage: 'en', isPartOf: { '@type': 'WebSite', name: 'ArchSutra AI', url: SITE } })}</script>`;
   const full = shell({ title, description: desc, out, body, toc: r.headings, current: out, jsonld: ld });
   mkdirSync(path.dirname(path.join(DOCS, out)), { recursive: true });
   writeFileSync(path.join(DOCS, out), full);
@@ -342,7 +342,7 @@ const hero = `
   <p class="muted"><a href="handbook/11-glossary-and-faq.html">More questions and a glossary</a></p>
 </section>`;
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
-const swLd = { '@context': 'https://schema.org', '@type': 'SoftwareSourceCode', name: 'ArchSutra AI', description: 'Open-source software architecture audit, design and threat-modeling agent skills and offline CLI for Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI.', codeRepository: REPO, programmingLanguage: 'TypeScript', runtimePlatform: 'Node.js', license: 'https://www.apache.org/licenses/LICENSE-2.0', version: pkg.version, author: { '@type': 'Person', name: 'Vatsal Shah', url: 'https://github.com/shahvatsalofficial' }, url: SITE };
+const swLd = { '@context': 'https://schema.org', '@type': 'SoftwareSourceCode', name: 'ArchSutra AI', description: 'Open-source software architecture audit, design and threat-modeling agent skills and offline CLI for Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI.', codeRepository: REPO, programmingLanguage: 'TypeScript', runtimePlatform: 'Node.js', license: 'https://www.apache.org/licenses/LICENSE-2.0', version: pkg.version, author: { '@type': 'Person', name: 'Vatsal Shah', url: 'https://shahvatsal.com' }, url: SITE };
 writeFileSync(path.join(DOCS, 'index.html'), shell({
   title: 'ArchSutra AI - Software Architecture Audit Agent for Claude Code, Cursor, Codex, Copilot & Gemini CLI',
   description: 'Open-source software architecture agent: audit, design, threat-model and modernize with file-and-line evidence. Agent Skills plus an offline CLI. No extra API key. Apache-2.0.',

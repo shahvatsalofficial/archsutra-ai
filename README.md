@@ -24,7 +24,7 @@ ArchSutra AI is an open-source **software architecture agent**. It ships portabl
 
 > **No extra API key.** Inside a supported AI IDE, ArchSutra uses that IDE's own model. You need access to the IDE, not to an ArchSutra account. The CLI is offline, read-only by default, and has no telemetry. Optional provider-backed server inference is **not** part of v0.1; if added later it will be opt-in, separately configured, and may cost money.
 
-Created by **[Vatsal Shah](https://github.com/shahvatsalofficial)**. Licensed under Apache-2.0.
+Created by **[Vatsal Shah](https://shahvatsal.com)**. Licensed under Apache-2.0.
 
 ## Contents
 

@@ -2,7 +2,10 @@
 
 All notable changes follow [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.3 - 2026-11-06
+
+### Fixed
+- `npx archsutra-ai` on Windows. The package name and the command name differed, so Windows tried to run `archsutra` and failed with "is not recognized". The package now also installs a command named `archsutra-ai`.
 
 ### Removed
 - macOS GitHub Actions workflow. GitHub cancelled those jobs before a runner started (no steps ran), which left a failed check. CI is Ubuntu and Windows only.

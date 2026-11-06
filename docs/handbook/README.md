@@ -46,7 +46,7 @@ Also: [Live smoke tests](../compatibility/smoke-tests/README.md), [Accessibility
 | Item | Value |
 |---|---|
 | Version | 0.1.2 |
-| Creator | Vatsal Shah ([@shahvatsalofficial](https://github.com/shahvatsalofficial)) |
+| Creator | [Vatsal Shah](https://shahvatsal.com) |
 | License | Apache-2.0 |
 | Language / runtime | TypeScript (strict, ESM), Node.js 20+ |
 | Runtime dependencies | 0 |

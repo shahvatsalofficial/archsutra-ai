@@ -6,7 +6,8 @@ authors:
   - family-names: Shah
     given-names: Vatsal
     alias: shahvatsalofficial
-version: 0.1.2
+    website: "https://shahvatsal.com"
+version: 0.1.3
 date-released: 2026-11-06
 license: Apache-2.0
 repository-code: "https://github.com/shahvatsalofficial/archsutra-ai"
