@@ -73,7 +73,7 @@ See the [contributor guide](10-contributor-guide.md).
 [Testing and proof](08-testing-and-proof.md) and `docs/proof/`.
 
 **Is it on npm?**
-Not yet. Use `npx github:shahvatsalofficial/archsutra-ai ...`.
+Yes. Package name `archsutra-ai`, versions `0.1.2` and `0.1.3`. Use `npx --yes archsutra-ai@0.1.3`. The `0.1.2` package does not install a command named `archsutra-ai`, so that invocation fails on Windows. There is no `v0.1.3` git tag and no npm provenance. The name `archsutra` without `-ai` was still unclaimed on 2026-11-06.
 
 **Who made it?**
 Created by Vatsal Shah, with Claude assisting in implementation. Contributors are credited in git history.

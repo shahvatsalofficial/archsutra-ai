@@ -31,12 +31,12 @@ Give any developer an evidence-first architecture reviewer that runs on the AI I
 
 | Milestone | Acceptance test |
 |---|---|
-| v0.1 | `npm test` green on 3 OS in CI; audit of fixture repos matches expected rule IDs |
+| v0.1 | `npm test` green; audit of fixture repos matches expected rule IDs. Written at the time as 3 OS. macOS is not in CI as of 0.1.3 |
 | v0.2 | Live smoke test report per host; compatibility matrix upgrades |
 | v0.3 | More language analyzers; fitness-function generator |
 | v0.4 | Optional local-model and BYOK server, off by default |
 
 ## Open questions
 
-- Final npm package name and scope (check availability before publishing).
+- Final npm package name is `archsutra-ai` (published). `archsutra` without `-ai` was still unclaimed on 2026-11-06. Provenance-from-Actions is still open.
 - Trademark check for "ArchSutra" before any commercial use (release-blocking business check; not performed).

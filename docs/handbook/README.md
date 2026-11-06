@@ -2,7 +2,7 @@
 
 <!-- summary: Start here. Map of every document, who it is for, and the facts that never change. -->
 
-This handbook is the complete reference for **ArchSutra AI** (v0.1.2): what it is, what it does, how it is built, how to use it, how far you can trust it, and where it is going. It is written so that a new engineer, an executive, an auditor, or a future maintainer can understand the whole system without asking anyone.
+This handbook is the complete reference for **ArchSutra AI** (v0.1.3): what it is, what it does, how it is built, how to use it, how far you can trust it, and where it is going. It is written so that a new engineer, an executive, an auditor, or a future maintainer can understand the whole system without asking anyone.
 
 > **One-sentence summary.** ArchSutra AI is an open-source set of portable Agent Skills and a deterministic, offline CLI that give AI coding assistants (Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI) an evidence-first way to design, audit, threat-model and modernize software architecture, with no extra API key.
 

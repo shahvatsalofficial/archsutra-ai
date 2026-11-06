@@ -45,11 +45,13 @@ A successful `gh attestation verify` proves the tarball was built by the reposit
 
 ## Using the tool safely
 
-- Prefer a pinned reference, not the moving default branch:
+- Prefer a pinned release, not the moving default branch.
   ```bash
-  npx github:shahvatsalofficial/archsutra-ai#v0.1.2 audit . --output docs/architecture
+  npx --yes archsutra-ai@0.1.3 audit . --output docs/architecture
   ```
-  Even better, pin a full commit SHA: `npx github:shahvatsalofficial/archsutra-ai#<40-char sha> audit .`.
+  Use `@0.1.3` on Windows. `0.1.2` installs a command named `archsutra` only, so `npx archsutra-ai` fails there with `'archsutra' is not recognized`.
+- The git tag `v0.1.2` is the attested GitHub release (tarball, SBOMs, checksums, 2 attestations). It does not contain the `archsutra-ai` bin. There is no `v0.1.3` tag. npm `0.1.3` reports `gitHead` `4a7ab2768c7875fedaeffcffcab18211789efd88`, which is not the commit that contains version `0.1.3` in git, and it has no npm provenance.
+- A full commit SHA is still the tightest git pin: `npx github:shahvatsalofficial/archsutra-ai#<40-char sha> audit .`. Pin a commit at or after the Windows bin fix, not `v0.1.2`, if the command you run is `archsutra-ai`.
 - `npx github:...` builds from source on your machine (`prepare` runs `tsc`); that requires the dev dependencies (TypeScript) to be installed during the build, which come from the lockfile.
 - The release tarball can be inspected before running: `tar -tzf archsutra-ai-X.Y.Z.tgz`.
 
@@ -57,7 +59,7 @@ A successful `gh attestation verify` proves the tarball was built by the reposit
 
 | Item | Why |
 |---|---|
-| Publish to npm | Needs an npm account and a name decision; then use `npm publish --provenance` from the release workflow |
+| npm publish from GitHub Actions with provenance | `archsutra-ai@0.1.2` and `@0.1.3` were published from a laptop. `0.1.3` cannot be republished. The next version needs `npm publish --provenance` inside `release.yml` so the npm tarball and the GitHub release are the same digest |
 | Signed git tags | Needs the maintainer's signing key |
 | Reproducible build verification | The TypeScript build is deterministic in practice but not independently verified |
-| SLSA level claim | Provenance exists only after the first tagged release; no level is claimed |
+| SLSA level claim | `v0.1.2` has GitHub attestations. Scorecard Signed-Releases still scores 0. No SLSA level is claimed |

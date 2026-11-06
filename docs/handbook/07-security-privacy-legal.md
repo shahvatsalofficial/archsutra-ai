@@ -49,7 +49,7 @@ Use GitHub private vulnerability reporting: https://github.com/shahvatsalofficia
 
 ## 4. Names, trademarks and affiliations
 
-- "ArchSutra", "ArchSutra AI" and "ArchSutra Prime" are used by this project. **No trademark search or registration has been performed.** On 2026-10-31 the npm names `archsutra` and `archsutra-ai` were unclaimed and GitHub search found no other repository named `archsutra`; web searches on 2026-11-01 found no product, company or trademark record with the name. Details and limits: [name clearance](../legal/trademark-and-name-clearance.md). That is a spot check, not legal clearance. Do a proper search before any commercial launch, paid product or registration.
+- "ArchSutra", "ArchSutra AI" and "ArchSutra Prime" are used by this project. **No trademark search or registration has been performed.** On 2026-10-31 the npm names `archsutra` and `archsutra-ai` were unclaimed and GitHub search found no other repository named `archsutra`; web searches on 2026-11-01 found no product, company or trademark record with the name. On 2026-11-06 `archsutra-ai` is this project's published npm package and `archsutra` was still unclaimed. Details and limits: [name clearance](../legal/trademark-and-name-clearance.md). That is a spot check, not legal clearance. Do a proper search before any commercial launch, paid product or registration.
 - Third-party names (Claude, Claude Code, Anthropic, Cursor, OpenAI, Codex, GitHub, GitHub Copilot, Google, Gemini, Node.js, npm, OWASP, Mermaid) belong to their owners. They appear only to describe compatibility (nominative use). This project is **not affiliated with, endorsed by, or sponsored by** any of them.
 
 ## 5. Disclaimers

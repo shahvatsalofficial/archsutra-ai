@@ -86,9 +86,9 @@ Every commit needs `Signed-off-by` (`git commit -s`). See [DCO.md](../../DCO.md)
 1. Update `CHANGELOG.md` and `package.json` version (semantic versioning).
 2. `npm test`, `npm run verify`, `npm run coverage`, `node scripts/eval.mjs`, `node scripts/labeled-recall.mjs <workdir>`, `node scripts/bench.mjs`, `node scripts/build-docs.mjs`.
 3. Regenerate proof files under `docs/proof/` and sample outputs.
-4. Commit, push, wait for the 6-job CI matrix.
-5. Push the tag `vX.Y.Z`; the `Release` workflow creates the release with tarball, SBOMs, checksums and provenance attestation ([Supply chain and release](15-supply-chain-and-release.md)).
-6. (Future) publish to npm after name and trademark checks.
+4. Commit, push, wait for CI (Ubuntu and Windows, Node 20, 22, and 24, plus Ubuntu on the newest Node).
+5. Push the tag `vX.Y.Z`; the `Release` workflow creates the release with tarball, SBOMs, checksums and a GitHub attestation ([Supply chain and release](15-supply-chain-and-release.md)).
+6. npm: `archsutra-ai@0.1.2` and `@0.1.3` are already published from a laptop. Do not republish `0.1.3`. The next version needs `npm publish --provenance` from Actions. The name `archsutra` (no `-ai`) was still unclaimed on 2026-11-06; do not publish the parent-folder stub.
 
 ## 10. Regenerating the documentation site
 

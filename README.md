@@ -38,23 +38,26 @@ Created by **[Vatsal Shah](https://shahvatsal.com)**. Licensed under Apache-2.0.
 | Different answer every run | A deterministic CLI produces reproducible findings with stable rule IDs |
 | Another tool, another key, another bill | Offline CLI; skills run on the model you already use in your IDE |
 | Reviews are slow and rare | First-pass audit in seconds; fits in CI with `--fail-on high` |
-| "Trust me" scanners | Open source, zero runtime dependencies, tests, CI on 3 OSes, accuracy measured on 52 real repositories with the false positives published |
+| "Trust me" scanners | Open source, zero runtime dependencies, tests, CI on Ubuntu and Windows, accuracy measured on 52 real repositories with the false positives published |
 
 ## 60-second start
 
 Requires Node.js 20+.
 
 ```bash
-# audit any repo: offline, no API key. Writes Markdown and HTML.
-npx github:shahvatsalofficial/archsutra-ai audit . --output docs/architecture
+# Windows and npm: this version installs a command named archsutra-ai.
+npx --yes archsutra-ai@0.1.3 audit . --output docs/architecture
 # open docs/architecture/index.html
 
+# or from git (default branch has the same bin; the v0.1.2 tag does not):
+npx github:shahvatsalofficial/archsutra-ai audit . --output docs/architecture
+
 # install the skills into your project for your AI IDE (preview first)
-npx github:shahvatsalofficial/archsutra-ai install --host claude --target . --dry-run
-npx github:shahvatsalofficial/archsutra-ai install --host claude --target .
+npx --yes archsutra-ai@0.1.3 install --host claude --target . --dry-run
+npx --yes archsutra-ai@0.1.3 install --host claude --target .
 ```
 
-For anything beyond a first try, **pin a tag or commit** so the code cannot change under you: `npx github:shahvatsalofficial/archsutra-ai#v0.1.2 audit . --output docs/architecture` (see [supply chain](docs/handbook/15-supply-chain-and-release.md)). Install **one** host per project; several hosts read the same skill folders.
+For anything beyond a first try, **pin a version** so the code cannot change under you. On npm, including Windows: `npx --yes archsutra-ai@0.1.3 audit . --output docs/architecture`. The git tag `v0.1.2` is the attested GitHub release, but that tarball's bin is only `archsutra`, so `npx archsutra-ai` against `v0.1.2` fails on Windows. There is no `v0.1.3` git tag, and the npm `0.1.3` tarball was not built by Actions (no npm provenance). Details: [supply chain](docs/handbook/15-supply-chain-and-release.md). Install **one** host per project; several hosts read the same skill folders.
 
 Without `--output`, `audit` and `map` print one format to the terminal (`--format md` or `--format html`) and write nothing. With `--output`, every report is written as both a Markdown file and an HTML page.
 
@@ -112,7 +115,7 @@ We published the 50% baseline, fixed the false positives it exposed (each has a 
 
 ### Not yet proven (we say so)
 
-Live behavior inside each AI IDE (layouts match vendor docs; [smoke-test protocol](docs/compatibility/smoke-tests/README.md) is open for results), an independent security review, a head-to-head comparison with other scanners (workflow ready, not yet run), trademark clearance for the name, and a lawyer's review of these documents. No OpenSSF Scorecard result exists until the first run; none is quoted.
+Live behavior inside each AI IDE (layouts match vendor docs; [smoke-test protocol](docs/compatibility/smoke-tests/README.md) is open for results), an independent security review, a head-to-head comparison with other scanners (workflow ready, not yet run), trademark clearance for the name, and a lawyer's review of these documents. OpenSSF Scorecard scored this repository **5.7 / 10** on 2026-11-06 (Scorecard v5.6.0, commit `06c87c4`). That score is real and low: branch protection, code review, signed-releases (as Scorecard counts them), fuzzing, and the Best Practices badge are 0. Quote the score with those zeros, not as a pass.
 
 ## Sample output
 
@@ -188,7 +191,7 @@ Exit codes: `0` ok, `1` findings at or above `--fail-on` / install conflict / fa
 ## Use it in CI
 
 ```yaml
-- run: npx --yes github:shahvatsalofficial/archsutra-ai#v0.1.2 audit . --fail-on high
+- run: npx --yes archsutra-ai@0.1.3 audit . --fail-on high
 ```
 
 Upload SARIF to GitHub code scanning: see the [user guide](docs/handbook/05-user-guide.md). Start with `--fail-on critical` on an existing codebase and tighten later; roughly half of valid findings need no action.
@@ -231,7 +234,8 @@ When you use the skills, **your AI IDE's model provider** processes your prompts
 - Static, heuristic rules: expect false positives and false negatives; every finding lists caveats, and about half of valid findings are not worth acting on.
 - Import graph covers JS/TS and Python. Other languages are detected but not graphed.
 - Reliability, performance, scalability, data integrity and cost are `not assessed` without runtime evidence.
-- Adapters are not yet verified in live hosts. Not published to npm (use the `npx github:` path).
+- Adapters are not yet verified in live hosts.
+- npm package `archsutra-ai` is published (`0.1.2` and `0.1.3`). `0.1.3` adds the `archsutra-ai` command name for Windows. It has no git tag and no npm provenance. The name `archsutra` (no `-ai`) was still unclaimed on 2026-11-06. Do not publish the stub in the parent folder.
 
 ## FAQ
 
@@ -260,7 +264,8 @@ More: [glossary and FAQ](docs/handbook/11-glossary-and-faq.md).
 - [ ] Suppression/baseline file for accepted findings
 - [ ] Independent security review; trademark clearance; legal review
 - [ ] Optional local-model and bring-your-own-key server mode, strictly opt-in
-- [ ] npm publication after name and trademark checks
+- [x] npm package `archsutra-ai` published (`0.1.2`, `0.1.3`) — laptop publish, no provenance, no `v0.1.3` tag
+- [ ] npm publish from GitHub Actions with provenance, one digest shared with the GitHub release (`v0.1.4` or later; `0.1.3` cannot be replaced)
 
 Full plan with acceptance tests: [roadmap](docs/handbook/09-compatibility-and-roadmap.md). Starter tasks: [good first issues](docs/community/good-first-issues.md).
 

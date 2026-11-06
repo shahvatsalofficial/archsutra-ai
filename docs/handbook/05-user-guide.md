@@ -119,13 +119,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - run: npx --yes github:shahvatsalofficial/archsutra-ai audit . --fail-on high
-      - run: npx --yes github:shahvatsalofficial/archsutra-ai export . --output arch-report
+      - run: npx --yes archsutra-ai@0.1.3 audit . --fail-on high
+      - run: npx --yes archsutra-ai@0.1.3 export . --output arch-report
       - uses: github/codeql-action/upload-sarif@v3
         with: { sarif_file: arch-report/findings.sarif }
 ```
 
-Pin the package to a tag or, better, a full commit SHA in production pipelines (`github:shahvatsalofficial/archsutra-ai#v0.1.1`). Release tarballs carry checksums and a provenance attestation: see [Supply chain and release](15-supply-chain-and-release.md).
+The snippet above is an illustration. Workflows in this repository pin each Action to a commit SHA. Pin production pipelines to `archsutra-ai@0.1.3` (both command names, including Windows). The git tag `v0.1.2` is the attested GitHub release and its bin is only `archsutra`. Do not pin `v0.1.1`. There is no `v0.1.3` git tag. Release tarballs for tagged versions carry checksums and a GitHub attestation: see [Supply chain and release](15-supply-chain-and-release.md). npm `0.1.3` does not.
 
 ## 8. Reading a finding
 

@@ -48,13 +48,13 @@ Free and open source under Apache-2.0. Running the CLI costs nothing. Using the 
 | Heuristic rules produce false positives or miss issues | Wasted effort or false comfort | Each finding lists caveats and confidence; labeled-fixture evaluation; reports say absence of findings is not proof | Maintainers |
 | Host IDE skill layouts change | Install writes to a stale path | Adapters labelled `adapter`/`experimental`; `doctor`; smoke-test issue template | Maintainers, community |
 | Prompt injection from repository content | Agent follows hostile text | Skills treat repo content as data; agents are read-only; residual risk documented | Users, host vendors |
-| Name collision or trademark claim on "ArchSutra" | Rebranding cost | No registration or clearance search done; npm and GitHub exact-name checks were clear on 2026-10-31 | Creator |
+| Name collision or trademark claim on "ArchSutra" | Rebranding cost | No registration or attorney clearance. Informal checks on 2026-10-31. On 2026-11-06 `archsutra-ai` is this project's npm package and `archsutra` was still unclaimed | Creator |
 | Single-maintainer project | Bus factor | Open license, contributor docs, CI, full handbook | Creator |
 
 ## Decisions needed from the owner
 
 1. Trademark clearance for "ArchSutra" before any commercial use or paid offering.
-2. Whether to publish to the npm registry (names `archsutra-ai` and `archsutra` were unclaimed when checked).
+2. Next npm release must be `0.1.4` or later, from GitHub Actions with provenance. `archsutra-ai@0.1.2` and `@0.1.3` are already published. `0.1.3` cannot be replaced. `archsutra` (no `-ai`) was still unclaimed on 2026-11-06. Do not publish that name from the parent stub.
 3. Priorities for the next milestone (live host smoke tests, more language analyzers, optional model runtimes).
 
 ## Where to go next

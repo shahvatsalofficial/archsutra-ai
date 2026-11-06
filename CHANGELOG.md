@@ -2,6 +2,12 @@
 
 All notable changes follow [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed
+- Docs now match the registry and CI. `archsutra-ai` is on npm (`0.1.2`, `0.1.3`). Homepage stats are 31 tests and Ubuntu plus Windows. OpenSSF Scorecard **5.7 / 10** (2026-11-06) is quoted with the failing checks. Install examples pin `archsutra-ai@0.1.3` because the `v0.1.2` tag has no `archsutra-ai` bin.
+- Recorded the release split: no `v0.1.3` git tag, npm `0.1.3` `gitHead` is `4a7ab27`, no npm provenance. Next publish has to be `0.1.4` or later, from Actions.
+
 ## 0.1.3 - 2026-11-06
 
 ### Fixed

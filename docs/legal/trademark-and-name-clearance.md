@@ -11,7 +11,7 @@
 | Formal trademark search (USPTO, EUIPO, WIPO Global Brand Database, IP India) | **Not done** |
 | Attorney clearance opinion | **Not done** |
 | Trademark application filed | **No** |
-| Informal web and registry spot checks | Done on 2026-10-31 and 2026-11-01 (below) |
+| Informal web and registry spot checks | Done on 2026-10-31, 2026-11-01, and 2026-11-06 (below) |
 | Domain name | None registered for this project; the site is served from GitHub Pages |
 
 ## Informal checks performed
@@ -20,6 +20,8 @@
 |---|---|---|
 | npm registry: package `archsutra` | 2026-10-31 | not found (name unclaimed) |
 | npm registry: package `archsutra-ai` | 2026-10-31 | not found (name unclaimed) |
+| npm registry: package `archsutra` | 2026-11-06 | still not found (name unclaimed) |
+| npm registry: package `archsutra-ai` | 2026-11-06 | published by this project (`0.1.2`, then `0.1.3`) |
 | GitHub repository search for `archsutra` | 2026-10-31 | only this project |
 | Web search: "ArchSutra" with software, company, trademark | 2026-11-01 | no product, company or trademark record named ArchSutra surfaced; only look-alike names |
 | Web search: "Arch Sutra" / "ArchSutra AI" architecture software | 2026-11-01 | no product by either name; the word "Archisutra" appears as a cultural term |

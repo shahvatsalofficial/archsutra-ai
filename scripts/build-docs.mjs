@@ -252,8 +252,8 @@ for (const src of ALL) {
 
 // ---- Landing page ----
 const stats = [
-  ['30', 'automated tests'],
-  ['3 OS', 'CI matrix, Node 20 and 22'],
+  ['31', 'automated tests'],
+  ['2 OS', 'Ubuntu and Windows, Node 20, 22, 24'],
   ['0', 'runtime dependencies'],
   ['52', 'real repositories evaluated'],
   ['98', 'findings hand-labeled'],
