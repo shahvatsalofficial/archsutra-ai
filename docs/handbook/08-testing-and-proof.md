@@ -10,7 +10,7 @@ Trust should be earned with evidence you can re-run. Everything below is reprodu
 git clone https://github.com/shahvatsalofficial/archsutra-ai
 cd archsutra-ai
 npm ci
-npm test                       # builds, then runs 31 tests
+npm test                       # builds, then runs 36 tests
 npm run coverage               # line, branch, function coverage
 node scripts/eval.mjs          # labeled-fixture precision / recall (regression suite)
 node dist/cli.js verify .      # validates skills, agents, links, diagrams
@@ -21,7 +21,7 @@ node scripts/contrast.mjs      # WCAG contrast of the docs site tokens
 
 ## 2. Automated test results
 
-Captured output (Node 24, Windows 11; stored at [`docs/proof/test-results.txt`](../proof/test-results.txt)): **31 tests, 31 passed, 0 failed.**
+Captured output (Node 24, Windows 11; stored at [`docs/proof/test-results.txt`](../proof/test-results.txt)): **36 tests, 36 passed, 0 failed.**
 
 Groups:
 

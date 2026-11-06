@@ -203,9 +203,10 @@ test('cli: version, help, unknown command, model-only command exit codes', () =>
   assert.equal(run(['--version']).status, 0);
   assert.equal(run(['--help']).status, 0);
   assert.equal(run(['bogus']).status, 2);
-  const m = run(['threat-model']);
-  assert.equal(m.status, 3);
-  assert.match(m.stdout, /No API call was made/);
+  const m = run(['threat-model', '.']);
+  assert.equal(m.status, 0);
+  assert.match(m.stdout, /unknown/);
+  assert.doesNotMatch(m.stdout, /No API call was made/);
 });
 
 test('cli: audit --json emits schema-valid output; --fail-on sets exit 1', async () => {
@@ -471,3 +472,69 @@ test('agent standard: all agents valid; validator rejects each violation; Claude
   assert.match(out, /^tools: Read, Grep, Glob$/m);
   await rm(t, { recursive: true, force: true });
 });
+
+test('import graph links Go and Java modules by import suffix', async () => {
+  const r = await tmp('graph');
+  await put(r, 'src/api/main.go', 'package main\nimport "example.com/app/src/db"\n');
+  await put(r, 'src/db/repo.go', 'package db\n');
+  await put(r, 'src/api/User.java', 'import com.example.src.db.Repo;\n');
+  await put(r, 'src/db/Repo.java', 'public class Repo {}\n');
+  const map = await buildMap(r);
+  const edges = map.edges.map((e) => `${e.from}->${e.to}`);
+  assert.ok(edges.includes('src/api->src/db'), edges.join(','));
+  assert.ok(!map.blindSpots.some((b) => b.startsWith('Import graph not implemented for Go') || b.startsWith('Import graph not implemented for Java')));
+  await rm(r, { recursive: true, force: true });
+});
+
+test('suppress.json drops a rule and an expired entry does not', async () => {
+  const r = await badFixture();
+  await put(r, '.archsutra/suppress.json', JSON.stringify([
+    { rule: 'AS-SEC-004', path: 'src/services/svc.ts', reason: 'accepted for this fixture' },
+    { rule: 'AS-SEC-005', path: 'src/services/svc.ts', reason: 'old', expires: '2000-01-01' },
+  ]));
+  const res = await runAudit(r);
+  const rules = new Set(res.findings.map((f) => f.rule));
+  assert.equal(rules.has('AS-SEC-004'), false);
+  assert.equal(rules.has('AS-SEC-005'), true);
+  await rm(r, { recursive: true, force: true });
+});
+
+test('drift and compare diff two findings files', async () => {
+  const r = await tmp('drift');
+  const before = { findings: [{ rule: 'AS-SEC-004', severity: 'high', evidence: [{ path: 'a.ts', kind: 'observed' }] }] };
+  const after = { findings: [{ rule: 'AS-SEC-006', severity: 'high', evidence: [{ path: 'b.ts', kind: 'observed' }] }] };
+  await put(r, 'before.json', JSON.stringify(before));
+  await put(r, 'after.json', JSON.stringify(after));
+  const d = run(['drift', 'before.json', 'after.json', '--json'], r);
+  assert.equal(d.status, 0);
+  const body = JSON.parse(d.stdout);
+  assert.equal(body.added.length, 1);
+  assert.equal(body.removed.length, 1);
+  assert.equal(run(['drift', '--fail-on', 'high', 'before.json', 'after.json'], r).status, 1);
+  assert.equal(run(['compare'], r).status, 2);
+  await rm(r, { recursive: true, force: true });
+});
+
+test('mcp initialize answers on stdio', () => {
+  const body = JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2024-11-05', capabilities: {}, clientInfo: { name: 't', version: '0' } } });
+  const msg = `Content-Length: ${Buffer.byteLength(body)}\r\n\r\n${body}`;
+  const res = spawnSync(process.execPath, [CLI, 'mcp'], { input: msg, encoding: 'utf8' });
+  assert.equal(res.status, 0);
+  assert.match(res.stdout, /archsutra/);
+  assert.match(res.stdout, /2024-11-05/);
+});
+
+test('install writes all five host layouts', async () => {
+  const t = await tmp('hosts');
+  for (const id of ['claude', 'cursor', 'codex', 'copilot', 'gemini']) {
+    const res = run(['install', '--host', id, '--target', t]);
+    assert.equal(res.status, 0, res.stderr);
+  }
+  assert.ok(existsSync(path.join(t, '.claude/skills/architecture-audit/SKILL.md')));
+  assert.ok(existsSync(path.join(t, '.cursor/skills/architecture-audit/SKILL.md')));
+  assert.ok(existsSync(path.join(t, '.agents/skills/architecture-audit/SKILL.md')));
+  assert.ok(existsSync(path.join(t, '.github/skills/architecture-audit/SKILL.md')));
+  assert.ok(existsSync(path.join(t, '.gemini/skills/architecture-audit/SKILL.md')));
+  await rm(t, { recursive: true, force: true });
+});
+

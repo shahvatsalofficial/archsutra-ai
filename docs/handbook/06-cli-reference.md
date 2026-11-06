@@ -23,7 +23,14 @@ archsutra <command> [path] [options]
 | `uninstall` | yes | no | Remove files this tool installed |
 | `hosts` | no | no | List adapters and support levels |
 | `version` | no | no | Print version |
-| `design`, `review`, `threat-model`, `modernize`, `compare`, `cost`, `drift` | no | **yes** | Exit 3 and point to the skill. No API call is made |
+| `review [path]` | with `--output` | no | Evidence review starter. Same findings as `audit`. `--fail-on` works |
+| `design [path]` | with `--output` | no | Design starter from the module map. Decisions stay `unknown` |
+| `threat-model [path]` | with `--output` | no | Security findings as observed rows. STRIDE completion stays `unknown` |
+| `modernize [path]` | with `--output` | no | One slice per finding. Target architecture stays `unknown` |
+| `cost [path]` | with `--output` | no | States that cost is not assessed |
+| `drift` | with `--output` | no | Diff two `findings.json` files, or a project against `--baseline` |
+| `compare` | with `--output` | no | Same diff as `drift`. Does not run Semgrep |
+| `mcp` | no | no | MCP server on stdio. Tools: `archsutra_audit`, `archsutra_map`, `archsutra_drift` |
 
 ## Options
 
@@ -48,7 +55,7 @@ archsutra <command> [path] [options]
 | 0 | ok | success |
 | 1 | findings | `--fail-on` threshold met, install blocked by conflict, or `doctor` found a problem |
 | 2 | usage | unknown command, missing `--host`, invalid `--fail-on`, `--output` escaping the project |
-| 3 | needs model | a model-dependent command was invoked in the CLI |
+| 3 | reserved | no current command returns 3. Starter commands write evidence and mark the rest `unknown` |
 | 4 | verify failed | at least one `verify` check failed |
 | 5 | error | unexpected internal error |
 

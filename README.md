@@ -11,7 +11,7 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Runtime dependencies](https://img.shields.io/badge/runtime%20dependencies-0-brightgreen)
-![Tests](https://img.shields.io/badge/tests-31%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-36%20passing-brightgreen)
 ![Coverage](https://img.shields.io/badge/coverage-92%25%20lines-brightgreen)
 
 [**Documentation site**](https://shahvatsalofficial.github.io/archsutra-ai/) &middot; [Handbook](docs/handbook/README.md) &middot; [**Trust and assurance register**](docs/handbook/13-trust-and-assurance.md) &middot; [Real-world evaluation](docs/handbook/14-real-world-evaluation.md) &middot; [Sample report](examples/brownfield-monolith/sample-output/audit-report.md)
@@ -104,7 +104,7 @@ We published the 50% baseline, fixed the false positives it exposed (each has a 
 
 | Evidence | Result |
 |---|---|
-| Automated tests (`npm test`) | **31 passed, 0 failed** ([output](docs/proof/test-results.txt)) |
+| Automated tests (`npm test`) | **36 passed, 0 failed** ([output](docs/proof/test-results.txt)) |
 | Test coverage | 92% lines, 81% branches, 91% functions ([report](docs/proof/coverage.txt)) |
 | CI matrix | Ubuntu and Windows x Node 20, 22, 24 plus Ubuntu on the newest Node ([Actions](https://github.com/shahvatsalofficial/archsutra-ai/actions)). macOS is not in CI: GitHub cancelled those jobs before a runner started, and there is no Mac available to re-check them |
 | Robustness | ReDoS guard, hostile file names, binary files, path traversal, symlinks, byte and file budgets, all tested |
@@ -177,16 +177,19 @@ Real sub-agent spawning depends on the host. Where unavailable, Prime performs t
 ## CLI reference
 
 ```text
-archsutra init|doctor|map|audit|verify|export [path]
+archsutra init|doctor|map|audit|review|design|threat-model|modernize|cost|verify|export [path]
+archsutra drift|compare <before.json> <after.json>
+archsutra drift|compare [path] --baseline <findings.json>
 archsutra html <file.md>
+archsutra mcp
 archsutra install|uninstall --host <claude|cursor|codex|copilot|gemini> [--target dir] [--dry-run] [--force]
 archsutra hosts
-Flags: --json  --format <md|html>  --dry-run  --output <dir>  --fail-on <critical|high|medium|low>  --verbose  --version  --help
+Flags: --json  --format <md|html>  --dry-run  --output <dir>  --baseline <file>  --fail-on <critical|high|medium|low>  --verbose  --version  --help
 ```
 
-Exit codes: `0` ok, `1` findings at or above `--fail-on` / install conflict / failed doctor, `2` usage error, `3` command needs a model (use the skill), `4` verification failed, `5` internal error.
+Exit codes: `0` ok, `1` findings at or above `--fail-on` / install conflict / failed doctor, `2` usage error, `3` reserved, `4` verification failed, `5` internal error.
 
-`design`, `review`, `threat-model`, `modernize`, `compare`, `cost` and `drift` need semantic reasoning, so the CLI exits `3` and points you to the matching skill. It never pretends a parser can reason and never calls a model API. Full reference: [CLI reference](docs/handbook/06-cli-reference.md). Rule list: [rule catalog](docs/handbook/12-rule-catalog.md).
+`design`, `review`, `threat-model`, `modernize`, `cost`, `compare`, and `drift` run offline. They write evidence starters. Sections a parser cannot decide stay marked `unknown`. The IDE skill fills those. No model API is called. `compare` diffs two ArchSutra findings files. Semgrep overlap is `node scripts/compare.mjs` and is not run by the CLI. Full reference: [CLI reference](docs/handbook/06-cli-reference.md). Rule list: [rule catalog](docs/handbook/12-rule-catalog.md).
 
 ## Use it in CI
 

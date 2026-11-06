@@ -24,7 +24,7 @@ An independent-style review of this project listed 15 gaps that stop people from
 
 ## What a reader can verify in five minutes
 
-1. `git clone` and `npm ci && npm test` (31 tests).
+1. `git clone` and `npm ci && npm test` (36 tests).
 2. `node scripts/realworld.mjs report holdout2` reproduces the headline accuracy table from the committed samples and labels.
 3. Read ten labels in `docs/proof/realworld/labels-holdout2.json` and open the cited lines.
 4. `npm ls --omit=dev` shows no runtime dependencies.

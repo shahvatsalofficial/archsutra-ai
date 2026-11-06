@@ -2,6 +2,7 @@ import path from 'node:path';
 import { promises as fs } from 'node:fs';
 import { readLines, walk } from './fsutil.js';
 import { TEST_PATH, commentMask } from './heuristics.js';
+import { importSpecs, moduleForImport } from './imports.js';
 import { excerpt } from './redact.js';
 import type { ArchMap, Corpus, ModuleNode, SourceFile } from './types.js';
 
@@ -188,6 +189,14 @@ export async function buildMap(root: string, corpus?: Corpus): Promise<ArchMap> 
         const first = (mt[1] ?? mt[2]).split('.')[0];
         for (const cand of [first, `src/${first}`]) if (moduleNames.has(cand)) addEdge(cand, i + 1, text);
       });
+    } else if (f.ext === '.go' || f.ext === '.java' || f.ext === '.kt' || f.ext === '.cs' || f.ext === '.rs') {
+      lines.forEach((text, i) => {
+        if (cmask[i]) return;
+        for (const spec of importSpecs(f.ext, text, f.rel)) {
+          const to = moduleForImport(spec, moduleNames);
+          if (to) addEdge(to, i + 1, text);
+        }
+      });
     } else {
       blind.add(`Import graph not implemented for ${eco}; module dependencies are not computed for those files.`);
     }
@@ -205,7 +214,7 @@ export async function buildMap(root: string, corpus?: Corpus): Promise<ArchMap> 
   if (c.skipped.tooLarge) blind.add(`${c.skipped.tooLarge} file(s) over the size limit were not read.`);
   if (c.skipped.symlinks) blind.add(`${c.skipped.symlinks} symlink(s) were not followed.`);
   blind.add('Runtime behaviour, deployed topology, and data volumes are not observable from source alone.');
-  blind.add('Dependency edges are module-level and based on relative imports; dynamic imports and DI wiring may be missed.');
+  blind.add('Dependency edges are module-level. JS/TS uses relative imports. Python uses the top package name. Go, Java, Kotlin, C#, and Rust match an import suffix to a module path. Dynamic imports, path aliases, and DI wiring may be missed. PHP, Ruby, Swift, and Dart are detected and not graphed.');
 
   const sortedEco = [...ecosystems].sort((a, b) => (ecoCount.get(b) ?? 0) - (ecoCount.get(a) ?? 0));
   return {

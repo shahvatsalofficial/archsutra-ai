@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { readLines, walk } from './fsutil.js';
 import { buildMap, readJson } from './map.js';
+import { isSuppressed, loadSuppressions } from './suppress.js';
 import { DEV_TOOLING_PATH, TEST_PATH, commentMask, isDataLike, isMinified, isVendoredPath, looksThirdParty } from './heuristics.js';
 import { detectSecrets, excerpt } from './redact.js';
 import type { AuditResult, Corpus, Evidence, Finding, ScoreEntry, Severity, SourceFile } from './types.js';
@@ -483,8 +484,10 @@ export async function runAudit(root: string, corpusIn?: Corpus): Promise<AuditRe
 
   // ---- Assign stable IDs ------------------------------------------------
   const sevOrder: Record<Severity, number> = { critical: 0, high: 1, medium: 2, low: 3, info: 4 };
-  drafts.sort((a, b) => sevOrder[a.severity] - sevOrder[b.severity] || a.rule.localeCompare(b.rule));
-  const findings: Finding[] = drafts.map((x, i) => ({ ...x, id: `${x.rule}#${String(i + 1).padStart(3, '0')}`, status: 'open' as const }));
+  const suppressions = await loadSuppressions(root);
+  const visible = drafts.filter((d) => !isSuppressed(d, suppressions));
+  visible.sort((a, b) => sevOrder[a.severity] - sevOrder[b.severity] || a.rule.localeCompare(b.rule));
+  const findings: Finding[] = visible.map((x, i) => ({ ...x, id: `${x.rule}#${String(i + 1).padStart(3, '0')}`, status: 'open' as const }));
 
   return { map, findings, scorecard: scorecard(findings, codeCount), failedChecks };
 }

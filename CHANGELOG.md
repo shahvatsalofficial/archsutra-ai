@@ -2,6 +2,18 @@
 
 All notable changes follow [Semantic Versioning](https://semver.org/).
 
+## 0.1.4 - 2026-11-07
+
+### Added
+- `.archsutra/suppress.json` hides a finding when `rule`, `path`, and `reason` match. A row without a reason is ignored. A row whose `expires` date is past is ignored.
+- Import edges for Go, Java, Kotlin, C#, and Rust by matching an import suffix to a module directory.
+- `drift` and `compare` diff two `findings.json` files, or a project against `--baseline`. `--fail-on` applies to added findings. `compare` does not run Semgrep.
+- `review`, `design`, `threat-model`, `modernize`, and `cost` write an evidence starter. Sections the scanner cannot decide stay `unknown`. Exit code 3 is unused.
+- `archsutra mcp` speaks MCP on stdio. Tools: `archsutra_audit`, `archsutra_map`, `archsutra_drift`.
+
+### Changed
+- Release workflow publishes `npm publish --provenance --access public` after the GitHub release. This needs an npm trusted publisher for `release.yml`. `0.1.3` is not republished.
+
 ## Unreleased
 
 ### Changed

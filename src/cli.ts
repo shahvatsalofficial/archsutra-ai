@@ -7,11 +7,13 @@ import { exists } from './fsutil.js';
 import { buildMap } from './map.js';
 import { markdownTitle, renderAuditHtml, renderCurrentStateHtml, renderMarkdownHtml, renderOverviewHtml } from './html.js';
 import { findingsJson, registerJson, renderAuditReport, renderCurrentState, renderOverview, renderSarif } from './report.js';
-import type { Severity } from './types.js';
+import { diffFindings, renderDrift } from './drift.js';
+import { serveMcp } from './mcp.js';
+import { renderCost, renderDesign, renderModernize, renderReview, renderThreatModel } from './scaffold.js';
+import type { Finding, Severity } from './types.js';
 import { verifyProject } from './verify.js';
 
 const EXIT = { ok: 0, findings: 1, usage: 2, needsModel: 3, verifyFailed: 4, error: 5 } as const;
-const MODEL_COMMANDS = ['design', 'review', 'threat-model', 'modernize', 'compare', 'cost', 'drift'];
 
 const HELP = `ArchSutra AI - Design. Audit. Evolve.
 
@@ -22,26 +24,34 @@ Deterministic commands (no AI, no network, read-only unless noted):
   doctor [path]      check Node, hosts, installed files, conflicts
   map [path]         reverse-engineer modules, dependencies, cycles
   audit [path]       evidence-linked findings + scorecard
+  review [path]      same evidence as audit, written as a review starter
+  design [path]      design starter from the module map; decisions stay unknown
+  threat-model [path] STRIDE starter from security findings; the rest stays unknown
+  modernize [path]   one slice per finding; target architecture stays unknown
+  cost [path]        states that cost is not assessed
+  drift              diff two findings.json files, or a project against --baseline
+  compare            same diff as drift, for two ArchSutra snapshots
   verify [path]      validate skills, agents, links, diagrams, findings.json
   export [path]      write every report as Markdown and HTML (use --output)
   html <file.md>     write a readable HTML page next to a Markdown report
+  mcp                MCP server on stdio (tools: audit, map, drift)
   install            install skills/agents into a project (--host, --target)
   uninstall          remove files ArchSutra installed (--host, --target)
   hosts              list adapters and their support level
 
-Model-backed workflows (${MODEL_COMMANDS.join(', ')}):
-  Run these through the ArchSutra skills inside your AI IDE.
+Semantic judgment (options, STRIDE completion, spend) stays marked unknown.
+Run the matching skill in your IDE to fill those sections. No model API is called.
 
 Options:
   --json             machine-readable output
   --format <md|html> stdout format for audit and map when not writing files (default md)
   --dry-run          show what would change; write nothing
-  --output <dir>     directory for audit, map and export (export default docs/architecture).
-                     audit and map write Markdown and HTML together. For html, a .html file path.
+  --output <dir>     directory for audit, map, export, and the starter commands
+  --baseline <file>  findings.json to diff against (drift, compare)
   --host <id>        claude | cursor | codex | copilot | gemini
   --target <dir>     project to install into (default .)
   --force            overwrite modified files (backups kept)
-  --fail-on <sev>    audit exits 1 if a finding is at or above: critical|high|medium|low
+  --fail-on <sev>    audit, review, and drift exit 1 at or above this severity
   --verbose          extra detail
   --version, --help
 `;
@@ -55,7 +65,7 @@ interface Args {
 function parse(argv: string[]): Args {
   const flags: Args['flags'] = {};
   const pos: string[] = [];
-  const withValue = new Set(['output', 'host', 'target', 'fail-on', 'format']);
+  const withValue = new Set(['output', 'host', 'target', 'fail-on', 'format', 'baseline']);
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a.startsWith('--')) {
@@ -103,6 +113,21 @@ async function writeReportFiles(outDir: string, files: ReportFile[], dry: boolea
 
 function wroteLine(dry: boolean, outDir: string, files: ReportFile[], hint: string): string {
   return `${dry ? 'Would write' : 'Wrote'} ${files.length} files to ${outDir}\n${files.map((f) => `  ${f.path}`).join('\n')}\n${hint}`;
+}
+
+async function readFindings(file: string): Promise<Finding[]> {
+  const raw = JSON.parse(await fs.readFile(file, 'utf8')) as { findings?: Finding[] } | Finding[];
+  const list = Array.isArray(raw) ? raw : raw.findings;
+  if (!Array.isArray(list)) throw new Error(`${file} has no findings array`);
+  return list;
+}
+
+function severityExit(findings: { severity: Severity }[], th: string | undefined): number | undefined {
+  if (!th) return undefined;
+  const order: Severity[] = ['critical', 'high', 'medium', 'low', 'info'];
+  const i = order.indexOf(th as Severity);
+  if (i < 0) return EXIT.usage;
+  return findings.some((f) => order.indexOf(f.severity) <= i) ? EXIT.findings : EXIT.ok;
 }
 
 async function main(): Promise<number> {
@@ -271,14 +296,89 @@ async function main(): Promise<number> {
       out(json, { ...res, dryRun: dry }, `${dry ? 'DRY RUN\n' : ''}removed: ${res.removed.length}\n${res.removed.map((r) => `  - ${r}`).join('\n')}${res.kept.length ? `\nkept (modified by you): \n${res.kept.map((r) => `  - ${r}`).join('\n')}` : ''}`);
       return EXIT.ok;
     }
-    default:
-      if (MODEL_COMMANDS.includes(args.cmd)) {
-        const msg = `"${args.cmd}" needs semantic reasoning, which a deterministic CLI cannot do honestly.\nRun it inside your AI IDE through the matching ArchSutra skill (install with: archsutra install --host <id>).\nNo API call was made.`;
-        out(json, { command: args.cmd, requiresModel: true, message: msg }, msg);
-        return EXIT.needsModel;
+    case 'mcp': {
+      await serveMcp();
+      return EXIT.ok;
+    }
+    case 'drift':
+    case 'compare': {
+      let before: Finding[];
+      let after: Finding[];
+      if (args.flags.baseline) {
+        before = await readFindings(path.resolve(String(args.flags.baseline)));
+        after = (await runAudit(target)).findings;
+      } else if (args.pos.length >= 2) {
+        before = await readFindings(path.resolve(args.pos[0]));
+        after = await readFindings(path.resolve(args.pos[1]));
+      } else {
+        process.stderr.write(`${args.cmd} needs two findings.json files, or a project path and --baseline <findings.json>.\nSemgrep overlap stays in scripts/compare.mjs. This command does not download rules or clone repositories.\n`);
+        return EXIT.usage;
       }
+      const report = diffFindings(before, after);
+      const title = args.cmd === 'compare' ? 'Findings comparison' : 'Architecture drift';
+      const note = args.cmd === 'compare' ? '\nSemgrep overlap is scripts/compare.mjs (needs semgrep on PATH). Not run by this command.\n' : '';
+      const md = `${renderDrift(report, title)}${note}`;
+      if ('output' in args.flags) {
+        const outDir = insideProject(path.resolve(args.pos[0] ?? '.'), String(args.flags.output || 'docs/architecture'));
+        if (!outDir) {
+          process.stderr.write('--output must stay inside the project directory.\n');
+          return EXIT.usage;
+        }
+        const files: ReportFile[] = [
+          { path: `${args.cmd}.md`, content: md },
+          { path: `${args.cmd}.html`, content: renderMarkdownHtml(md, title) },
+        ];
+        await writeReportFiles(outDir, files, dry);
+      }
+      out(json, report, md);
+      const added = report.added.map((r) => ({ severity: (r.after ?? 'info') as Severity }));
+      const gate = severityExit(added, args.flags['fail-on'] as string | undefined);
+      if (gate === EXIT.usage) {
+        process.stderr.write(`Invalid --fail-on "${args.flags['fail-on']}"\n`);
+        return EXIT.usage;
+      }
+      return gate ?? EXIT.ok;
+    }
+    case 'review':
+    case 'design':
+    case 'threat-model':
+    case 'modernize':
+    case 'cost': {
+      const res = await runAudit(target);
+      const md = args.cmd === 'review' ? renderReview(res)
+        : args.cmd === 'design' ? renderDesign(res)
+          : args.cmd === 'threat-model' ? renderThreatModel(res)
+            : args.cmd === 'modernize' ? renderModernize(res)
+              : renderCost(res);
+      if ('output' in args.flags) {
+        const outDir = insideProject(target, String(args.flags.output || 'docs/architecture'));
+        if (!outDir) {
+          process.stderr.write('--output must stay inside the project directory.\n');
+          return EXIT.usage;
+        }
+        const files: ReportFile[] = [
+          { path: `${args.cmd}.md`, content: md },
+          { path: `${args.cmd}.html`, content: renderMarkdownHtml(md, args.cmd) },
+        ];
+        await writeReportFiles(outDir, files, dry);
+        out(json, { dryRun: dry, command: args.cmd }, wroteLine(dry, outDir, files, 'Unknown sections stay unknown. The IDE skill fills those.'));
+      } else {
+        out(json, { command: args.cmd, markdown: md }, md);
+      }
+      if (args.cmd === 'review') {
+        const gate = severityExit(res.findings, args.flags['fail-on'] as string | undefined);
+        if (gate === EXIT.usage) {
+          process.stderr.write(`Invalid --fail-on "${args.flags['fail-on']}"\n`);
+          return EXIT.usage;
+        }
+        return gate ?? EXIT.ok;
+      }
+      return EXIT.ok;
+    }
+    default: {
       process.stderr.write(`Unknown command "${args.cmd}".\n${HELP}`);
       return EXIT.usage;
+    }
   }
 }
 

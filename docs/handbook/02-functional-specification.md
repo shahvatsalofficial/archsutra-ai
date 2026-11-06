@@ -32,7 +32,7 @@ IDs are stable. "Status" is implemented and tested (**T**), implemented not live
 | F-02 | Detect ecosystems from manifests and file extensions (TypeScript, JavaScript, Python, Java, Kotlin, C#, Go, Rust, PHP, Ruby, Swift, Dart) | T |
 | F-03 | Detect frameworks and datastores from dependency manifests | T |
 | F-04 | Detect infrastructure files (Docker, Compose, Terraform, Kubernetes/Helm, GitHub Actions) | T |
-| F-05 | Build a module-level dependency graph from relative imports (JS/TS) and package imports (Python) | T |
+| F-05 | Build a module-level dependency graph from relative imports (JS/TS), package imports (Python), and import-suffix matches (Go, Java, Kotlin, C#, Rust) | T |
 | F-06 | Detect dependency cycles between modules (Tarjan SCC) | T |
 | F-07 | List blind spots explicitly in every output | T |
 
@@ -88,7 +88,7 @@ IDs are stable. "Status" is implemented and tested (**T**), implemented not live
 | F-52 | Modernization / migration plan | `architecture-modernization` | yes |
 | F-53 | Threat model (STRIDE, LLM/agent threats) | `threat-modeling` | yes |
 | F-54 | Verify architecture artifacts | `architecture-verification` | yes |
-| F-55 | CLI refuses to fake model-dependent commands (`design`, `review`, `threat-model`, `modernize`, `compare`, `cost`, `drift`) and exits 3 | | no |
+| F-55 | `design`, `review`, `threat-model`, `modernize`, `cost` write an evidence starter and mark undecided sections `unknown`. `drift` and `compare` diff two findings files. `mcp` serves audit, map, and drift on stdio. No model API is called | | no |
 
 ### 3.7 Agent team
 

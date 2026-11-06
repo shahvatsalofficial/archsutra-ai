@@ -149,7 +149,7 @@ Memory: file contents are cached per run (bounded by 5000 x 512 KiB worst case, 
 ```bash
 npm ci
 npm run typecheck
-npm test            # build + node --test (31 tests)
+npm test            # build + node --test (36 tests)
 npm run coverage    # coverage report
 node scripts/realworld.mjs run <dir> <batch> [tag]
 node scripts/labeled-recall.mjs <dir>

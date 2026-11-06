@@ -38,7 +38,8 @@ All five layouts were checked against the vendors' current documentation on 2026
 |---|---|---|---|
 | TypeScript, JavaScript | yes | yes (relative imports) | dynamic imports and path aliases may be missed |
 | Python | yes | yes (absolute imports matching a module) | relative imports not graphed |
-| Java, Kotlin, C#, Go, Rust, PHP, Ruby, Swift, Dart | yes | no | reported as a blind spot |
+| Java, Kotlin, C#, Go, Rust | yes | yes (import path suffix matched to a module directory) | stdlib imports that do not match a module are ignored; DI is not graphed |
+| PHP, Ruby, Swift, Dart | yes | no | reported as a blind spot |
 
 Line-based security rules apply to all recognised source extensions where noted in the [rule catalog](12-rule-catalog.md).
 
@@ -50,6 +51,7 @@ Line-based security rules apply to all recognised source extensions where noted 
 | v0.1.1 (released) | Real-world evaluation and precision fixes, pinned actions, release/SBOM/attestation workflow, Scorecard, DCO, accessibility audit, coverage, benchmarks, governance | See [Trust and assurance](13-trust-and-assurance.md) |
 | v0.1.2 (released, git tag) | Dual-file reports (Markdown and HTML) for the audit set and for narrative skill output | `audit --output` writes both formats; `html <file.md>` renders narrative pages. GitHub release has SBOM, checksums, and 2 attestations. Bin name is only `archsutra` |
 | v0.1.3 (on npm and on `main`, no git tag) | Second bin `archsutra-ai` so Windows `npx` runs; macOS workflow removed; creator URL `https://shahvatsal.com` | npm `bin` lists both commands. npm `gitHead` is `4a7ab27`, not the docs commit. No Actions provenance |
+| v0.1.4 | Suppression file, Go/Java/Kotlin/C#/Rust import suffixes, drift, compare, evidence starters, MCP stdio, npm publish step in the release workflow | Tests cover each. Starters keep `unknown` where a model is required. npm provenance still depends on a trusted publisher |
 | v0.2 | Live smoke tests per host; upgrade verified hosts to `native`; matrix with versions | One issue-linked report per host with version and evidence |
 | v0.3 | More analyzers (Java/Kotlin, C#, Go, Rust import graphs); fitness-function generator; rule suppression file | New fixtures with expected rules; precision/recall stays 1.00 on fixtures |
 | v0.4 | Larger, multi-labeler corpus; recall estimate; comparison with other scanners published | At least 100 labeled findings by two labelers; first `comparison.yml` run reviewed |
@@ -60,18 +62,16 @@ Principles for all future work: default stays keyless and offline; every new cap
 
 ## 6. Known gaps (v0.1.3)
 
-- No live host verification. All five IDEs are `adapter`.
-- No suppression or baseline file for accepted findings.
-- Module-level graph only. No function-level analysis. Path aliases, dynamic import, and dependency injection are missed. Python relative imports are not graphed. Java, Kotlin, C#, Go, Rust, PHP, Ruby, Swift, and Dart are detected and not graphed.
-- No runtime or cost evidence ingestion. Those scorecard rows stay `not assessed`.
-- `design`, `review`, `threat-model`, `modernize`, `compare`, `cost`, and `drift` exit 3. Skills only.
-- No MCP server. The keyword `mcp` in `package.json` is not an implementation.
-- Comparison workflow against Semgrep has never run. `docs/proof/comparison/` does not exist.
-- Recall on real repositories is not measured. One labeler. Best published actionable rate is 52% (n=21).
-- No `v0.1.3` git tag. npm `0.1.3` has no provenance and its `gitHead` is `4a7ab27`. `release.yml` does not publish npm.
-- OpenSSF Scorecard **5.7 / 10** (2026-11-06). Branch protection 0, code review 0, Signed-Releases 0 (Scorecard does not credit the v0.1.2 GitHub attestations), packaging -1, fuzzing 0, Best Practices badge 0.
+- No live model session inside Claude Code, Cursor, Codex, Copilot, or Gemini CLI. File layouts for all five are written by `install` and checked by tests. That is not proof the host loaded the skill.
+- Suppression file is `.archsutra/suppress.json` (`rule`, `path`, `reason`, optional `expires`). Expired rows are ignored. A row without a reason is ignored.
+- Module-level graph for JS/TS, Python, Go, Java, Kotlin, C#, and Rust. No function-level analysis. Path aliases, dynamic import, and dependency injection are missed. PHP, Ruby, Swift, and Dart are not graphed.
+- `design`, `review`, `threat-model`, `modernize`, and `cost` write starters. Undecided sections stay `unknown`.
+- `drift` and `compare` diff two ArchSutra findings files. Semgrep overlap is `node scripts/compare.mjs` (needs Semgrep on PATH) or the manual `comparison.yml` workflow. The CLI does not clone repositories.
+- MCP stdio server: `archsutra mcp`. Tools `archsutra_audit`, `archsutra_map`, `archsutra_drift`.
+- No `v0.1.3` git tag. npm `0.1.3` has no provenance. `0.1.4` is the next release and publishes from Actions with `--provenance` when a trusted publisher is configured.
+- OpenSSF Scorecard **5.7 / 10** (2026-11-06) until branch protection and reviewed pull requests exist. A solo maintainer cannot satisfy Code-Review without a second account. Force-push can be disabled. Required approving reviews would block direct pushes.
 - macOS is not in CI.
 - HTML Mermaid loads from `cdn.jsdelivr.net`. Offline, the diagram source stays visible and is not drawn.
-- Coverage is reported (92% lines) and not enforced as a CI threshold.
-- Docs accessibility: axe-core clean on the measured set. No screen-reader pass.
-- Formal trademark search and lawyer review are not done. npm name `archsutra` (no `-ai`) was still unclaimed on 2026-11-06.
+- Coverage is reported and not enforced as a CI threshold.
+- No screen-reader pass.
+- Formal trademark search and lawyer review are not done.

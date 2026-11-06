@@ -1,5 +1,7 @@
 # Report 2 — feature inventory
 
+Status after 0.1.4 (2026-11-07): the CLI now runs suppression, drift, compare, language-suffix graphs, MCP, and evidence starters. See report 1 for what is still not done (npm OTP, branch protection, live IDE sessions, Semgrep run).
+
 Auditor date: 2026-11-07. Same scope as report 1: ArchSutra AI, npm `archsutra-ai@0.1.3`, git at the docs correction, Scorecard **5.7 / 10** on 2026-11-06.
 
 Report 1 is the gap audit. This file carries the same gaps, the same shipped list, and the same missing list. Nothing in one report is absent from the other.

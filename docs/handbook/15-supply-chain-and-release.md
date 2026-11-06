@@ -59,7 +59,7 @@ A successful `gh attestation verify` proves the tarball was built by the reposit
 
 | Item | Why |
 |---|---|
-| npm publish from GitHub Actions with provenance | `archsutra-ai@0.1.2` and `@0.1.3` were published from a laptop. `0.1.3` cannot be republished. The next version needs `npm publish --provenance` inside `release.yml` so the npm tarball and the GitHub release are the same digest |
+| npm publish from GitHub Actions with provenance | `release.yml` runs `npm publish --provenance --access public` on a version tag. npm must have a trusted publisher for this repository and `release.yml`, or the step fails. `0.1.2` and `0.1.3` were laptop publishes and cannot be replaced |
 | Signed git tags | Needs the maintainer's signing key |
 | Reproducible build verification | The TypeScript build is deterministic in practice but not independently verified |
 | SLSA level claim | `v0.1.2` has GitHub attestations. Scorecard Signed-Releases still scores 0. No SLSA level is claimed |
