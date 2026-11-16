@@ -7,6 +7,7 @@ All notable changes follow [Semantic Versioning](https://semver.org/).
 First release that is tagged and published by the release workflow, so the GitHub release, the SBOM and checksums, the build attestation and the npm tarball come from one run of the same commit.
 
 ### Changed
+- The npm publish step in the release workflow runs only when the repository variable `NPM_PUBLISH` is `true`. The `v0.1.5` run showed the GitHub release as failed because npm answered 404 (no trusted publisher yet) even though the release assets and attestation were created.
 - Version only. The code is the same as `0.1.4`, which was published to npm by hand from commit `2a27f6f` with no git tag and no npm provenance. `0.1.4` cannot be replaced, so the next version carries the provenance.
 - Pinned CodeQL actions to v4.39.3.
 

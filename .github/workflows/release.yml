@@ -48,5 +48,9 @@ jobs:
         run: |
           gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "ArchSutra AI $TAG" --generate-notes
           gh release upload "$TAG" release/* --clobber
+      # Runs only when the repository variable NPM_PUBLISH is "true". Set it after adding the npm trusted
+      # publisher (package settings on npmjs.com: this repository, workflow release.yml). Without that,
+      # npm answers 404 to the PUT and the whole release would show as failed even though the GitHub release is fine.
       - name: Publish to npm with provenance
+        if: vars.NPM_PUBLISH == 'true'
         run: npm publish --provenance --access public
