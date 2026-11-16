@@ -268,7 +268,7 @@ More: [glossary and FAQ](docs/handbook/11-glossary-and-faq.md).
 - [ ] Independent security review; trademark clearance; legal review
 - [ ] Optional local-model and bring-your-own-key server mode, strictly opt-in
 - [x] npm package `archsutra-ai` published (`0.1.2`, `0.1.3`) — laptop publish, no provenance, no `v0.1.3` tag
-- [ ] npm publish from GitHub Actions with provenance, one digest shared with the GitHub release (`v0.1.4` or later; `0.1.3` cannot be replaced)
+- [ ] npm publish from GitHub Actions with provenance, one digest shared with the GitHub release (`v0.1.5`; `0.1.3` and `0.1.4` cannot be replaced)
 
 Full plan with acceptance tests: [roadmap](docs/handbook/09-compatibility-and-roadmap.md). Starter tasks: [good first issues](docs/community/good-first-issues.md).
 

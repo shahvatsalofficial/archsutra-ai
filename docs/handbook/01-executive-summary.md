@@ -54,7 +54,7 @@ Free and open source under Apache-2.0. Running the CLI costs nothing. Using the 
 ## Decisions needed from the owner
 
 1. Trademark clearance for "ArchSutra" before any commercial use or paid offering.
-2. Next npm release must be `0.1.4` or later, from GitHub Actions with provenance. `archsutra-ai@0.1.2` and `@0.1.3` are already published. `0.1.3` cannot be replaced. `archsutra` (no `-ai`) was still unclaimed on 2026-11-06. Do not publish that name from the parent stub.
+2. `0.1.5` is the first npm release from GitHub Actions with provenance. `archsutra-ai@0.1.2`, `@0.1.3` and `@0.1.4` were published by hand. Published versions cannot be replaced. `archsutra` (no `-ai`) was still unclaimed on 2026-11-06. Do not publish that name from the parent stub.
 3. Priorities for the next milestone (live host smoke tests, more language analyzers, optional model runtimes).
 
 ## Where to go next

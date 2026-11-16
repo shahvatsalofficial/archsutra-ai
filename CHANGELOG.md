@@ -2,6 +2,14 @@
 
 All notable changes follow [Semantic Versioning](https://semver.org/).
 
+## 0.1.5 - 2026-11-16
+
+First release that is tagged and published by the release workflow, so the GitHub release, the SBOM and checksums, the build attestation and the npm tarball come from one run of the same commit.
+
+### Changed
+- Version only. The code is the same as `0.1.4`, which was published to npm by hand from commit `2a27f6f` with no git tag and no npm provenance. `0.1.4` cannot be replaced, so the next version carries the provenance.
+- Pinned CodeQL actions to v4.39.3.
+
 ## 0.1.4 - 2026-11-07
 
 ### Added

@@ -68,7 +68,7 @@ Principles for all future work: default stays keyless and offline; every new cap
 - `design`, `review`, `threat-model`, `modernize`, and `cost` write starters. Undecided sections stay `unknown`.
 - `drift` and `compare` diff two ArchSutra findings files. Semgrep overlap is `node scripts/compare.mjs` (needs Semgrep on PATH) or the manual `comparison.yml` workflow. The CLI does not clone repositories.
 - MCP stdio server: `archsutra mcp`. Tools `archsutra_audit`, `archsutra_map`, `archsutra_drift`.
-- No `v0.1.3` git tag. npm `0.1.3` has no provenance. `0.1.4` is the next release and publishes from Actions with `--provenance` when a trusted publisher is configured.
+- No `v0.1.3` or `v0.1.4` git tag. npm `0.1.3` and `0.1.4` have no provenance (`0.1.4` was published by hand from commit `2a27f6f`). `0.1.5` is tagged and published from Actions with `--provenance` when a trusted publisher is configured.
 - OpenSSF Scorecard **5.7 / 10** (2026-11-06) until branch protection and reviewed pull requests exist. A solo maintainer cannot satisfy Code-Review without a second account. Force-push can be disabled. Required approving reviews would block direct pushes.
 - macOS is not in CI.
 - HTML Mermaid loads from `cdn.jsdelivr.net`. Offline, the diagram source stays visible and is not drawn.
