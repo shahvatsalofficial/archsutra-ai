@@ -1,45 +1,45 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-11-04T18:19:39.317Z",
+  "generatedAt": "2026-11-23T18:56:57.871Z",
   "artifacts": [
     {
       "path": "README.md",
-      "sha256": "df101f6630e957ae7859b00fb19f5cd7c86b86f124e110e83a7b8b78c7599828",
+      "sha256": "05a4dd9383b9d1869100a9235e91b348fa4f43f6730b2392e27881f1aa19dd74",
       "supersedes": null
     },
     {
       "path": "index.html",
-      "sha256": "1a47d2d4f22fea15aa3dee744e99c8b2aba871e951b3f05a44e3a0b05b011d56",
+      "sha256": "edb18cf9bcd6da4e74927d7fc113a5119a5840463128adc3a1555e67099ade3c",
       "supersedes": null
     },
     {
       "path": "current-state.md",
-      "sha256": "59b1fb351258ed7f14c727f6daf6b75ff6dc2ef23462464bdc10d22c60dc6c28",
+      "sha256": "b27fa5e8efa02414747ecb9a905fe0841db1c4b02ea822146210657ed5fac0db",
       "supersedes": null
     },
     {
       "path": "current-state.html",
-      "sha256": "81caa2681c3eca910d6f9f4b24c1462f649b2a68bbbef59c62daceff81893d37",
+      "sha256": "df849c5ce47f6e0e34008ba6fc3e1ef079b405bd987743b6e07f275436dc08b6",
       "supersedes": null
     },
     {
       "path": "audit-report.md",
-      "sha256": "536676663de1772511957961389ef87f2925cb104503498a705427a8ced350a3",
+      "sha256": "a57fd984d50c64d8249ec92070a2877ec2280bba69e11419d684470878678265",
       "supersedes": null
     },
     {
       "path": "audit-report.html",
-      "sha256": "58636b1ed2eb4d3c3b0a804c89f686a5109e16b29bead3792b4c27e1d8259fa2",
+      "sha256": "5eea54dcc417adc169881a90fc3c67dd2ba0f1d9af31c2c14a00bbac00955d75",
       "supersedes": null
     },
     {
       "path": "findings.json",
-      "sha256": "c2cdb40b804e5ca53176d689fb764a51dee599c0c28758a94f2d19cf8111adeb",
+      "sha256": "1ccc5f221afa9974645e270432906d8812f10584f89f76c541e86cd27d298885",
       "supersedes": null
     },
     {
       "path": "findings.sarif",
-      "sha256": "7fd0c3400346a392347ed22b4cea593b0250f46294db2e44cef589d4b7854526",
+      "sha256": "a21ae1a8ab04243a7f2b585d27f6fdd678eb867d17a59d64f4ce551808b3e6af",
       "supersedes": null
     }
   ]

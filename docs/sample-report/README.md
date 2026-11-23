@@ -7,4 +7,4 @@
 - [findings.sarif](findings.sarif) - SARIF 2.1.0 for code-scanning UIs
 - [architecture-register.json](architecture-register.json) - artifact index
 
-12 finding(s). Use the `architecture-audit` skill in your AI IDE to add semantic analysis, ADRs and a roadmap on top of this evidence.
+0 finding(s). Use the `architecture-audit` skill in your AI IDE to add semantic analysis, ADRs and a roadmap on top of this evidence.

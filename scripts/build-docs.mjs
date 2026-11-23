@@ -46,7 +46,14 @@ function inline(text, srcRel, curOut) {
   const codes = [];
   let s = text.replace(/`([^`]+)`/g, (_m, c) => `\u0000${codes.push(`<code>${esc(c.replace(/\\\|/g, '|'))}</code>`) - 1}\u0000`);
   s = esc(s);
-  s = s.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (_m, alt, u) => `<img src="${esc(rewriteLink(u.replace(/&amp;/g, '&'), srcRel, curOut))}" alt="${alt}" loading="lazy">`);
+  s = s.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (_m, alt, u) => {
+    const src = esc(rewriteLink(u.replace(/&amp;/g, '&'), srcRel, curOut));
+    const dark = src.replace(/\.svg$/, '-dark.svg');
+    const hasDark = src.endsWith('.svg') && existsSync(path.join(DOCS, 'assets', 'charts', path.basename(dark)));
+    return hasDark
+      ? `<img class="theme-light" src="${src}" alt="${alt}" loading="lazy"><img class="theme-dark" src="${dark}" alt="${alt}" loading="lazy">`
+      : `<img src="${src}" alt="${alt}" loading="lazy">`;
+  });
   s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, t, u) => {
     const href = rewriteLink(u.replace(/&amp;/g, '&'), srcRel, curOut);
     const ext = /^https?:/.test(href);
@@ -172,14 +179,37 @@ function md(source, srcRel, curOut) {
 
 const prefix = (out) => '../'.repeat(out.split('/').length - 1);
 
-function shell({ title, description, out, body, toc = [], current = '', landing = false, jsonld = '' }) {
-  const p = prefix(out);
-  const canonical = `${SITE}/${out === 'index.html' ? '' : out.replace(/index\.html$/, '')}`;
-  const nav = GROUPS.map((g) => `<div class="nav-group"><p class="nav-title">${g.title}</p><ul>${g.pages.map((pg) => {
+const ICONS = {
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  close: '<path d="M6 6l12 12M18 6 6 18"/>',
+  github: '<path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/>',
+  evidence: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  lock: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  ci: '<circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M6 8.5v7M8.3 7.3l7.4 3.4"/>',
+  shield: '<path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/><path d="m9 12 2 2 4-4"/>',
+  scale: '<path d="M12 4v16M7 20h10M5 8h14"/><path d="m5 8-3 7a4 4 0 0 0 6 0zM19 8l-3 7a4 4 0 0 0 6 0z"/>',
+  code: '<path d="m8 8-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/>',
+};
+const icon = (n, cls = 'icon') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
+const LOGO = '<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="currentColor" opacity=".14"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+function navHtml(p, current) {
+  return GROUPS.map((g) => `<div class="nav-group"><p class="nav-title">${g.title}</p><ul>${g.pages.map((pg) => {
     const o = outRel(pg);
     const label = pg === 'handbook/README.md' ? 'Overview' : pg === 'compatibility/smoke-tests/README.md' ? 'Live smoke tests' : ((readTitle(pg) || pg).replace(/^ArchSutra AI\s+/, ''));
     return `<li><a href="${p}${o}"${o === current ? ' aria-current="page"' : ''}>${esc(label)}</a></li>`;
   }).join('')}</ul></div>`).join('');
+}
+
+function shell({ title, description, out, body, toc = [], current = '', landing = false, jsonld = '', pn = '' }) {
+  const p = prefix(out);
+  const canonical = `${SITE}/${out === 'index.html' ? '' : out.replace(/index\.html$/, '')}`;
+  const nav = navHtml(p, current);
+  const section = out.startsWith('guides/') ? 'guides' : out.startsWith('handbook/') ? 'handbook' : '';
+  const links = [['Get started', 'guides/getting-started.html', out === 'guides/getting-started.html'], ['Scenarios', 'guides/real-world-scenarios.html', out === 'guides/real-world-scenarios.html'], ['Handbook', 'handbook/index.html', section === 'handbook'], ['Proof', 'guides/evidence-at-a-glance.html', out === 'guides/evidence-at-a-glance.html']];
+  const topLinks = links.map(([t, h, on]) => `<a href="${p}${h}"${on ? ' aria-current="true"' : ''}>${t}</a>`).join('');
   const tocHtml = toc.length ? `<nav class="toc" aria-label="On this page"><p class="nav-title">On this page</p><ul>${toc.map((t) => `<li class="l${t.level}"><a href="#${t.id}">${esc(t.text)}</a></li>`).join('')}</ul></nav>` : '';
   return `<!doctype html>
 <html lang="en">
@@ -190,6 +220,7 @@ function shell({ title, description, out, body, toc = [], current = '', landing 
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${canonical}">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff">
 <meta property="og:type" content="${landing ? 'website' : 'article'}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
@@ -201,29 +232,44 @@ function shell({ title, description, out, body, toc = [], current = '', landing 
 <meta name="author" content="Vatsal Shah">
 <link rel="icon" href="${p}assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="${p}assets/site.css">
-<script>try{var t=localStorage.getItem('as-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script>try{if(localStorage.getItem('as-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
 ${jsonld}
 </head>
 <body class="${landing ? 'landing' : 'doc'}" data-root="${p}">
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
   <div class="topbar-inner">
-    <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">Menu</button>
-    <a class="brand" href="${p}index.html" aria-label="ArchSutra AI home"><svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor" opacity=".12"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ArchSutra <b>AI</b></span></a>
-    <nav class="top-links" aria-label="Primary"><a href="${p}guides/getting-started.html">Get started</a><a href="${p}guides/real-world-scenarios.html">Scenarios</a><a href="${p}handbook/index.html">Handbook</a><a href="${p}guides/evidence-at-a-glance.html">Proof</a><a href="${REPO}" rel="noopener">GitHub</a></nav>
-    <div class="search" role="search"><label class="sr-only" for="q">Search the documentation</label><input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-controls="results" aria-expanded="false"><ul id="results" class="results" role="listbox" hidden></ul></div>
-    <button class="theme-btn" type="button" aria-label="Toggle color theme"><span class="sun" aria-hidden="true">Light</span><span class="moon" aria-hidden="true">Dark</span></button>
+    <a class="brand" href="${p}index.html" aria-label="ArchSutra AI home">${LOGO}<span>ArchSutra <b>AI</b></span></a>
+    <nav class="top-links" aria-label="Primary">${topLinks}</nav>
+    <span class="spacer"></span>
+    <div class="search" role="search"><label class="sr-only" for="q">Search the documentation</label><input id="q" type="search" placeholder="Search docs  ( / )" autocomplete="off" aria-controls="results" aria-expanded="false"><ul id="results" class="results" role="listbox" hidden></ul></div>
+    <a class="gh-btn" href="${REPO}" rel="noopener">${icon('github')}<span>GitHub</span></a>
+    <button class="icon-btn theme-btn" type="button" aria-label="Switch between light and dark theme"><span class="sun">${icon('sun')}</span><span class="moon">${icon('moon')}</span></button>
+    <button class="icon-btn menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">${icon('menu')}</button>
   </div>
 </header>
+<div id="drawer" class="drawer" aria-hidden="true">
+  <div class="drawer-scrim" data-close></div>
+  <div class="drawer-panel" role="dialog" aria-label="Menu">
+    <div class="drawer-head"><a class="brand" href="${p}index.html">${LOGO}<span>ArchSutra <b>AI</b></span></a><button class="icon-btn" type="button" data-close aria-label="Close menu">${icon('close')}</button></div>
+    <div class="primary-links"><a href="${p}index.html">Home</a>${links.map(([t, h]) => `<a href="${p}${h}">${t}</a>`).join('')}<a href="${REPO}" rel="noopener">GitHub</a></div>
+    ${nav}
+  </div>
+</div>
 ${landing ? `<main id="main">${body}</main>` : `<div class="layout">
   <aside id="sidebar" class="sidebar" aria-label="Documentation">${nav}</aside>
-  <main id="main" class="content"><article class="prose">${body}</article></main>
+  <main id="main" class="content"><article class="prose">${body}</article>${pn}</main>
   <aside class="rail">${tocHtml}</aside>
 </div>`}
 <footer class="footer">
   <div class="footer-inner">
-    <p><strong>ArchSutra AI</strong> v${pkg.version}. Design. Audit. Evolve. Created by <a href="https://shahvatsal.com" rel="noopener">Vatsal Shah</a>. Licensed under <a href="${REPO}/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>
-    <p class="fine">Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Not affiliated with Anthropic, OpenAI, Cursor, GitHub or Google; product names belong to their owners. <a href="${p}handbook/07-security-privacy-legal.html">Legal details</a>.</p>
+    <div class="footer-grid">
+      <div class="about-col"><a class="brand" href="${p}index.html">${LOGO}<span>ArchSutra <b>AI</b></span></a><p class="about">Design. Audit. Evolve. An open-source, evidence-first software architecture agent. Created by <a href="https://shahvatsal.com" rel="noopener">Vatsal Shah</a>. Apache-2.0.</p></div>
+      <div><h4>Learn</h4><ul><li><a href="${p}guides/getting-started.html">Get started</a></li><li><a href="${p}guides/real-world-scenarios.html">Real-world scenarios</a></li><li><a href="${p}guides/how-it-works.html">How it works</a></li><li><a href="${p}guides/cheat-sheet.html">Cheat sheet</a></li></ul></div>
+      <div><h4>Trust</h4><ul><li><a href="${p}guides/evidence-at-a-glance.html">Evidence at a glance</a></li><li><a href="${p}handbook/13-trust-and-assurance.html">Honesty register</a></li><li><a href="${p}handbook/07-security-privacy-legal.html">Security and legal</a></li><li><a href="${p}handbook/15-supply-chain-and-release.html">Supply chain</a></li></ul></div>
+      <div><h4>Project</h4><ul><li><a href="${REPO}" rel="noopener">GitHub</a></li><li><a href="https://www.npmjs.com/package/archsutra-ai" rel="noopener">npm</a></li><li><a href="${p}handbook/10-contributor-guide.html">Contribute</a></li><li><a href="${REPO}/blob/main/CHANGELOG.md" rel="noopener">Changelog</a></li></ul></div>
+    </div>
+    <p class="fine">v${pkg.version}. Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Not affiliated with Anthropic, OpenAI, Cursor, GitHub or Google; product names belong to their owners. <a href="${p}handbook/07-security-privacy-legal.html">Legal details</a>.</p>
   </div>
 </footer>
 <script src="${p}assets/site.js" type="module"></script>
@@ -253,7 +299,13 @@ for (const src of ALL) {
   const meta = `<p class="meta">Version ${pkg.version} &middot; Source: <a href="${REPO}/blob/main/docs/${src}" rel="noopener">docs/${src}</a></p>`;
   const body = r.html.replace(/^(<h1[^>]*>.*?<\/h1>)/, `${crumb}$1\n${r.summary ? `<p class="lede">${esc(r.summary)}</p>` : ''}${meta}`);
   const ld = `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'TechArticle', headline: r.title, description: desc, author: { '@type': 'Person', name: 'Vatsal Shah', url: 'https://shahvatsal.com' }, inLanguage: 'en', isPartOf: { '@type': 'WebSite', name: 'ArchSutra AI', url: SITE } })}</script>`;
-  const full = shell({ title, description: desc, out, body, toc: r.headings, current: out, jsonld: ld });
+  const grp = GROUPS.find((g) => g.pages.includes(src));
+  const gi = grp ? grp.pages.indexOf(src) : -1;
+  const lab = (pg) => (pg === 'handbook/README.md' ? 'Overview' : pg === 'compatibility/smoke-tests/README.md' ? 'Live smoke tests' : readTitle(pg).replace(/^ArchSutra AI\s+/, ''));
+  const prevP = grp && gi > 0 ? grp.pages[gi - 1] : null;
+  const nextP = grp && gi >= 0 && gi < grp.pages.length - 1 ? grp.pages[gi + 1] : null;
+  const pn = '<nav class="pn" aria-label="Previous and next page">' + (prevP ? '<a class="prev" href="' + relTo(out, outRel(prevP)) + '"><small>Previous</small><span>' + esc(lab(prevP)) + '</span></a>' : '<span></span>') + (nextP ? '<a class="next" href="' + relTo(out, outRel(nextP)) + '"><small>Next</small><span>' + esc(lab(nextP)) + '</span></a>' : '') + '</nav><p class="edit"><a href="' + REPO + '/edit/main/docs/' + src + '" rel="noopener">Edit this page on GitHub</a></p>';
+  const full = shell({ title, description: desc, out, body, toc: r.headings, current: out, jsonld: ld, pn });
   mkdirSync(path.dirname(path.join(DOCS, out)), { recursive: true });
   writeFileSync(path.join(DOCS, out), full);
   pages.push(out);
@@ -287,21 +339,30 @@ const scenarios = [
   ['A key leaked into git', 'Rotate first. Find the rest. Add the gate. Nothing printed twice.', '#6-a-key-leaked-into-git'],
   ['Strangler migration in six slices', 'Change a live system without a big-bang rewrite.', '#7-strangler-migration-in-six-slices'],
 ];
+const pair = (name, alt) => `<img class="theme-light" src="assets/charts/${name}.svg" alt="${esc(alt)}" loading="lazy" width="900"><img class="theme-dark" src="assets/charts/${name}-dark.svg" alt="${esc(alt)}" loading="lazy" width="900">`;
+const features = [
+  ['evidence', 'Evidence, not vibes', 'Every claim is labeled observed, inferred, proposed or unknown. Findings cite file and line, with fix and acceptance test.'],
+  ['lock', 'Keyless and private', 'Offline CLI, no telemetry. The skills use the model you already have in your IDE. No ArchSutra account.'],
+  ['ci', 'Made for CI', 'Fail on new problems only with a baseline. SARIF for code scanning. <a href="guides/ci-recipes.html">See the recipes</a>.'],
+  ['shield', 'Safe to adopt', 'Dry-run installs, hashes, backups and an uninstall that never deletes your edits.'],
+  ['scale', 'Honest by design', '"Not assessed" is a rating. Suppressions need a reason and an expiry.'],
+  ['code', 'Open and auditable', 'Apache-2.0, zero runtime dependencies, tests, SBOMs and published labels. <a href="handbook/15-supply-chain-and-release.html">Supply chain</a>.'],
+];
 const hero = `
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
       <p class="eyebrow">Open source &middot; Apache-2.0 &middot; v${pkg.version}</p>
-      <h1>Know what your architecture is really doing. With proof.</h1>
+      <h1>Know what your architecture is <em>really</em> doing. With proof.</h1>
       <p class="hero-lede">ArchSutra AI turns Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI into an evidence-first architect. Audit, design, threat-model and modernize, with <code>file:line</code> evidence, severity and confidence. No extra API key.</p>
       <div class="cta">
         <a class="btn primary" href="guides/getting-started.html">Get started in 5 minutes</a>
         <a class="btn" href="guides/real-world-scenarios.html">See real scenarios</a>
-        <a class="btn ghost" href="${REPO}" rel="noopener">GitHub</a>
       </div>
       <p class="hero-note">Read-only &middot; Offline &middot; No telemetry &middot; Secrets redacted</p>
+      <div class="chips" aria-label="Works with"><span class="chip">Claude Code</span><span class="chip">Cursor</span><span class="chip">OpenAI Codex</span><span class="chip">GitHub Copilot</span><span class="chip">Gemini CLI</span></div>
     </div>
-    <div class="terminal" aria-label="Example: running archsutra audit">
+    <div class="terminal" role="img" aria-label="Example terminal session running archsutra audit and showing three findings">
       <div class="term-bar"><span></span><span></span><span></span><b>~/shop-api</b></div>
       <pre><code><span class="p">$</span> npx archsutra-ai audit . --output arch-report
 
@@ -322,49 +383,42 @@ Security <span class="bad">weak</span> &middot; Reliability <span class="m">not 
 </section>
 <section class="stats" aria-label="Facts"><div class="wrap"><ul>${stats.map(([n, l]) => `<li><span class="num">${n}</span><span class="lbl">${l}</span></li>`).join('')}</ul></div></section>
 
-<section class="wrap"><h2>How it works</h2>
-  <p class="section-lede">Two parts, two jobs. The CLI measures. Your IDE's own model reasons. The skills keep the model honest.</p>
-  <figure class="figure"><img src="assets/charts/pipeline.svg" alt="ArchSutra pipeline: repository, CLI, evidence, skills and your IDE model, report" loading="lazy"></figure>
+<section class="wrap"><p class="eyebrow-s">How it works</p><h2>The CLI measures. Your IDE's model reasons.</h2>
+  <p class="section-lede">Two parts, two jobs. The offline CLI is a measuring tool that always gives the same answer. The skills tell your IDE's own model how to reason from that evidence without guessing.</p>
+  <figure class="figure">${pair('pipeline', 'ArchSutra pipeline: repository, CLI, evidence, skills and your IDE model, report')}</figure>
   <div class="steps">
-    <article><span class="stepno">1</span><h3>Measure</h3><p>The offline CLI walks your files read-only, maps modules and imports, applies 19 rules and redacts secrets. Same input, same output.</p></article>
+    <article><span class="stepno">1</span><h3>Measure</h3><p>Walks your files read-only, maps modules and imports, applies 19 rules and redacts secrets. Same input, same output.</p></article>
     <article><span class="stepno">2</span><h3>Reason</h3><p>In your IDE, Prime and eleven specialists open each cited line, drop what they cannot reproduce, and judge impact and trade-offs.</p></article>
-    <article><span class="stepno">3</span><h3>Deliver</h3><p>One report in HTML for people, Markdown for pull requests, JSON and SARIF for tools, with every claim labeled.</p></article>
+    <article><span class="stepno">3</span><h3>Deliver</h3><p>One report as HTML for people, Markdown for pull requests, JSON and SARIF for tools, every claim labeled.</p></article>
   </div>
-  <p class="muted"><a href="guides/how-it-works.html">Seven diagrams that explain the rest</a></p>
+  <p class="muted" style="margin-top:18px"><a href="guides/how-it-works.html">Seven diagrams that explain the rest &rarr;</a></p>
 </section>
 
 <section class="band"><div class="wrap">
-  <h2>Pick your story</h2>
-  <p class="section-lede">Real situations, with the commands, the output and the decisions. No theory first.</p>
-  <div class="cards">${scenarios.map(([t, d, a]) => `<a class="card link" href="guides/real-world-scenarios.html${a}"><h3>${t}</h3><p>${d}</p></a>`).join('')}</div>
+  <p class="eyebrow-s">Real scenarios</p><h2>Pick your story</h2>
+  <p class="section-lede">Real situations with the commands, the output and the decisions. No theory first.</p>
+  <div class="cards">${scenarios.map(([t, d, a], i) => `<a class="card link" href="guides/real-world-scenarios.html${a}"><span class="num-b">${i + 1}</span><h3>${t}</h3><p>${d}</p></a>`).join('')}</div>
 </div></section>
 
-<section class="wrap"><h2>See the real report</h2>
-  <p class="section-lede">This page is the actual output of <code>archsutra audit</code> on the sample project: severity cards, a filter, collapsible findings, diagrams. Every report also exists as Markdown.</p>
-  <div class="cta"><a class="btn primary" href="sample-report/audit-report.html">Open the sample audit</a><a class="btn" href="sample-report/current-state.html">Open the current-state maps</a><a class="btn ghost" href="guides/reading-a-report.html">How to read one</a></div>
-  <figure class="figure"><img src="assets/charts/finding-anatomy.svg" alt="Anatomy of a finding: ID, severity, evidence, impact, fix, verification" loading="lazy"></figure>
+<section class="wrap"><p class="eyebrow-s">The report</p><h2>A report people actually open</h2>
+  <p class="section-lede">This is the real output of <code>archsutra audit</code> on the sample project: severity cards, a filter, collapsible findings and diagrams. Every report also exists as Markdown, JSON and SARIF.</p>
+  <div class="cta"><a class="btn primary" href="sample-report/audit-report.html">Open the sample audit</a><a class="btn" href="sample-report/current-state.html">Open the maps</a><a class="btn ghost" href="guides/reading-a-report.html">How to read one</a></div>
+  <figure class="figure">${pair('finding-anatomy', 'Anatomy of a finding: ID, severity, evidence, impact, fix, verification')}</figure>
 </section>
 
 <section class="band"><div class="wrap">
-  <h2>Proof, with the caveats</h2>
-  <p class="section-lede">We audited 52 public repositories and labeled 98 findings by hand. The first version was only 50% right. We published that, fixed it, and measured again on repositories we had never tuned on.</p>
-  <figure class="figure"><img src="assets/charts/precision-by-batch.svg" alt="Precision 50%, 69%, 95% and actionable rate 29%, 34%, 52% by batch" loading="lazy"></figure>
+  <p class="eyebrow-s">Proof, with the caveats</p><h2>Measured on 52 real repositories</h2>
+  <p class="section-lede">The first version was only 50% right. We published that, fixed the false positives it exposed, and measured again on repositories we had never tuned on.</p>
+  <figure class="figure">${pair('precision-by-batch', 'Precision 50%, 69%, 95% and actionable rate 29%, 34%, 52% by batch')}</figure>
   <p class="honest"><strong>Read the whiskers.</strong> Small samples, one labeler, recall not measured. About half of valid findings need no action. Live behavior inside each AI IDE, an independent security review, trademark clearance and a lawyer's review are not done, and we say so.</p>
-  <div class="cta"><a class="btn" href="guides/evidence-at-a-glance.html">All five charts</a><a class="btn ghost" href="handbook/13-trust-and-assurance.html">The honesty register</a></div>
+  <div class="cta" style="margin-top:20px"><a class="btn" href="guides/evidence-at-a-glance.html">All the charts</a><a class="btn ghost" href="handbook/13-trust-and-assurance.html">The honesty register</a></div>
 </div></section>
 
-<section class="wrap"><h2>Built for the way you work</h2>
-  <div class="cards">
-    <article class="card"><h3>Evidence, not vibes</h3><p>Observed, inferred, proposed, unknown. Every finding cites file and line, with fix and acceptance test.</p></article>
-    <article class="card"><h3>Keyless and private</h3><p>Offline CLI, no telemetry. Skills use the model you already have in your IDE.</p></article>
-    <article class="card"><h3>Made for CI</h3><p>Gate on new problems only with a baseline. SARIF for code scanning. <a href="guides/ci-recipes.html">Recipes</a></p></article>
-    <article class="card"><h3>Safe to adopt</h3><p>Dry-run installs, hashes, backups, and an uninstall that never deletes your edits.</p></article>
-    <article class="card"><h3>Honest by design</h3><p>"Not assessed" is a rating. Suppressions need a reason and an expiry.</p></article>
-    <article class="card"><h3>Open and auditable</h3><p>Apache-2.0, zero runtime dependencies, tests, SBOMs, published labels. <a href="handbook/15-supply-chain-and-release.html">Supply chain</a></p></article>
-  </div>
+<section class="wrap"><p class="eyebrow-s">Why teams use it</p><h2>Built for the way you work</h2>
+  <div class="cards">${features.map(([ic, t, d]) => `<article class="card"><span class="ico">${icon(ic)}</span><h3>${t}</h3><p>${d}</p></article>`).join('')}</div>
 </section>
 
-<section class="band"><div class="wrap"><h2>Supported AI IDEs</h2>
+<section class="band"><div class="wrap"><p class="eyebrow-s">Compatibility</p><h2>Supported AI IDEs</h2>
   <div class="table-wrap" tabindex="0" role="region" aria-label="Supported hosts"><table><thead><tr><th scope="col">Host</th><th scope="col">Level</th><th scope="col">Skills</th><th scope="col">Agents</th></tr></thead><tbody>
   <tr><td>Claude Code</td><td>adapter</td><td><code>.claude/skills/</code></td><td><code>.claude/agents/</code></td></tr>
   <tr><td>Cursor</td><td>adapter</td><td><code>.cursor/skills/</code></td><td><code>.cursor/agents/</code></td></tr>
@@ -375,7 +429,7 @@ Security <span class="bad">weak</span> &middot; Reliability <span class="m">not 
   <p class="muted">"adapter" = files written to the vendor-documented layout; not yet smoke-tested in the live host. Install one host per project. <a href="handbook/09-compatibility-and-roadmap.html">Full matrix</a></p>
 </div></section>
 
-<section class="wrap"><h2>Find your way</h2>
+<section class="wrap"><p class="eyebrow-s">Documentation</p><h2>Find your way</h2>
   <div class="cards">${[
     ['I am new here', 'guides/getting-started.html', 'Five minutes to your first report.'],
     ['I lead a team', 'handbook/01-executive-summary.html', 'Problem, value, risks, decisions.'],
@@ -388,9 +442,15 @@ Security <span class="bad">weak</span> &middot; Reliability <span class="m">not 
   ].map(([t, h, d]) => `<a class="card link" href="${h}"><h3>${t}</h3><p>${d}</p></a>`).join('')}</div>
 </section>
 
-<section class="band"><div class="wrap faq"><h2>Frequently asked questions</h2>${faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}
+<section class="band"><div class="wrap faq"><p class="eyebrow-s">FAQ</p><h2>Frequently asked questions</h2>${faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}
   <p class="muted"><a href="handbook/11-glossary-and-faq.html">More questions and a glossary</a></p>
-</div></section>`;
+</div></section>
+
+<section class="wrap cta-band"><h2>See what your architecture is really doing</h2>
+  <p class="section-lede">One command, no account, no key. Five minutes to a report you can open in a browser.</p>
+  <div class="cta"><a class="btn primary" href="guides/getting-started.html">Get started in 5 minutes</a><a class="btn" href="${REPO}" rel="noopener">Star on GitHub</a></div>
+  <div class="code" style="max-width:520px;margin:18px auto 0;text-align:left"><button class="copy" type="button" aria-label="Copy command">Copy</button><pre><code>npx archsutra-ai audit .</code></pre></div>
+</section>`;
 
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
 const swLd = { '@context': 'https://schema.org', '@type': 'SoftwareSourceCode', name: 'ArchSutra AI', description: 'Open-source software architecture audit, design and threat-modeling agent skills and offline CLI for Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI.', codeRepository: REPO, programmingLanguage: 'TypeScript', runtimePlatform: 'Node.js', license: 'https://www.apache.org/licenses/LICENSE-2.0', version: pkg.version, author: { '@type': 'Person', name: 'Vatsal Shah', url: 'https://shahvatsal.com' }, url: SITE };

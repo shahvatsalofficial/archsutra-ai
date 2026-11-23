@@ -16,7 +16,7 @@
 
 [**Documentation site**](https://shahvatsalofficial.github.io/archsutra-ai/) &middot; [**Get started in 5 minutes**](docs/guides/getting-started.md) &middot; [Real-world scenarios](docs/guides/real-world-scenarios.md) &middot; [Cheat sheet](docs/guides/cheat-sheet.md) &middot; [Handbook](docs/handbook/README.md) &middot; [Trust register](docs/handbook/13-trust-and-assurance.md)
 
-<img src="docs/assets/charts/pipeline.svg" alt="ArchSutra pipeline: the CLI measures your repository read-only and produces evidence; your IDE model, guided by ArchSutra skills, verifies it and writes the report" width="860">
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/charts/pipeline-dark.svg"><img src="docs/assets/charts/pipeline.svg" alt="ArchSutra pipeline: the CLI measures your repository read-only and produces evidence; your IDE model, guided by ArchSutra skills, verifies it and writes the report" width="860"></picture>
 
 </div>
 
@@ -126,7 +126,7 @@ Everything below is reproducible from a clean clone. The full, honest register o
 
 The tool was run on **52 public repositories** (Express, Django, Flask, Vue, webpack, Juice Shop, WebGoat, ...). **98 findings were labeled by hand** by reading the cited code. Results by batch:
 
-<img src="docs/assets/charts/precision-by-batch.svg" alt="Bar chart: precision 50% at baseline, 69% and 95% on unseen batches; actionable 29%, 34%, 52%; with 95% intervals" width="760">
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/charts/precision-by-batch-dark.svg"><img src="docs/assets/charts/precision-by-batch.svg" alt="Bar chart: precision 50% at baseline, 69% and 95% on unseen batches; actionable 29%, 34%, 52%; with 95% intervals" width="760"></picture>
 
 | Batch | When | Precision (95% CI) | Actionable (95% CI) |
 |---|---|---|---|

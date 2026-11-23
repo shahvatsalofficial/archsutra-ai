@@ -12,11 +12,14 @@ const read = (p) => JSON.parse(readFileSync(path.join(ROOT, p), 'utf8'));
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const pct = (x) => `${Math.round(x * 100)}%`;
 
-// Palette works on light and dark: the SVG carries its own background and switches with the system theme.
-const STYLE = `
+let THEME = 'light';
+const PALETTE = {
+  light: '--bg:#ffffff;--ink:#0f172a;--mute:#475569;--line:#d9dfea;--a:#4f46e5;--b:#0f766e;--c:#b45309;--bad:#b91c1c;--ok:#15803d',
+  dark: '--bg:#121a33;--ink:#e6eaf5;--mute:#aab4cc;--line:#2c3a60;--a:#a5b4fc;--b:#5eead4;--c:#f0c36a;--bad:#ff9b92;--ok:#5fd39a',
+};
+const style = () => `
 <style>
-:root{--bg:#ffffff;--ink:#15181e;--mute:#565e6e;--line:#d9dde7;--a:#4338ca;--b:#0f766e;--c:#b45309;--bad:#b42318;--ok:#17794a}
-@media (prefers-color-scheme: dark){:root{--bg:#131820;--ink:#e8ebf2;--mute:#a2abbb;--line:#2b3442;--a:#a5a8ff;--b:#5eead4;--c:#f0c36a;--bad:#ff8a80;--ok:#5fd39a}}
+:root{${PALETTE[THEME]}}
 text{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;fill:var(--ink)}
 .m{fill:var(--mute)}.t{font-size:18px;font-weight:700}.s{font-size:12px}.l{font-size:13px}.n{font-size:13px;font-weight:700}
 .axis{stroke:var(--line);stroke-width:1}.grid{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4}
@@ -24,14 +27,16 @@ text{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-se
 
 function wrap(w, h, title, desc, body) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-labelledby="t d">
-<title id="t">${esc(title)}</title><desc id="d">${esc(desc)}</desc>${STYLE}
+<title id="t">${esc(title)}</title><desc id="d">${esc(desc)}</desc>${style()}
 <rect width="${w}" height="${h}" rx="14" fill="var(--bg)" stroke="var(--line)"/>
 ${body}
 </svg>
 `;
 }
-const save = (name, svg) => writeFileSync(path.join(OUT, name), svg);
+const save = (name, svg) => writeFileSync(path.join(OUT, THEME === 'dark' ? name.replace(/\.svg$/, '-dark.svg') : name), svg);
 
+for (const t of ['light', 'dark']) {
+THEME = t;
 // ---------- 1. Precision and actionable by batch (with 95% intervals) ----------
 {
   const batches = [
@@ -180,4 +185,5 @@ const save = (name, svg) => writeFileSync(path.join(OUT, name), svg);
   save('finding-anatomy.svg', wrap(W, H, 'Anatomy of a finding', 'A finding has a stable ID, severity and confidence, evidence with a file and line, impact, a fix, and a verification and acceptance test.', g));
 }
 
-console.log('charts written to docs/assets/charts');
+}
+console.log('charts written to docs/assets/charts (light and dark variants)');

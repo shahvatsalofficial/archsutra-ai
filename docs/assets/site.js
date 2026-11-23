@@ -7,23 +7,36 @@ const store = {
   set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* storage unavailable */ } },
 };
 
+// Light is the default. Dark applies only when the reader chooses it (stored in this browser).
 function currentTheme() {
-  return root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
 }
 
 document.querySelector('.theme-btn')?.addEventListener('click', () => {
   const next = currentTheme() === 'dark' ? 'light' : 'dark';
-  root.setAttribute('data-theme', next);
+  if (next === 'dark') root.setAttribute('data-theme', 'dark');
+  else root.removeAttribute('data-theme');
   store.set('as-theme', next);
   renderDiagrams();
 });
 
+// Mobile drawer: menu button opens it, scrim, close button, Escape and any link close it.
+const drawer = document.getElementById('drawer');
 const menu = document.querySelector('.menu-btn');
-const sidebar = document.getElementById('sidebar');
-menu?.addEventListener('click', () => {
-  const open = sidebar?.classList.toggle('open');
-  menu.setAttribute('aria-expanded', String(Boolean(open)));
+const setDrawer = (open) => {
+  drawer?.classList.toggle('open', open);
+  drawer?.setAttribute('aria-hidden', String(!open));
+  menu?.setAttribute('aria-expanded', String(open));
+  document.body.style.overflow = open ? 'hidden' : '';
+  if (open) drawer?.querySelector('[data-close]')?.nextElementSibling?.querySelector('button, a')?.focus();
+};
+menu?.addEventListener('click', () => setDrawer(true));
+drawer?.addEventListener('click', (e) => {
+  const t = e.target;
+  if (t instanceof Element && (t.closest('[data-close]') || t.closest('a'))) setDrawer(false);
 });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer?.classList.contains('open')) { setDrawer(false); menu?.focus(); } });
+matchMedia('(min-width: 901px)').addEventListener('change', (e) => { if (e.matches) setDrawer(false); });
 
 document.querySelectorAll('.copy').forEach((btn) => {
   btn.addEventListener('click', async () => {

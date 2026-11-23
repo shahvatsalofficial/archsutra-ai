@@ -1,8 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" width="900" height="330" role="img" aria-labelledby="t d">
 <title id="t">ArchSutra pipeline</title><desc id="d">The repository is scanned read-only by the CLI, which produces evidence. The IDE model, guided by ArchSutra skills, verifies the evidence and writes the report.</desc>
 <style>
-:root{--bg:#ffffff;--ink:#15181e;--mute:#565e6e;--line:#d9dde7;--a:#4338ca;--b:#0f766e;--c:#b45309;--bad:#b42318;--ok:#17794a}
-@media (prefers-color-scheme: dark){:root{--bg:#131820;--ink:#e8ebf2;--mute:#a2abbb;--line:#2b3442;--a:#a5a8ff;--b:#5eead4;--c:#f0c36a;--bad:#ff8a80;--ok:#5fd39a}}
+:root{--bg:#ffffff;--ink:#0f172a;--mute:#475569;--line:#d9dfea;--a:#4f46e5;--b:#0f766e;--c:#b45309;--bad:#b91c1c;--ok:#15803d}
 text{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;fill:var(--ink)}
 .m{fill:var(--mute)}.t{font-size:18px;font-weight:700}.s{font-size:12px}.l{font-size:13px}.n{font-size:13px;font-weight:700}
 .axis{stroke:var(--line);stroke-width:1}.grid{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4}
