@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" width="900" height="400" role="img" aria-labelledby="t d">
+<title id="t">Anatomy of a finding</title><desc id="d">A finding has a stable ID, severity and confidence, evidence with a file and line, impact, a fix, and a verification and acceptance test.</desc>
+<style>
+:root{--bg:#ffffff;--ink:#15181e;--mute:#565e6e;--line:#d9dde7;--a:#4338ca;--b:#0f766e;--c:#b45309;--bad:#b42318;--ok:#17794a}
+@media (prefers-color-scheme: dark){:root{--bg:#131820;--ink:#e8ebf2;--mute:#a2abbb;--line:#2b3442;--a:#a5a8ff;--b:#5eead4;--c:#f0c36a;--bad:#ff8a80;--ok:#5fd39a}}
+text{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;fill:var(--ink)}
+.m{fill:var(--mute)}.t{font-size:18px;font-weight:700}.s{font-size:12px}.l{font-size:13px}.n{font-size:13px;font-weight:700}
+.axis{stroke:var(--line);stroke-width:1}.grid{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4}
+</style>
+<rect width="900" height="400" rx="14" fill="var(--bg)" stroke="var(--line)"/>
+<text x="24" y="34" class="t">Anatomy of one finding</text><text x="24" y="54" class="s m">Real finding from the sample audit. Every field exists so you can check it, not just trust it.</text>
+<rect x="60" y="76" width="560" height="300" rx="12" fill="none" stroke="var(--line)" stroke-width="2"/>
+<text x="80" y="106" class="l" style="font-weight:700">AS-SEC-005#002</text><rect x="214" y="90" width="52" height="22" rx="11" fill="none" stroke="var(--bad)"/><text x="240" y="106" text-anchor="middle" class="s" style="fill:var(--bad);font-weight:700">HIGH</text>
+<text x="280" y="106" class="l">SQL built by string interpolation</text>
+<text x="80" y="140" class="s m">confidence: medium    category: security    effort: M</text>
+<text x="80" y="172" class="s m">EVIDENCE</text><text x="80" y="194" class="l"><tspan style="fill:var(--ok)">[observed]</tspan> src/services/user.ts:2</text>
+<text x="80" y="214" class="s" style="font-family:ui-monospace,Menlo,Consolas,monospace">db.query(`SELECT * FROM users WHERE id = ${id}`)</text>
+<text x="80" y="246" class="s m">IMPACT</text><text x="80" y="266" class="s">Possible SQL injection if id comes from a request.</text>
+<text x="80" y="296" class="s m">FIX</text><text x="80" y="316" class="s">Use a bound parameter: db.query(sql, [id]).</text>
+<text x="80" y="346" class="s m">VERIFY and ACCEPT</text><text x="80" y="366" class="s">Test with  1 OR 1=1  returns nothing; no interpolated SQL left in src/.</text><circle cx="660" cy="100" r="13" fill="var(--a)"/><text x="660" y="105" text-anchor="middle" style="fill:#fff;font-size:13px;font-weight:700">1</text><text x="684" y="104" class="s">Stable ID. Same rule, same ID next run.</text><circle cx="660" cy="140" r="13" fill="var(--a)"/><text x="660" y="145" text-anchor="middle" style="fill:#fff;font-size:13px;font-weight:700">2</text><text x="684" y="144" class="s">Severity = impact if true. Confidence = how sure.</text><circle cx="660" cy="194" r="13" fill="var(--a)"/><text x="660" y="199" text-anchor="middle" style="fill:#fff;font-size:13px;font-weight:700">3</text><text x="684" y="198" class="s">File and line. Label says observed, inferred or unknown.</text><circle cx="660" cy="262" r="13" fill="var(--a)"/><text x="660" y="267" text-anchor="middle" style="fill:#fff;font-size:13px;font-weight:700">4</text><text x="684" y="266" class="s">Impact in one sentence a manager can read.</text><circle cx="660" cy="312" r="13" fill="var(--a)"/><text x="660" y="317" text-anchor="middle" style="fill:#fff;font-size:13px;font-weight:700">5</text><text x="684" y="316" class="s">A concrete fix, not a lecture.</text><circle cx="660" cy="362" r="13" fill="var(--a)"/><text x="660" y="367" text-anchor="middle" style="fill:#fff;font-size:13px;font-weight:700">6</text><text x="684" y="366" class="s">How to prove it is fixed, and when you are done.</text>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" width="760" height="250" role="img" aria-labelledby="t d">
+<title id="t">Test coverage</title><desc id="d">Lines 92.38 percent, branches 80.69 percent, functions 91.06 percent.</desc>
+<style>
+:root{--bg:#ffffff;--ink:#15181e;--mute:#565e6e;--line:#d9dde7;--a:#4338ca;--b:#0f766e;--c:#b45309;--bad:#b42318;--ok:#17794a}
+@media (prefers-color-scheme: dark){:root{--bg:#131820;--ink:#e8ebf2;--mute:#a2abbb;--line:#2b3442;--a:#a5a8ff;--b:#5eead4;--c:#f0c36a;--bad:#ff8a80;--ok:#5fd39a}}
+text{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;fill:var(--ink)}
+.m{fill:var(--mute)}.t{font-size:18px;font-weight:700}.s{font-size:12px}.l{font-size:13px}.n{font-size:13px;font-weight:700}
+.axis{stroke:var(--line);stroke-width:1}.grid{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4}
+</style>
+<rect width="760" height="250" rx="14" fill="var(--bg)" stroke="var(--line)"/>
+<text x="24" y="34" class="t">Test coverage of the compiled CLI</text><text x="24" y="54" class="s m">Node's built-in coverage over dist/. Reported in CI; not yet enforced as a threshold.</text><text x="98" y="106" text-anchor="end" class="l">Lines</text><rect x="110" y="88" width="540" height="24" rx="5" fill="var(--line)" opacity=".5"/><rect x="110" y="88" width="498.852" height="24" rx="5" fill="var(--ok)"/><text x="618.852" y="106" class="n">92.4%</text><text x="98" y="150" text-anchor="end" class="l">Branches</text><rect x="110" y="132" width="540" height="24" rx="5" fill="var(--line)" opacity=".5"/><rect x="110" y="132" width="435.726" height="24" rx="5" fill="var(--ok)"/><text x="555.726" y="150" class="n">80.7%</text><text x="98" y="194" text-anchor="end" class="l">Functions</text><rect x="110" y="176" width="540" height="24" rx="5" fill="var(--line)" opacity=".5"/><rect x="110" y="176" width="491.724" height="24" rx="5" fill="var(--ok)"/><text x="611.7239999999999" y="194" class="n">91.1%</text>
+</svg>

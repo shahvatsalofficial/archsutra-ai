@@ -77,3 +77,76 @@ async function renderDiagrams() {
   }
 }
 renderDiagrams();
+
+// ---- search: tiny client-side index (docs/search-index.json) ----
+const input = document.getElementById('q');
+const list = document.getElementById('results');
+if (input && list) {
+  const base = document.body.dataset.root ?? '';
+  let docs = null;
+  const load = async () => {
+    if (docs) return docs;
+    try { docs = await (await fetch(`${base}search-index.json`)).json(); } catch { docs = []; }
+    return docs;
+  };
+  const score = (d, terms) => {
+    const t = d.t.toLowerCase(), h = d.h.join(' ').toLowerCase(), s = d.s.toLowerCase();
+    let n = 0;
+    for (const w of terms) {
+      if (!(t.includes(w) || h.includes(w) || s.includes(w))) return 0;
+      if (t.includes(w)) n += 6;
+      if (h.includes(w)) n += 3;
+      if (s.includes(w)) n += 2;
+    }
+    return n;
+  };
+  const render = (items) => {
+    list.replaceChildren();
+    if (!items.length) {
+      const li = document.createElement('li');
+      li.className = 'none';
+      li.textContent = 'No matches. Try a rule ID, a command or a topic.';
+      list.append(li);
+    }
+    for (const d of items) {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `${base}${d.u}`;
+      const rt = document.createElement('span');
+      rt.className = 'rt';
+      rt.textContent = d.t;
+      const rs = document.createElement('span');
+      rs.className = 'rs';
+      rs.textContent = d.s.length > 110 ? `${d.s.slice(0, 107)}...` : d.s;
+      a.append(rt, rs);
+      li.append(a);
+      list.append(li);
+    }
+    list.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+  };
+  const close = () => { list.hidden = true; input.setAttribute('aria-expanded', 'false'); };
+  input.addEventListener('input', async () => {
+    const q = input.value.trim().toLowerCase();
+    if (q.length < 2) return close();
+    const terms = q.split(/\s+/);
+    const all = await load();
+    render(all.map((d) => [score(d, terms), d]).filter(([n]) => n > 0).sort((a, b) => b[0] - a[0]).slice(0, 8).map(([, d]) => d));
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { close(); input.blur(); }
+    if (e.key === 'Enter') list.querySelector('a')?.click();
+    if (e.key === 'ArrowDown') { e.preventDefault(); list.querySelector('a')?.focus(); }
+  });
+  list.addEventListener('keydown', (e) => {
+    const links = [...list.querySelectorAll('a')];
+    const i = links.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown' && links[i + 1]) { e.preventDefault(); links[i + 1].focus(); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); (links[i - 1] ?? input).focus(); }
+    if (e.key === 'Escape') { close(); input.focus(); }
+  });
+  document.addEventListener('click', (e) => { if (!e.target.closest?.('.search')) close(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) { e.preventDefault(); input.focus(); }
+  });
+}

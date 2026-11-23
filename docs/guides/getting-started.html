@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get started in 5 minutes | ArchSutra AI</title>
+<meta name="description" content="From zero to a readable architecture report in five minutes: pick your path, run one command, open the report, then bring in your AI IDE and CI.">
+<link rel="canonical" href="https://shahvatsalofficial.github.io/archsutra-ai/guides/getting-started.html">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Get started in 5 minutes | ArchSutra AI">
+<meta property="og:description" content="From zero to a readable architecture report in five minutes: pick your path, run one command, open the report, then bring in your AI IDE and CI.">
+<meta property="og:url" content="https://shahvatsalofficial.github.io/archsutra-ai/guides/getting-started.html">
+<meta property="og:site_name" content="ArchSutra AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Get started in 5 minutes | ArchSutra AI">
+<meta name="twitter:description" content="From zero to a readable architecture report in five minutes: pick your path, run one command, open the report, then bring in your AI IDE and CI.">
+<meta name="author" content="Vatsal Shah">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<script>try{var t=localStorage.getItem('as-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Get started in 5 minutes","description":"From zero to a readable architecture report in five minutes: pick your path, run one command, open the report, then bring in your AI IDE and CI.","author":{"@type":"Person","name":"Vatsal Shah","url":"https://shahvatsal.com"},"inLanguage":"en","isPartOf":{"@type":"WebSite","name":"ArchSutra AI","url":"https://shahvatsalofficial.github.io/archsutra-ai"}}</script>
+</head>
+<body class="doc" data-root="../">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">Menu</button>
+    <a class="brand" href="../index.html" aria-label="ArchSutra AI home"><svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor" opacity=".12"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ArchSutra <b>AI</b></span></a>
+    <nav class="top-links" aria-label="Primary"><a href="../guides/getting-started.html">Get started</a><a href="../guides/real-world-scenarios.html">Scenarios</a><a href="../handbook/index.html">Handbook</a><a href="../guides/evidence-at-a-glance.html">Proof</a><a href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">GitHub</a></nav>
+    <div class="search" role="search"><label class="sr-only" for="q">Search the documentation</label><input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-controls="results" aria-expanded="false"><ul id="results" class="results" role="listbox" hidden></ul></div>
+    <button class="theme-btn" type="button" aria-label="Toggle color theme"><span class="sun" aria-hidden="true">Light</span><span class="moon" aria-hidden="true">Dark</span></button>
+  </div>
+</header>
+<div class="layout">
+  <aside id="sidebar" class="sidebar" aria-label="Documentation"><div class="nav-group"><p class="nav-title">Start here</p><ul><li><a href="../guides/getting-started.html" aria-current="page">Get started in 5 minutes</a></li><li><a href="../guides/real-world-scenarios.html">Real-world scenarios</a></li><li><a href="../guides/how-it-works.html">How it works, in pictures</a></li><li><a href="../guides/reading-a-report.html">Reading and triaging a report</a></li><li><a href="../guides/ci-recipes.html">CI recipes</a></li><li><a href="../guides/cheat-sheet.html">Cheat sheet</a></li><li><a href="../guides/evidence-at-a-glance.html">Evidence at a glance</a></li></ul></div><div class="nav-group"><p class="nav-title">Handbook</p><ul><li><a href="../handbook/index.html">Overview</a></li><li><a href="../handbook/01-executive-summary.html">Executive summary</a></li><li><a href="../handbook/02-functional-specification.html">Functional specification</a></li><li><a href="../handbook/03-technical-specification.html">Technical specification</a></li><li><a href="../handbook/04-architecture.html">Architecture</a></li><li><a href="../handbook/05-user-guide.html">User guide</a></li><li><a href="../handbook/06-cli-reference.html">CLI reference</a></li><li><a href="../handbook/07-security-privacy-legal.html">Security, privacy and legal</a></li><li><a href="../handbook/08-testing-and-proof.html">Testing and proof</a></li><li><a href="../handbook/09-compatibility-and-roadmap.html">Compatibility and roadmap</a></li><li><a href="../handbook/10-contributor-guide.html">Contributor guide</a></li><li><a href="../handbook/11-glossary-and-faq.html">Glossary and FAQ</a></li><li><a href="../handbook/12-rule-catalog.html">Audit rule catalog</a></li><li><a href="../handbook/13-trust-and-assurance.html">Trust and assurance</a></li><li><a href="../handbook/14-real-world-evaluation.html">Real-world evaluation</a></li><li><a href="../handbook/15-supply-chain-and-release.html">Supply chain and release</a></li><li><a href="../handbook/16-performance-and-quality-metrics.html">Performance and quality metrics</a></li></ul></div><div class="nav-group"><p class="nav-title">Reference</p><ul><li><a href="../architecture/overview.html">Architecture overview</a></li><li><a href="../architecture/threat-model.html">Threat model (ArchSutra CLI and skills)</a></li><li><a href="../compatibility/matrix.html">Compatibility matrix</a></li><li><a href="../rfc/0001-archsutra-v0.1.html">RFC 0001: ArchSutra AI v0.1</a></li><li><a href="../decisions/ADR-0001-deterministic-cli-plus-ide-skills.html">ADR-0001: Deterministic CLI plus IDE-native skills</a></li><li><a href="../compatibility/smoke-tests/index.html">Live smoke tests</a></li><li><a href="../community/good-first-issues.html">Good first issues (ready to file)</a></li><li><a href="../legal/trademark-and-name-clearance.html">Name and trademark clearance</a></li><li><a href="../legal/legal-review-brief.html">Legal review brief</a></li><li><a href="../proof/accessibility.html">Accessibility audit of the documentation site</a></li></ul></div></aside>
+  <main id="main" class="content"><article class="prose"><p class="crumbs"><a href="../index.html">ArchSutra AI</a> / Start here</p><h1 id="get-started-in-5-minutes">Get started in 5 minutes</h1>
+<p class="lede">From zero to a readable architecture report in five minutes: pick your path, run one command, open the report, then bring in your AI IDE and CI.</p><p class="meta">Version 0.1.5 &middot; Source: <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/docs/guides/getting-started.md" rel="noopener">docs/guides/getting-started.md</a></p>
+<p>By the end of this page you will have an <strong>audit report you can open in a browser</strong>, you will know what each part means, and you will know the next step for your situation. You do not need an account, an API key or network access for the first four steps.</p>
+<blockquote class="callout callout-tip"><strong>Tip.</strong> Short on time? Run step 1 and step 2, then read <a href="reading-a-report.html">Reading a report</a>. That alone is a useful 3 minutes.</blockquote>
+<h2 id="pick-your-path">Pick your path<a class="anchor" href="#pick-your-path" aria-label="Link to this section">#</a></h2>
+<p>Start from what you want, not from the tool.</p>
+<figure class="diagram"><pre class="mermaid">flowchart TD
+  start([&quot;What do you want?&quot;]) --&gt; q1{&quot;Do you already&lt;br/&gt;have code?&quot;}
+  q1 -- &quot;Yes, I need to understand it&quot; --&gt; audit[&quot;Run: archsutra audit .&lt;br/&gt;then open the HTML report&quot;]
+  q1 -- &quot;No, I am designing something new&quot; --&gt; design[&quot;Install the skills,&lt;br/&gt;ask Prime to design it&quot;]
+  audit --&gt; q2{&quot;What next?&quot;}
+  q2 -- &quot;Stop it getting worse&quot; --&gt; ci[&quot;Add the CI gate&lt;br/&gt;(step 5)&quot;]
+  q2 -- &quot;Fix the big problems&quot; --&gt; mod[&quot;Ask Prime for a&lt;br/&gt;phased roadmap&quot;]
+  q2 -- &quot;Is this part safe?&quot; --&gt; tm[&quot;Use the threat-modeling skill&quot;]
+  design --&gt; adr[&quot;You get options, an ADR,&lt;br/&gt;diagrams and a thin-slice plan&quot;]</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>
+<h2 id="step-1-run-your-first-audit">Step 1. Run your first audit<a class="anchor" href="#step-1-run-your-first-audit" aria-label="Link to this section">#</a></h2>
+<p>You need Node.js 20 or newer. From the root of any project:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-bash">npx archsutra-ai audit .</code></pre></div>
+<p>On Windows <code>npx archsutra-ai</code> works from version 0.1.3. The command reads your files, never runs them, never uses the network, and prints a report. Here is the <strong>real output</strong> for the small sample project in this repository:</p>
+<blockquote class="callout callout-real-output"><strong>Real output.</strong> Trimmed from <code>archsutra audit fixtures/brownfield-monolith</code>.</blockquote>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-text"># Architecture Audit Report
+
+## Summary
+- Files scanned: 7
+- Stack observed: TypeScript, Node.js
+- Findings: 12 (critical 0, high 3, medium 7, low 2, info 0)
+
+## Scorecard
+| Category        | Rating       |
+|-----------------|--------------|
+| Security        | weak         |
+| Maintainability | adequate     |
+| Operability     | adequate     |
+| Supply chain    | adequate     |
+| Reliability     | not assessed |
+| Performance     | not assessed |
+| Cost            | not assessed |</code></pre></div>
+<blockquote class="callout callout-why-it-matters"><strong>Why it matters.</strong> Notice <code>not assessed</code>. A static scan cannot see traffic, incidents or your cloud bill, so it says so instead of guessing. A tool that scores everything is a tool that makes things up.</blockquote>
+<h2 id="step-2-open-the-report-as-a-web-page">Step 2. Open the report as a web page<a class="anchor" href="#step-2-open-the-report-as-a-web-page" aria-label="Link to this section">#</a></h2>
+<p>Reports that people can open are reports that get read. Write the full set, Markdown and HTML:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-bash">npx archsutra-ai audit . --output arch-report</code></pre></div>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-text">  index.html
+  current-state.md
+  current-state.html
+  audit-report.md
+  audit-report.html
+  findings.json
+  findings.sarif
+  architecture-register.json
+Open index.html in a browser. Each report also has a Markdown file beside it.</code></pre></div>
+<p>Open <code>arch-report/index.html</code>. You get severity cards, a filter by severity, and collapsible findings. Use the Markdown files in pull requests, the JSON in scripts, and the SARIF in GitHub code scanning.</p>
+<figure class="diagram"><pre class="mermaid">flowchart LR
+  A[&quot;archsutra audit . --output arch-report&quot;] --&gt; H[&quot;audit-report.html&lt;br/&gt;for people&quot;]
+  A --&gt; M[&quot;audit-report.md&lt;br/&gt;for pull requests&quot;]
+  A --&gt; J[&quot;findings.json&lt;br/&gt;for scripts&quot;]
+  A --&gt; S[&quot;findings.sarif&lt;br/&gt;for code scanning&quot;]
+  A --&gt; C[&quot;current-state.html and .md&lt;br/&gt;maps and diagrams&quot;]</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>
+<blockquote class="callout callout-note"><strong>Note.</strong> <code>--output</code> must stay inside the project folder. That is a safety rule: the tool will not write outside the project you pointed it at.</blockquote>
+<h2 id="step-3-understand-what-you-are-looking-at">Step 3. Understand what you are looking at<a class="anchor" href="#step-3-understand-what-you-are-looking-at" aria-label="Link to this section">#</a></h2>
+<p>Every finding has the same shape, so you can learn it once.</p>
+<figure class="figure"><img src="../assets/charts/finding-anatomy.svg" alt="Anatomy of one finding: stable ID, severity and confidence, evidence with file and line, impact, fix, verification and acceptance" loading="lazy"><figcaption>Anatomy of one finding: stable ID, severity and confidence, evidence with file and line, impact, fix, verification and acceptance</figcaption></figure>
+<p>Read it top to bottom: <strong>what</strong> (title), <strong>how bad</strong> (severity), <strong>how sure</strong> (confidence), <strong>where</strong> (file and line), <strong>so what</strong> (impact), <strong>now what</strong> (fix), <strong>how do I know</strong> (verify and accept). If you cannot open the cited line and see the problem, treat the finding as wrong and tell us (<a href="https://github.com/shahvatsalofficial/archsutra-ai/issues/new?template=false_positive.md" rel="noopener">false-positive report</a>).</p>
+<h2 id="step-4-add-your-ai-ide-optional-where-the-depth-is">Step 4. Add your AI IDE (optional, where the depth is)<a class="anchor" href="#step-4-add-your-ai-ide-optional-where-the-depth-is" aria-label="Link to this section">#</a></h2>
+<p>The CLI gives evidence. Your IDE's own model adds judgment: why a design is risky, what to change first, what to design next. ArchSutra's skills tell the model how to do that without making things up.</p>
+<p>Pick <strong>one</strong> host (several hosts read the same folders, so installing more than one duplicates skills):</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table 1: Step 4. Add your AI IDE (optional, where the depth is)"><table><thead><tr><th scope="col">Your IDE</th><th scope="col">Command</th></tr></thead><tbody><tr><td>Claude Code</td><td><code>npx archsutra-ai install --host claude --target .</code></td></tr><tr><td>Cursor</td><td><code>npx archsutra-ai install --host cursor --target .</code></td></tr><tr><td>OpenAI Codex</td><td><code>npx archsutra-ai install --host codex --target .</code></td></tr><tr><td>GitHub Copilot</td><td><code>npx archsutra-ai install --host copilot --target .</code></td></tr><tr><td>Gemini CLI</td><td><code>npx archsutra-ai install --host gemini --target .</code></td></tr></tbody></table></div>
+<p>Preview first with <code>--dry-run</code>; undo any time with <code>uninstall</code>. Then ask:</p>
+<blockquote>ArchSutra Prime: audit this repository's architecture. Establish what the code actually does first, then give findings with file and line evidence, severity and confidence, prioritized fixes and a phased roadmap. Stay read-only and label unknowns.</blockquote>
+<figure class="diagram"><pre class="mermaid">sequenceDiagram
+  participant You
+  participant IDE as Your AI IDE
+  participant Prime as ArchSutra Prime
+  participant CLI as archsutra CLI
+  You-&gt;&gt;IDE: Ask for an architecture audit
+  IDE-&gt;&gt;Prime: Loads the architecture-audit skill
+  Prime-&gt;&gt;CLI: archsutra audit . --json
+  CLI--&gt;&gt;Prime: Evidence (offline, read-only)
+  Prime-&gt;&gt;Prime: Opens each cited file and line, drops what it cannot reproduce
+  Prime--&gt;&gt;You: Report with evidence labels, roadmap and open questions</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>
+<blockquote class="callout callout-warning"><strong>Warning.</strong> Layouts for all five IDEs follow each vendor's documentation, but a live session in each has not been recorded yet. If a skill does not appear, run <code>archsutra doctor .</code> and tell us which IDE and version; we track it in the <a href="../compatibility/smoke-tests/index.html">smoke test log</a>.</blockquote>
+<h2 id="step-5-stop-regressions-in-ci">Step 5. Stop regressions in CI<a class="anchor" href="#step-5-stop-regressions-in-ci" aria-label="Link to this section">#</a></h2>
+<p>Add one line to your pipeline so the same problems cannot come back:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-yaml">- run: npx --yes archsutra-ai audit . --fail-on high</code></pre></div>
+<p>The step passes when there are no high or critical findings and fails (exit code 1) when there are. On a codebase that already has findings, start with a baseline instead so only <em>new</em> problems fail the build; see <a href="ci-recipes.html">CI recipes</a>.</p>
+<h2 id="if-something-goes-wrong">If something goes wrong<a class="anchor" href="#if-something-goes-wrong" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table 2: If something goes wrong"><table><thead><tr><th scope="col">What you see</th><th scope="col">Why</th><th scope="col">Fix</th></tr></thead><tbody><tr><td><code>archsutra is not recognized</code> on Windows</td><td>Older version of the package</td><td>Use <code>npx archsutra-ai ...</code> with version 0.1.3 or newer</td></tr><tr><td><code>--output must stay inside the project directory</code></td><td>Safety rule</td><td>Use a relative folder such as <code>arch-report</code></td></tr><tr><td><code>Blocked: N conflicting file(s)</code> on install</td><td>A file already exists and was not installed by ArchSutra</td><td>Run with <code>--dry-run</code>, then <code>--force</code> (originals are backed up)</td></tr><tr><td>Skill not found in your IDE</td><td>Layout or version mismatch</td><td><code>archsutra doctor .</code>, then open a smoke-test report</td></tr><tr><td>Report says TRUNCATED</td><td>Repository is larger than the scan limits</td><td>Audit a subfolder, or see <a href="../handbook/03-technical-specification.html">scan limits</a></td></tr></tbody></table></div>
+<h2 id="where-to-go-next">Where to go next<a class="anchor" href="#where-to-go-next" aria-label="Link to this section">#</a></h2>
+<ul><li><strong>New to the report?</strong> <a href="reading-a-report.html">Reading and triaging a report</a></li><li><strong>Want to see it used?</strong> <a href="real-world-scenarios.html">Real-world scenarios</a></li><li><strong>Curious how it works?</strong> <a href="how-it-works.html">How it works, in pictures</a></li><li><strong>Need a quick reference?</strong> <a href="cheat-sheet.html">Cheat sheet</a></li><li><strong>Do you trust the numbers?</strong> <a href="evidence-at-a-glance.html">Evidence at a glance</a></li></ul></article></main>
+  <aside class="rail"><nav class="toc" aria-label="On this page"><p class="nav-title">On this page</p><ul><li class="l2"><a href="#pick-your-path">Pick your path</a></li><li class="l2"><a href="#step-1-run-your-first-audit">Step 1. Run your first audit</a></li><li class="l2"><a href="#step-2-open-the-report-as-a-web-page">Step 2. Open the report as a web page</a></li><li class="l2"><a href="#step-3-understand-what-you-are-looking-at">Step 3. Understand what you are looking at</a></li><li class="l2"><a href="#step-4-add-your-ai-ide-optional-where-the-depth-is">Step 4. Add your AI IDE (optional, where the depth is)</a></li><li class="l2"><a href="#step-5-stop-regressions-in-ci">Step 5. Stop regressions in CI</a></li><li class="l2"><a href="#if-something-goes-wrong">If something goes wrong</a></li><li class="l2"><a href="#where-to-go-next">Where to go next</a></li></ul></nav></aside>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <p><strong>ArchSutra AI</strong> v0.1.5. Design. Audit. Evolve. Created by <a href="https://shahvatsal.com" rel="noopener">Vatsal Shah</a>. Licensed under <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>
+    <p class="fine">Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Not affiliated with Anthropic, OpenAI, Cursor, GitHub or Google; product names belong to their owners. <a href="../handbook/07-security-privacy-legal.html">Legal details</a>.</p>
+  </div>
+</footer>
+<script src="../assets/site.js" type="module"></script>
+</body>
+</html>

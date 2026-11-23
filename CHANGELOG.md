@@ -25,6 +25,11 @@ First release that is tagged and published by the release workflow, so the GitHu
 
 ## Unreleased
 
+### Documentation
+- New "Start here" section on the docs site and in the repository: Get started in 5 minutes, seven real-world scenarios (legacy monolith, CI gate with baseline, architecture choice, AI agent threat model, board report, leaked key, strangler migration), How it works in pictures (seven diagrams), Reading and triaging a report, CI recipes, Cheat sheet, Evidence at a glance. Command output in the guides is real; anything illustrative is labeled.
+- Charts (`docs/assets/charts/*.svg`) are generated from the proof data by `scripts/build-charts.mjs`: precision by batch and by rule, sample findings by severity, scan time, coverage, pipeline, finding anatomy.
+- Site: redesigned landing page, search, callouts, figures, a hosted copy of the real sample report (`/sample-report/`).
+
 ### Changed
 - Docs now match the registry and CI. `archsutra-ai` is on npm (`0.1.2`, `0.1.3`). Homepage stats are 31 tests and Ubuntu plus Windows. OpenSSF Scorecard **5.7 / 10** (2026-11-06) is quoted with the failing checks. Install examples pin `archsutra-ai@0.1.3` because the `v0.1.2` tag has no `archsutra-ai` bin.
 - Recorded the release split: no `v0.1.3` git tag, npm `0.1.3` `gitHead` is `4a7ab27`, no npm provenance. Next publish has to be `0.1.4` or later, from Actions.

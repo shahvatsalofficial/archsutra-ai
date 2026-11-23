@@ -20,64 +20,97 @@
 <link rel="stylesheet" href="assets/site.css">
 <script>try{var t=localStorage.getItem('as-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"ArchSutra AI","description":"Open-source software architecture audit, design and threat-modeling agent skills and offline CLI for Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI.","codeRepository":"https://github.com/shahvatsalofficial/archsutra-ai","programmingLanguage":"TypeScript","runtimePlatform":"Node.js","license":"https://www.apache.org/licenses/LICENSE-2.0","version":"0.1.5","author":{"@type":"Person","name":"Vatsal Shah","url":"https://shahvatsal.com"},"url":"https://shahvatsalofficial.github.io/archsutra-ai"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is ArchSutra AI?","acceptedAnswer":{"@type":"Answer","text":"An open-source software architecture agent: portable Agent Skills plus a deterministic offline CLI that help AI coding assistants audit, design, threat-model and modernize software with file-and-line evidence."}},{"@type":"Question","name":"Do I need an API key?","acceptedAnswer":{"@type":"Answer","text":"No. The CLI is offline. Inside a supported AI IDE the skills use that IDE's own model, so you need access to the IDE, not an ArchSutra key."}},{"@type":"Question","name":"Does it send my code anywhere?","acceptedAnswer":{"@type":"Answer","text":"The CLI sends nothing anywhere and has no telemetry. When you use the skills, your AI IDE's model provider processes your prompts and code under its own terms."}},{"@type":"Question","name":"Which AI tools does it support?","acceptedAnswer":{"@type":"Answer","text":"Adapters exist for Claude Code, Cursor, OpenAI Codex and GitHub Copilot (adapter level) and Gemini CLI (all adapter level: layouts match vendor docs read on 2026-11-01). Live smoke tests are pending and stated openly."}},{"@type":"Question","name":"Does it certify compliance or security?","acceptedAnswer":{"@type":"Answer","text":"No. Reports are review aids. Absence of findings is not proof of absence of vulnerabilities, and nothing here is legal advice or a compliance attestation."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is ArchSutra AI?","acceptedAnswer":{"@type":"Answer","text":"An open-source software architecture agent: portable Agent Skills plus a deterministic offline CLI that help AI coding assistants audit, design, threat-model and modernize software with file-and-line evidence."}},{"@type":"Question","name":"Do I need an API key?","acceptedAnswer":{"@type":"Answer","text":"No. The CLI is offline. Inside a supported AI IDE the skills use that IDE's own model, so you need access to the IDE, not an ArchSutra key."}},{"@type":"Question","name":"Does it send my code anywhere?","acceptedAnswer":{"@type":"Answer","text":"The CLI sends nothing anywhere and has no telemetry. When you use the skills, your AI IDE's model provider processes your prompts and code under its own terms."}},{"@type":"Question","name":"How accurate is it?","acceptedAnswer":{"@type":"Answer","text":"On repositories not used for tuning, 69% then 95% of sampled findings were genuine instances of the rule, and about half were worth acting on. Samples are small and one labeler did the labeling; every label is published."}},{"@type":"Question","name":"Which AI tools does it support?","acceptedAnswer":{"@type":"Answer","text":"Adapters exist for Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI. All are adapter level: files follow each vendor's documented layout, and live smoke tests are still pending."}},{"@type":"Question","name":"Does it certify compliance or security?","acceptedAnswer":{"@type":"Answer","text":"No. Reports are review aids. Absence of findings is not proof of absence of vulnerabilities, and nothing here is legal advice or a compliance attestation."}}]}</script>
 </head>
-<body class="landing">
+<body class="landing" data-root="">
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
   <div class="topbar-inner">
     <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">Menu</button>
     <a class="brand" href="index.html" aria-label="ArchSutra AI home"><svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor" opacity=".12"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ArchSutra <b>AI</b></span></a>
-    <nav class="top-links" aria-label="Primary"><a href="handbook/index.html">Handbook</a><a href="handbook/05-user-guide.html">Get started</a><a href="handbook/08-testing-and-proof.html">Proof</a><a href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">GitHub</a></nav>
+    <nav class="top-links" aria-label="Primary"><a href="guides/getting-started.html">Get started</a><a href="guides/real-world-scenarios.html">Scenarios</a><a href="handbook/index.html">Handbook</a><a href="guides/evidence-at-a-glance.html">Proof</a><a href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">GitHub</a></nav>
+    <div class="search" role="search"><label class="sr-only" for="q">Search the documentation</label><input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-controls="results" aria-expanded="false"><ul id="results" class="results" role="listbox" hidden></ul></div>
     <button class="theme-btn" type="button" aria-label="Toggle color theme"><span class="sun" aria-hidden="true">Light</span><span class="moon" aria-hidden="true">Dark</span></button>
   </div>
 </header>
 <main id="main">
 <section class="hero">
-  <div class="wrap">
-    <p class="eyebrow">Open source &middot; Apache-2.0 &middot; v0.1.5</p>
-    <h1>The software architecture agent that shows its evidence.</h1>
-    <p class="hero-lede">ArchSutra AI turns Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI into an evidence-first architect. Audit, design, threat-model and modernize with <code>file:line</code> proof, severity and confidence, no extra API key.</p>
-    <div class="cta">
-      <a class="btn primary" href="handbook/05-user-guide.html">Get started in 60 seconds</a>
-      <a class="btn" href="handbook/index.html">Read the handbook</a>
-      <a class="btn ghost" href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">View on GitHub</a>
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Open source &middot; Apache-2.0 &middot; v0.1.5</p>
+      <h1>Know what your architecture is really doing. With proof.</h1>
+      <p class="hero-lede">ArchSutra AI turns Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI into an evidence-first architect. Audit, design, threat-model and modernize, with <code>file:line</code> evidence, severity and confidence. No extra API key.</p>
+      <div class="cta">
+        <a class="btn primary" href="guides/getting-started.html">Get started in 5 minutes</a>
+        <a class="btn" href="guides/real-world-scenarios.html">See real scenarios</a>
+        <a class="btn ghost" href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">GitHub</a>
+      </div>
+      <p class="hero-note">Read-only &middot; Offline &middot; No telemetry &middot; Secrets redacted</p>
     </div>
-    <div class="code hero-code"><button class="copy" type="button" aria-label="Copy command">Copy</button><pre><code>npx github:shahvatsalofficial/archsutra-ai audit .</code></pre></div>
-    <p class="hero-note">Read-only. Offline. No telemetry. Secrets redacted.</p>
+    <div class="terminal" aria-label="Example: running archsutra audit">
+      <div class="term-bar"><span></span><span></span><span></span><b>~/shop-api</b></div>
+      <pre><code><span class="p">$</span> npx archsutra-ai audit . --output arch-report
+
+<span class="m">Files scanned: 7   Stack: TypeScript, Node.js</span>
+<span class="m">Findings: 12  (critical 0, high 3, medium 7, low 2)</span>
+
+<span class="sev high">HIGH  </span> SQL built by string interpolation
+        <span class="m">src/services/user.ts:2</span>  <span class="ok">[observed]</span>
+<span class="sev high">HIGH  </span> Dynamic code or shell execution
+        <span class="m">src/services/user.ts:3</span>  <span class="ok">[observed]</span>
+<span class="sev med">MEDIUM</span> Circular dependency (src/api &lt;-&gt; src/db)
+        <span class="m">src/api/routes.ts:1</span>   <span class="ok">[observed]</span>
+
+Security <span class="bad">weak</span> &middot; Reliability <span class="m">not assessed</span> &middot; Cost <span class="m">not assessed</span>
+<span class="m">Open arch-report/index.html in a browser.</span></code></pre>
+    </div>
   </div>
 </section>
-<section class="stats" aria-label="Facts"><div class="wrap"><ul><li><span class="num">36</span><span class="lbl">automated tests</span></li><li><span class="num">2 OS</span><span class="lbl">Ubuntu and Windows, Node 20, 22, 24</span></li><li><span class="num">0</span><span class="lbl">runtime dependencies</span></li><li><span class="num">52</span><span class="lbl">real repositories evaluated</span></li><li><span class="num">98</span><span class="lbl">findings hand-labeled</span></li><li><span class="num">0</span><span class="lbl">API keys required</span></li></ul></div></section>
+<section class="stats" aria-label="Facts"><div class="wrap"><ul><li><span class="num">52</span><span class="lbl">real repositories evaluated</span></li><li><span class="num">98</span><span class="lbl">findings hand-labeled</span></li><li><span class="num">19</span><span class="lbl">audit rules</span></li><li><span class="num">12</span><span class="lbl">specialist agents</span></li><li><span class="num">0</span><span class="lbl">runtime dependencies</span></li><li><span class="num">0</span><span class="lbl">API keys required</span></li></ul></div></section>
+
+<section class="wrap"><h2>How it works</h2>
+  <p class="section-lede">Two parts, two jobs. The CLI measures. Your IDE's own model reasons. The skills keep the model honest.</p>
+  <figure class="figure"><img src="assets/charts/pipeline.svg" alt="ArchSutra pipeline: repository, CLI, evidence, skills and your IDE model, report" loading="lazy"></figure>
+  <div class="steps">
+    <article><span class="stepno">1</span><h3>Measure</h3><p>The offline CLI walks your files read-only, maps modules and imports, applies 19 rules and redacts secrets. Same input, same output.</p></article>
+    <article><span class="stepno">2</span><h3>Reason</h3><p>In your IDE, Prime and eleven specialists open each cited line, drop what they cannot reproduce, and judge impact and trade-offs.</p></article>
+    <article><span class="stepno">3</span><h3>Deliver</h3><p>One report in HTML for people, Markdown for pull requests, JSON and SARIF for tools, with every claim labeled.</p></article>
+  </div>
+  <p class="muted"><a href="guides/how-it-works.html">Seven diagrams that explain the rest</a></p>
+</section>
+
 <section class="band"><div class="wrap">
-  <h2>Why teams use it</h2>
+  <h2>Pick your story</h2>
+  <p class="section-lede">Real situations, with the commands, the output and the decisions. No theory first.</p>
+  <div class="cards"><a class="card link" href="guides/real-world-scenarios.html#1-day-one-on-a-legacy-monolith"><h3>Day one on a legacy monolith</h3><p>A new tech lead gets the real risks in two hours.</p></a><a class="card link" href="guides/real-world-scenarios.html#2-stop-regressions-at-the-door"><h3>Stop regressions at the door</h3><p>Fail the build only on new problems, with a baseline.</p></a><a class="card link" href="guides/real-world-scenarios.html#3-a-startup-picks-its-architecture"><h3>A startup picks its architecture</h3><p>Options scored with numbers, one ADR, a revisit trigger.</p></a><a class="card link" href="guides/real-world-scenarios.html#4-the-support-bot-that-can-issue-refunds"><h3>The bot that can issue refunds</h3><p>Threat-model an AI agent before it touches money.</p></a><a class="card link" href="guides/real-world-scenarios.html#5-the-board-asks-are-we-safe"><h3>The board asks "are we safe?"</h3><p>One honest paragraph from a scorecard that admits what it cannot see.</p></a><a class="card link" href="guides/real-world-scenarios.html#6-a-key-leaked-into-git"><h3>A key leaked into git</h3><p>Rotate first. Find the rest. Add the gate. Nothing printed twice.</p></a><a class="card link" href="guides/real-world-scenarios.html#7-strangler-migration-in-six-slices"><h3>Strangler migration in six slices</h3><p>Change a live system without a big-bang rewrite.</p></a></div>
+</div></section>
+
+<section class="wrap"><h2>See the real report</h2>
+  <p class="section-lede">This page is the actual output of <code>archsutra audit</code> on the sample project: severity cards, a filter, collapsible findings, diagrams. Every report also exists as Markdown.</p>
+  <div class="cta"><a class="btn primary" href="sample-report/audit-report.html">Open the sample audit</a><a class="btn" href="sample-report/current-state.html">Open the current-state maps</a><a class="btn ghost" href="guides/reading-a-report.html">How to read one</a></div>
+  <figure class="figure"><img src="assets/charts/finding-anatomy.svg" alt="Anatomy of a finding: ID, severity, evidence, impact, fix, verification" loading="lazy"></figure>
+</section>
+
+<section class="band"><div class="wrap">
+  <h2>Proof, with the caveats</h2>
+  <p class="section-lede">We audited 52 public repositories and labeled 98 findings by hand. The first version was only 50% right. We published that, fixed it, and measured again on repositories we had never tuned on.</p>
+  <figure class="figure"><img src="assets/charts/precision-by-batch.svg" alt="Precision 50%, 69%, 95% and actionable rate 29%, 34%, 52% by batch" loading="lazy"></figure>
+  <p class="honest"><strong>Read the whiskers.</strong> Small samples, one labeler, recall not measured. About half of valid findings need no action. Live behavior inside each AI IDE, an independent security review, trademark clearance and a lawyer's review are not done, and we say so.</p>
+  <div class="cta"><a class="btn" href="guides/evidence-at-a-glance.html">All five charts</a><a class="btn ghost" href="handbook/13-trust-and-assurance.html">The honesty register</a></div>
+</div></section>
+
+<section class="wrap"><h2>Built for the way you work</h2>
   <div class="cards">
-    <article class="card"><h3>Evidence, not vibes</h3><p>Every claim is tagged observed, inferred, proposed or unknown. Findings cite file and line, with severity, confidence, fix and acceptance criteria.</p></article>
-    <article class="card"><h3>Keyless and private</h3><p>The CLI runs offline with no telemetry. Inside your IDE, the skills use the model you already have. No ArchSutra account.</p></article>
-    <article class="card"><h3>Built for CI</h3><p>Gate pull requests with <code>--fail-on high</code>. Export Markdown, Mermaid, JSON and SARIF 2.1.0 for code scanning.</p></article>
-    <article class="card"><h3>A specialist team</h3><p>Twelve role contracts led by Prime: security, data, cloud, integration, AI, reliability, cost, delivery and verification.</p></article>
-    <article class="card"><h3>Safe to adopt</h3><p>Dry-run installs, SHA-256 manifests, conflict detection, backups, and uninstall that never deletes your edits.</p></article>
-    <article class="card"><h3>Honest by design</h3><p>Support levels stated plainly. Reliability, performance and cost are "not assessed" unless evidence exists.</p></article>
+    <article class="card"><h3>Evidence, not vibes</h3><p>Observed, inferred, proposed, unknown. Every finding cites file and line, with fix and acceptance test.</p></article>
+    <article class="card"><h3>Keyless and private</h3><p>Offline CLI, no telemetry. Skills use the model you already have in your IDE.</p></article>
+    <article class="card"><h3>Made for CI</h3><p>Gate on new problems only with a baseline. SARIF for code scanning. <a href="guides/ci-recipes.html">Recipes</a></p></article>
+    <article class="card"><h3>Safe to adopt</h3><p>Dry-run installs, hashes, backups, and an uninstall that never deletes your edits.</p></article>
+    <article class="card"><h3>Honest by design</h3><p>"Not assessed" is a rating. Suppressions need a reason and an expiry.</p></article>
+    <article class="card"><h3>Open and auditable</h3><p>Apache-2.0, zero runtime dependencies, tests, SBOMs, published labels. <a href="handbook/15-supply-chain-and-release.html">Supply chain</a></p></article>
   </div>
-</div></section>
-<section class="wrap how"><h2>How it works</h2>
-  <figure class="diagram"><pre class="mermaid">flowchart LR
-  dev["You, in an AI IDE"] --> skill["ArchSutra skills + Prime"]
-  skill --> cli["archsutra CLI (offline)"]
-  cli --> repo[("Your repository, read-only")]
-  cli --> ev["Evidence: findings.json, SARIF, Mermaid"]
-  ev --> skill
-  skill --> out["Report, ADRs, roadmap"]</pre><figcaption>The CLI measures. Your IDE's model reasons. Neither needs an ArchSutra key.</figcaption></figure>
 </section>
-<section class="band"><div class="wrap">
-  <h2>Trust, with receipts</h2>
-  <div class="cards two">
-    <article class="card"><h3>Measured on real code</h3><p>Audited on 52 public repositories; 98 findings hand-labeled. Precision started at 50%, was fixed, and measured 69% then 95% on repositories never used for tuning. About half of valid findings need no action. Wide intervals, one labeler, all published.</p><a href="handbook/14-real-world-evaluation.html">See the evaluation</a></article>
-    <article class="card"><h3>Every gap tracked in the open</h3><p>A public assurance register lists what is done, partly done and still pending, with no rounding up: live IDE tests, tool comparison, trademark clearance, legal review.</p><a href="handbook/13-trust-and-assurance.html">Open the register</a></article>
-    <article class="card"><h3>Legal and privacy clarity</h3><p>Apache-2.0, NOTICE, third-party notices, trademark disclaimers, and an explicit list of checks not yet done.</p><a href="handbook/07-security-privacy-legal.html">Read the policy</a></article>
-  </div>
-  <p class="honest"><strong>What is not proven yet:</strong> live behavior inside each AI IDE, an independent security review, trademark clearance for the name, and a lawyer review. Accuracy is measured on real repositories but with small samples and one labeler. We say so up front.</p>
-</div></section>
-<section class="wrap"><h2>Supported AI IDEs</h2>
+
+<section class="band"><div class="wrap"><h2>Supported AI IDEs</h2>
   <div class="table-wrap" tabindex="0" role="region" aria-label="Supported hosts"><table><thead><tr><th scope="col">Host</th><th scope="col">Level</th><th scope="col">Skills</th><th scope="col">Agents</th></tr></thead><tbody>
   <tr><td>Claude Code</td><td>adapter</td><td><code>.claude/skills/</code></td><td><code>.claude/agents/</code></td></tr>
   <tr><td>Cursor</td><td>adapter</td><td><code>.cursor/skills/</code></td><td><code>.cursor/agents/</code></td></tr>
@@ -85,14 +118,16 @@
   <tr><td>GitHub Copilot</td><td>adapter</td><td><code>.github/skills/</code></td><td><code>.github/agents/*.agent.md</code></td></tr>
   <tr><td>Gemini CLI</td><td>adapter</td><td><code>.gemini/skills/</code></td><td>none</td></tr>
   </tbody></table></div>
-  <p class="muted">"adapter" = files written to the vendor-documented layout; not yet smoke-tested in the live host. <a href="handbook/09-compatibility-and-roadmap.html">Full matrix</a>.</p>
-</section>
-<section class="band"><div class="wrap"><h2>Documentation</h2>
-  <div class="cards"><a class="card link" href="handbook/01-executive-summary.html"><h3>Executive summary</h3><p>Problem, value, risks, decisions.</p></a><a class="card link" href="handbook/02-functional-specification.html"><h3>Functional specification</h3><p>Every requirement and scenario.</p></a><a class="card link" href="handbook/03-technical-specification.html"><h3>Technical specification</h3><p>Modules, algorithms, limits.</p></a><a class="card link" href="handbook/04-architecture.html"><h3>Architecture</h3><p>C4 views, flows, trust boundaries.</p></a><a class="card link" href="handbook/05-user-guide.html"><h3>User guide</h3><p>Install, audit, IDE prompts, CI.</p></a><a class="card link" href="handbook/06-cli-reference.html"><h3>CLI reference</h3><p>Commands, flags, exit codes.</p></a><a class="card link" href="handbook/07-security-privacy-legal.html"><h3>Security, privacy, legal</h3><p>Model, license, disclaimers.</p></a><a class="card link" href="handbook/08-testing-and-proof.html"><h3>Testing and proof</h3><p>Results, CI, evaluation, samples.</p></a><a class="card link" href="handbook/12-rule-catalog.html"><h3>Rule catalog</h3><p>All 19 audit rules.</p></a><a class="card link" href="handbook/13-trust-and-assurance.html"><h3>Trust and assurance</h3><p>Every trust gap and its status.</p></a><a class="card link" href="handbook/14-real-world-evaluation.html"><h3>Real-world evaluation</h3><p>52 repositories, labeled results.</p></a><a class="card link" href="handbook/15-supply-chain-and-release.html"><h3>Supply chain and release</h3><p>SBOM, provenance, pinning.</p></a><a class="card link" href="handbook/16-performance-and-quality-metrics.html"><h3>Performance and quality</h3><p>Speed, memory, coverage.</p></a></div>
+  <p class="muted">"adapter" = files written to the vendor-documented layout; not yet smoke-tested in the live host. Install one host per project. <a href="handbook/09-compatibility-and-roadmap.html">Full matrix</a></p>
 </div></section>
-<section class="wrap faq"><h2>Frequently asked questions</h2><details><summary>What is ArchSutra AI?</summary><p>An open-source software architecture agent: portable Agent Skills plus a deterministic offline CLI that help AI coding assistants audit, design, threat-model and modernize software with file-and-line evidence.</p></details><details><summary>Do I need an API key?</summary><p>No. The CLI is offline. Inside a supported AI IDE the skills use that IDE's own model, so you need access to the IDE, not an ArchSutra key.</p></details><details><summary>Does it send my code anywhere?</summary><p>The CLI sends nothing anywhere and has no telemetry. When you use the skills, your AI IDE's model provider processes your prompts and code under its own terms.</p></details><details><summary>Which AI tools does it support?</summary><p>Adapters exist for Claude Code, Cursor, OpenAI Codex and GitHub Copilot (adapter level) and Gemini CLI (all adapter level: layouts match vendor docs read on 2026-11-01). Live smoke tests are pending and stated openly.</p></details><details><summary>Does it certify compliance or security?</summary><p>No. Reports are review aids. Absence of findings is not proof of absence of vulnerabilities, and nothing here is legal advice or a compliance attestation.</p></details>
+
+<section class="wrap"><h2>Find your way</h2>
+  <div class="cards"><a class="card link" href="guides/getting-started.html"><h3>I am new here</h3><p>Five minutes to your first report.</p></a><a class="card link" href="handbook/01-executive-summary.html"><h3>I lead a team</h3><p>Problem, value, risks, decisions.</p></a><a class="card link" href="handbook/04-architecture.html"><h3>I am an architect</h3><p>C4 views, flows, trust boundaries.</p></a><a class="card link" href="handbook/03-technical-specification.html"><h3>I write code</h3><p>Modules, algorithms, limits.</p></a><a class="card link" href="handbook/07-security-privacy-legal.html"><h3>I review security</h3><p>Model, privacy, license, disclaimers.</p></a><a class="card link" href="guides/cheat-sheet.html"><h3>I want a quick reference</h3><p>Commands, flags, exit codes, files.</p></a><a class="card link" href="guides/ci-recipes.html"><h3>I want to add CI</h3><p>GitHub, GitLab, pre-commit, baselines.</p></a><a class="card link" href="handbook/10-contributor-guide.html"><h3>I want to contribute</h3><p>Rules, agents, adapters, release.</p></a></div>
+</section>
+
+<section class="band"><div class="wrap faq"><h2>Frequently asked questions</h2><details><summary>What is ArchSutra AI?</summary><p>An open-source software architecture agent: portable Agent Skills plus a deterministic offline CLI that help AI coding assistants audit, design, threat-model and modernize software with file-and-line evidence.</p></details><details><summary>Do I need an API key?</summary><p>No. The CLI is offline. Inside a supported AI IDE the skills use that IDE's own model, so you need access to the IDE, not an ArchSutra key.</p></details><details><summary>Does it send my code anywhere?</summary><p>The CLI sends nothing anywhere and has no telemetry. When you use the skills, your AI IDE's model provider processes your prompts and code under its own terms.</p></details><details><summary>How accurate is it?</summary><p>On repositories not used for tuning, 69% then 95% of sampled findings were genuine instances of the rule, and about half were worth acting on. Samples are small and one labeler did the labeling; every label is published.</p></details><details><summary>Which AI tools does it support?</summary><p>Adapters exist for Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI. All are adapter level: files follow each vendor's documented layout, and live smoke tests are still pending.</p></details><details><summary>Does it certify compliance or security?</summary><p>No. Reports are review aids. Absence of findings is not proof of absence of vulnerabilities, and nothing here is legal advice or a compliance attestation.</p></details>
   <p class="muted"><a href="handbook/11-glossary-and-faq.html">More questions and a glossary</a></p>
-</section></main>
+</div></section></main>
 <footer class="footer">
   <div class="footer-inner">
     <p><strong>ArchSutra AI</strong> v0.1.5. Design. Audit. Evolve. Created by <a href="https://shahvatsal.com" rel="noopener">Vatsal Shah</a>. Licensed under <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>

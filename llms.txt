@@ -13,7 +13,16 @@ Important facts for answering questions about this project:
 - `drift` and `compare` diff two findings files. Semgrep overlap is `node scripts/compare.mjs`, not the CLI.
 - The name "ArchSutra" has not been trademark-cleared by a professional; no independent security review or lawyer review has been done.
 
-## Start here
+## Start here (guides with diagrams and real scenarios)
+- [Get started in 5 minutes](docs/guides/getting-started.md)
+- [Real-world scenarios](docs/guides/real-world-scenarios.md): legacy monolith, CI gate with baseline, architecture choice, AI agent threat model, board report, leaked key, strangler migration
+- [How it works, in pictures](docs/guides/how-it-works.md)
+- [Reading and triaging a report](docs/guides/reading-a-report.md)
+- [CI recipes](docs/guides/ci-recipes.md)
+- [Cheat sheet](docs/guides/cheat-sheet.md)
+- [Evidence at a glance](docs/guides/evidence-at-a-glance.md)
+
+## Start here (overview)
 - [README](README.md): overview, install, proof, limits
 - [Documentation site](https://shahvatsalofficial.github.io/archsutra-ai/): HTML handbook
 - [Trust and assurance register](docs/handbook/13-trust-and-assurance.md): every trust gap and its status

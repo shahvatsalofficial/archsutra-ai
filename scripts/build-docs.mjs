@@ -13,6 +13,7 @@ const REPO = 'https://github.com/shahvatsalofficial/archsutra-ai';
 const MERMAID = 'https://cdn.jsdelivr.net/npm/mermaid@12.3.0/dist/mermaid.esm.min.mjs';
 
 const GROUPS = [
+  { title: 'Start here', pages: ['guides/getting-started.md', 'guides/real-world-scenarios.md', 'guides/how-it-works.md', 'guides/reading-a-report.md', 'guides/ci-recipes.md', 'guides/cheat-sheet.md', 'guides/evidence-at-a-glance.md'] },
   { title: 'Handbook', pages: ['handbook/README.md', 'handbook/01-executive-summary.md', 'handbook/02-functional-specification.md', 'handbook/03-technical-specification.md', 'handbook/04-architecture.md', 'handbook/05-user-guide.md', 'handbook/06-cli-reference.md', 'handbook/07-security-privacy-legal.md', 'handbook/08-testing-and-proof.md', 'handbook/09-compatibility-and-roadmap.md', 'handbook/10-contributor-guide.md', 'handbook/11-glossary-and-faq.md', 'handbook/12-rule-catalog.md', 'handbook/13-trust-and-assurance.md', 'handbook/14-real-world-evaluation.md', 'handbook/15-supply-chain-and-release.md', 'handbook/16-performance-and-quality-metrics.md'] },
   { title: 'Reference', pages: ['architecture/overview.md', 'architecture/threat-model.md', 'compatibility/matrix.md', 'rfc/0001-archsutra-v0.1.md', 'decisions/ADR-0001-deterministic-cli-plus-ide-skills.md', 'compatibility/smoke-tests/README.md', 'community/good-first-issues.md', 'legal/trademark-and-name-clearance.md', 'legal/legal-review-brief.md', 'proof/accessibility.md'] },
 ];
@@ -43,8 +44,9 @@ function rewriteLink(url, srcRel, curOut) {
 
 function inline(text, srcRel, curOut) {
   const codes = [];
-  let s = text.replace(/`([^`]+)`/g, (_m, c) => `\u0000${codes.push(`<code>${esc(c)}</code>`) - 1}\u0000`);
+  let s = text.replace(/`([^`]+)`/g, (_m, c) => `\u0000${codes.push(`<code>${esc(c.replace(/\\\|/g, '|'))}</code>`) - 1}\u0000`);
   s = esc(s);
+  s = s.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (_m, alt, u) => `<img src="${esc(rewriteLink(u.replace(/&amp;/g, '&'), srcRel, curOut))}" alt="${alt}" loading="lazy">`);
   s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, t, u) => {
     const href = rewriteLink(u.replace(/&amp;/g, '&'), srcRel, curOut);
     const ext = /^https?:/.test(href);
@@ -124,7 +126,7 @@ function md(source, srcRel, curOut) {
       lastHeading = h[2].replace(/`/g, '');
       if (level === 1 && !title) title = h[2].replace(/`/g, '');
       else if (level === 1) title = title || h[2];
-      if (level >= 2 && level <= 3) headings.push({ level, id, text: h[2].replace(/`/g, '') });
+      if (level >= 2 && level <= 3) headings.push({ level, id, text: h[2].replace(/`|\*\*/g, '') });
       html.push(level === 1 ? `<h1 id="${id}">${body}</h1>` : `<h${level} id="${id}">${body}<a class="anchor" href="#${id}" aria-label="Link to this section">#</a></h${level}>`);
       i++;
       continue;
@@ -141,7 +143,10 @@ function md(source, srcRel, curOut) {
     if (line.startsWith('>')) {
       const buf = [];
       while (i < lines.length && lines[i].startsWith('>')) buf.push(lines[i++].replace(/^>\s?/, ''));
-      html.push(`<blockquote>${inline(buf.join(' '), srcRel, curOut)}</blockquote>`);
+      const joined = buf.join(' ');
+      const kind = /^\*\*(Real output|Illustrative|Tip|Note|Warning|Why it matters)\.?\*\*/.exec(joined);
+      const cls = kind ? ` class="callout callout-${kind[1].toLowerCase().replace(/\s+/g, '-')}"` : '';
+      html.push(`<blockquote${cls}>${inline(joined, srcRel, curOut)}</blockquote>`);
       continue;
     }
     if (/^\s*([-*]|\d+\.)\s+/.test(line)) {
@@ -158,7 +163,9 @@ function md(source, srcRel, curOut) {
     const buf = [];
     while (i < lines.length && lines[i].trim() && !/^(#{1,4}\s|```|>|\s*([-*]|\d+\.)\s+|\|)/.test(lines[i])) buf.push(lines[i++]);
     if (!buf.length) { buf.push(lines[i++]); }
-    html.push(`<p>${inline(buf.join(' '), srcRel, curOut)}</p>`);
+    const only = /^!\[([^\]]*)\]\(([^)\s]+)\)$/.exec(buf.join(' ').trim());
+    if (only) html.push(`<figure class="figure">${inline(buf.join(' ').trim(), srcRel, curOut)}<figcaption>${esc(only[1])}</figcaption></figure>`);
+    else html.push(`<p>${inline(buf.join(' '), srcRel, curOut)}</p>`);
   }
   return { html: html.join('\n'), title, headings, summary };
 }
@@ -197,13 +204,14 @@ function shell({ title, description, out, body, toc = [], current = '', landing 
 <script>try{var t=localStorage.getItem('as-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 ${jsonld}
 </head>
-<body class="${landing ? 'landing' : 'doc'}">
+<body class="${landing ? 'landing' : 'doc'}" data-root="${p}">
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
   <div class="topbar-inner">
     <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">Menu</button>
     <a class="brand" href="${p}index.html" aria-label="ArchSutra AI home"><svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor" opacity=".12"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ArchSutra <b>AI</b></span></a>
-    <nav class="top-links" aria-label="Primary"><a href="${p}handbook/index.html">Handbook</a><a href="${p}handbook/05-user-guide.html">Get started</a><a href="${p}handbook/08-testing-and-proof.html">Proof</a><a href="${REPO}" rel="noopener">GitHub</a></nav>
+    <nav class="top-links" aria-label="Primary"><a href="${p}guides/getting-started.html">Get started</a><a href="${p}guides/real-world-scenarios.html">Scenarios</a><a href="${p}handbook/index.html">Handbook</a><a href="${p}guides/evidence-at-a-glance.html">Proof</a><a href="${REPO}" rel="noopener">GitHub</a></nav>
+    <div class="search" role="search"><label class="sr-only" for="q">Search the documentation</label><input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-controls="results" aria-expanded="false"><ul id="results" class="results" role="listbox" hidden></ul></div>
     <button class="theme-btn" type="button" aria-label="Toggle color theme"><span class="sun" aria-hidden="true">Light</span><span class="moon" aria-hidden="true">Dark</span></button>
   </div>
 </header>
@@ -234,13 +242,14 @@ function readTitle(src) {
 }
 
 const pages = [];
+const searchIndex = [];
 for (const src of ALL) {
   const out = outRel(src);
   const raw = readFileSync(path.join(DOCS, src), 'utf8');
   const r = md(raw, src, out);
   const title = `${r.title} | ArchSutra AI`;
   const desc = r.summary || `${r.title} - ArchSutra AI documentation.`;
-  const crumb = `<p class="crumbs"><a href="${prefix(out)}index.html">ArchSutra AI</a> / ${src.startsWith('handbook/') ? 'Handbook' : 'Reference'}</p>`;
+  const crumb = `<p class="crumbs"><a href="${prefix(out)}index.html">ArchSutra AI</a> / ${src.startsWith('guides/') ? 'Start here' : src.startsWith('handbook/') ? 'Handbook' : 'Reference'}</p>`;
   const meta = `<p class="meta">Version ${pkg.version} &middot; Source: <a href="${REPO}/blob/main/docs/${src}" rel="noopener">docs/${src}</a></p>`;
   const body = r.html.replace(/^(<h1[^>]*>.*?<\/h1>)/, `${crumb}$1\n${r.summary ? `<p class="lede">${esc(r.summary)}</p>` : ''}${meta}`);
   const ld = `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'TechArticle', headline: r.title, description: desc, author: { '@type': 'Person', name: 'Vatsal Shah', url: 'https://shahvatsal.com' }, inLanguage: 'en', isPartOf: { '@type': 'WebSite', name: 'ArchSutra AI', url: SITE } })}</script>`;
@@ -248,70 +257,114 @@ for (const src of ALL) {
   mkdirSync(path.dirname(path.join(DOCS, out)), { recursive: true });
   writeFileSync(path.join(DOCS, out), full);
   pages.push(out);
+  searchIndex.push({ t: r.title, u: out, h: r.headings.map((x) => x.text), s: r.summary || '' });
 }
+writeFileSync(path.join(DOCS, 'search-index.json'), JSON.stringify(searchIndex));
 
 // ---- Landing page ----
 const stats = [
-  ['36', 'automated tests'],
-  ['2 OS', 'Ubuntu and Windows, Node 20, 22, 24'],
-  ['0', 'runtime dependencies'],
   ['52', 'real repositories evaluated'],
   ['98', 'findings hand-labeled'],
+  ['19', 'audit rules'],
+  ['12', 'specialist agents'],
+  ['0', 'runtime dependencies'],
   ['0', 'API keys required'],
 ];
 const faq = [
   ['What is ArchSutra AI?', 'An open-source software architecture agent: portable Agent Skills plus a deterministic offline CLI that help AI coding assistants audit, design, threat-model and modernize software with file-and-line evidence.'],
   ['Do I need an API key?', 'No. The CLI is offline. Inside a supported AI IDE the skills use that IDE\'s own model, so you need access to the IDE, not an ArchSutra key.'],
   ['Does it send my code anywhere?', 'The CLI sends nothing anywhere and has no telemetry. When you use the skills, your AI IDE\'s model provider processes your prompts and code under its own terms.'],
-  ['Which AI tools does it support?', 'Adapters exist for Claude Code, Cursor, OpenAI Codex and GitHub Copilot (adapter level) and Gemini CLI (all adapter level: layouts match vendor docs read on 2026-11-01). Live smoke tests are pending and stated openly.'],
+  ['How accurate is it?', 'On repositories not used for tuning, 69% then 95% of sampled findings were genuine instances of the rule, and about half were worth acting on. Samples are small and one labeler did the labeling; every label is published.'],
+  ['Which AI tools does it support?', 'Adapters exist for Claude Code, Cursor, OpenAI Codex, GitHub Copilot and Gemini CLI. All are adapter level: files follow each vendor\'s documented layout, and live smoke tests are still pending.'],
   ['Does it certify compliance or security?', 'No. Reports are review aids. Absence of findings is not proof of absence of vulnerabilities, and nothing here is legal advice or a compliance attestation.'],
+];
+const scenarios = [
+  ['Day one on a legacy monolith', 'A new tech lead gets the real risks in two hours.', '#1-day-one-on-a-legacy-monolith'],
+  ['Stop regressions at the door', 'Fail the build only on new problems, with a baseline.', '#2-stop-regressions-at-the-door'],
+  ['A startup picks its architecture', 'Options scored with numbers, one ADR, a revisit trigger.', '#3-a-startup-picks-its-architecture'],
+  ['The bot that can issue refunds', 'Threat-model an AI agent before it touches money.', '#4-the-support-bot-that-can-issue-refunds'],
+  ['The board asks "are we safe?"', 'One honest paragraph from a scorecard that admits what it cannot see.', '#5-the-board-asks-are-we-safe'],
+  ['A key leaked into git', 'Rotate first. Find the rest. Add the gate. Nothing printed twice.', '#6-a-key-leaked-into-git'],
+  ['Strangler migration in six slices', 'Change a live system without a big-bang rewrite.', '#7-strangler-migration-in-six-slices'],
 ];
 const hero = `
 <section class="hero">
-  <div class="wrap">
-    <p class="eyebrow">Open source &middot; Apache-2.0 &middot; v${pkg.version}</p>
-    <h1>The software architecture agent that shows its evidence.</h1>
-    <p class="hero-lede">ArchSutra AI turns Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI into an evidence-first architect. Audit, design, threat-model and modernize with <code>file:line</code> proof, severity and confidence, no extra API key.</p>
-    <div class="cta">
-      <a class="btn primary" href="handbook/05-user-guide.html">Get started in 60 seconds</a>
-      <a class="btn" href="handbook/index.html">Read the handbook</a>
-      <a class="btn ghost" href="${REPO}" rel="noopener">View on GitHub</a>
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Open source &middot; Apache-2.0 &middot; v${pkg.version}</p>
+      <h1>Know what your architecture is really doing. With proof.</h1>
+      <p class="hero-lede">ArchSutra AI turns Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI into an evidence-first architect. Audit, design, threat-model and modernize, with <code>file:line</code> evidence, severity and confidence. No extra API key.</p>
+      <div class="cta">
+        <a class="btn primary" href="guides/getting-started.html">Get started in 5 minutes</a>
+        <a class="btn" href="guides/real-world-scenarios.html">See real scenarios</a>
+        <a class="btn ghost" href="${REPO}" rel="noopener">GitHub</a>
+      </div>
+      <p class="hero-note">Read-only &middot; Offline &middot; No telemetry &middot; Secrets redacted</p>
     </div>
-    <div class="code hero-code"><button class="copy" type="button" aria-label="Copy command">Copy</button><pre><code>npx github:shahvatsalofficial/archsutra-ai audit .</code></pre></div>
-    <p class="hero-note">Read-only. Offline. No telemetry. Secrets redacted.</p>
+    <div class="terminal" aria-label="Example: running archsutra audit">
+      <div class="term-bar"><span></span><span></span><span></span><b>~/shop-api</b></div>
+      <pre><code><span class="p">$</span> npx archsutra-ai audit . --output arch-report
+
+<span class="m">Files scanned: 7   Stack: TypeScript, Node.js</span>
+<span class="m">Findings: 12  (critical 0, high 3, medium 7, low 2)</span>
+
+<span class="sev high">HIGH  </span> SQL built by string interpolation
+        <span class="m">src/services/user.ts:2</span>  <span class="ok">[observed]</span>
+<span class="sev high">HIGH  </span> Dynamic code or shell execution
+        <span class="m">src/services/user.ts:3</span>  <span class="ok">[observed]</span>
+<span class="sev med">MEDIUM</span> Circular dependency (src/api &lt;-&gt; src/db)
+        <span class="m">src/api/routes.ts:1</span>   <span class="ok">[observed]</span>
+
+Security <span class="bad">weak</span> &middot; Reliability <span class="m">not assessed</span> &middot; Cost <span class="m">not assessed</span>
+<span class="m">Open arch-report/index.html in a browser.</span></code></pre>
+    </div>
   </div>
 </section>
 <section class="stats" aria-label="Facts"><div class="wrap"><ul>${stats.map(([n, l]) => `<li><span class="num">${n}</span><span class="lbl">${l}</span></li>`).join('')}</ul></div></section>
-<section class="band"><div class="wrap">
-  <h2>Why teams use it</h2>
-  <div class="cards">
-    <article class="card"><h3>Evidence, not vibes</h3><p>Every claim is tagged observed, inferred, proposed or unknown. Findings cite file and line, with severity, confidence, fix and acceptance criteria.</p></article>
-    <article class="card"><h3>Keyless and private</h3><p>The CLI runs offline with no telemetry. Inside your IDE, the skills use the model you already have. No ArchSutra account.</p></article>
-    <article class="card"><h3>Built for CI</h3><p>Gate pull requests with <code>--fail-on high</code>. Export Markdown, Mermaid, JSON and SARIF 2.1.0 for code scanning.</p></article>
-    <article class="card"><h3>A specialist team</h3><p>Twelve role contracts led by Prime: security, data, cloud, integration, AI, reliability, cost, delivery and verification.</p></article>
-    <article class="card"><h3>Safe to adopt</h3><p>Dry-run installs, SHA-256 manifests, conflict detection, backups, and uninstall that never deletes your edits.</p></article>
-    <article class="card"><h3>Honest by design</h3><p>Support levels stated plainly. Reliability, performance and cost are "not assessed" unless evidence exists.</p></article>
+
+<section class="wrap"><h2>How it works</h2>
+  <p class="section-lede">Two parts, two jobs. The CLI measures. Your IDE's own model reasons. The skills keep the model honest.</p>
+  <figure class="figure"><img src="assets/charts/pipeline.svg" alt="ArchSutra pipeline: repository, CLI, evidence, skills and your IDE model, report" loading="lazy"></figure>
+  <div class="steps">
+    <article><span class="stepno">1</span><h3>Measure</h3><p>The offline CLI walks your files read-only, maps modules and imports, applies 19 rules and redacts secrets. Same input, same output.</p></article>
+    <article><span class="stepno">2</span><h3>Reason</h3><p>In your IDE, Prime and eleven specialists open each cited line, drop what they cannot reproduce, and judge impact and trade-offs.</p></article>
+    <article><span class="stepno">3</span><h3>Deliver</h3><p>One report in HTML for people, Markdown for pull requests, JSON and SARIF for tools, with every claim labeled.</p></article>
   </div>
-</div></section>
-<section class="wrap how"><h2>How it works</h2>
-  <figure class="diagram"><pre class="mermaid">flowchart LR
-  dev["You, in an AI IDE"] --> skill["ArchSutra skills + Prime"]
-  skill --> cli["archsutra CLI (offline)"]
-  cli --> repo[("Your repository, read-only")]
-  cli --> ev["Evidence: findings.json, SARIF, Mermaid"]
-  ev --> skill
-  skill --> out["Report, ADRs, roadmap"]</pre><figcaption>The CLI measures. Your IDE's model reasons. Neither needs an ArchSutra key.</figcaption></figure>
+  <p class="muted"><a href="guides/how-it-works.html">Seven diagrams that explain the rest</a></p>
 </section>
+
 <section class="band"><div class="wrap">
-  <h2>Trust, with receipts</h2>
-  <div class="cards two">
-    <article class="card"><h3>Measured on real code</h3><p>Audited on 52 public repositories; 98 findings hand-labeled. Precision started at 50%, was fixed, and measured 69% then 95% on repositories never used for tuning. About half of valid findings need no action. Wide intervals, one labeler, all published.</p><a href="handbook/14-real-world-evaluation.html">See the evaluation</a></article>
-    <article class="card"><h3>Every gap tracked in the open</h3><p>A public assurance register lists what is done, partly done and still pending, with no rounding up: live IDE tests, tool comparison, trademark clearance, legal review.</p><a href="handbook/13-trust-and-assurance.html">Open the register</a></article>
-    <article class="card"><h3>Legal and privacy clarity</h3><p>Apache-2.0, NOTICE, third-party notices, trademark disclaimers, and an explicit list of checks not yet done.</p><a href="handbook/07-security-privacy-legal.html">Read the policy</a></article>
-  </div>
-  <p class="honest"><strong>What is not proven yet:</strong> live behavior inside each AI IDE, an independent security review, trademark clearance for the name, and a lawyer review. Accuracy is measured on real repositories but with small samples and one labeler. We say so up front.</p>
+  <h2>Pick your story</h2>
+  <p class="section-lede">Real situations, with the commands, the output and the decisions. No theory first.</p>
+  <div class="cards">${scenarios.map(([t, d, a]) => `<a class="card link" href="guides/real-world-scenarios.html${a}"><h3>${t}</h3><p>${d}</p></a>`).join('')}</div>
 </div></section>
-<section class="wrap"><h2>Supported AI IDEs</h2>
+
+<section class="wrap"><h2>See the real report</h2>
+  <p class="section-lede">This page is the actual output of <code>archsutra audit</code> on the sample project: severity cards, a filter, collapsible findings, diagrams. Every report also exists as Markdown.</p>
+  <div class="cta"><a class="btn primary" href="sample-report/audit-report.html">Open the sample audit</a><a class="btn" href="sample-report/current-state.html">Open the current-state maps</a><a class="btn ghost" href="guides/reading-a-report.html">How to read one</a></div>
+  <figure class="figure"><img src="assets/charts/finding-anatomy.svg" alt="Anatomy of a finding: ID, severity, evidence, impact, fix, verification" loading="lazy"></figure>
+</section>
+
+<section class="band"><div class="wrap">
+  <h2>Proof, with the caveats</h2>
+  <p class="section-lede">We audited 52 public repositories and labeled 98 findings by hand. The first version was only 50% right. We published that, fixed it, and measured again on repositories we had never tuned on.</p>
+  <figure class="figure"><img src="assets/charts/precision-by-batch.svg" alt="Precision 50%, 69%, 95% and actionable rate 29%, 34%, 52% by batch" loading="lazy"></figure>
+  <p class="honest"><strong>Read the whiskers.</strong> Small samples, one labeler, recall not measured. About half of valid findings need no action. Live behavior inside each AI IDE, an independent security review, trademark clearance and a lawyer's review are not done, and we say so.</p>
+  <div class="cta"><a class="btn" href="guides/evidence-at-a-glance.html">All five charts</a><a class="btn ghost" href="handbook/13-trust-and-assurance.html">The honesty register</a></div>
+</div></section>
+
+<section class="wrap"><h2>Built for the way you work</h2>
+  <div class="cards">
+    <article class="card"><h3>Evidence, not vibes</h3><p>Observed, inferred, proposed, unknown. Every finding cites file and line, with fix and acceptance test.</p></article>
+    <article class="card"><h3>Keyless and private</h3><p>Offline CLI, no telemetry. Skills use the model you already have in your IDE.</p></article>
+    <article class="card"><h3>Made for CI</h3><p>Gate on new problems only with a baseline. SARIF for code scanning. <a href="guides/ci-recipes.html">Recipes</a></p></article>
+    <article class="card"><h3>Safe to adopt</h3><p>Dry-run installs, hashes, backups, and an uninstall that never deletes your edits.</p></article>
+    <article class="card"><h3>Honest by design</h3><p>"Not assessed" is a rating. Suppressions need a reason and an expiry.</p></article>
+    <article class="card"><h3>Open and auditable</h3><p>Apache-2.0, zero runtime dependencies, tests, SBOMs, published labels. <a href="handbook/15-supply-chain-and-release.html">Supply chain</a></p></article>
+  </div>
+</section>
+
+<section class="band"><div class="wrap"><h2>Supported AI IDEs</h2>
   <div class="table-wrap" tabindex="0" role="region" aria-label="Supported hosts"><table><thead><tr><th scope="col">Host</th><th scope="col">Level</th><th scope="col">Skills</th><th scope="col">Agents</th></tr></thead><tbody>
   <tr><td>Claude Code</td><td>adapter</td><td><code>.claude/skills/</code></td><td><code>.claude/agents/</code></td></tr>
   <tr><td>Cursor</td><td>adapter</td><td><code>.cursor/skills/</code></td><td><code>.cursor/agents/</code></td></tr>
@@ -319,28 +372,26 @@ const hero = `
   <tr><td>GitHub Copilot</td><td>adapter</td><td><code>.github/skills/</code></td><td><code>.github/agents/*.agent.md</code></td></tr>
   <tr><td>Gemini CLI</td><td>adapter</td><td><code>.gemini/skills/</code></td><td>none</td></tr>
   </tbody></table></div>
-  <p class="muted">"adapter" = files written to the vendor-documented layout; not yet smoke-tested in the live host. <a href="handbook/09-compatibility-and-roadmap.html">Full matrix</a>.</p>
-</section>
-<section class="band"><div class="wrap"><h2>Documentation</h2>
-  <div class="cards">${[
-    ['Executive summary', 'handbook/01-executive-summary.html', 'Problem, value, risks, decisions.'],
-    ['Functional specification', 'handbook/02-functional-specification.html', 'Every requirement and scenario.'],
-    ['Technical specification', 'handbook/03-technical-specification.html', 'Modules, algorithms, limits.'],
-    ['Architecture', 'handbook/04-architecture.html', 'C4 views, flows, trust boundaries.'],
-    ['User guide', 'handbook/05-user-guide.html', 'Install, audit, IDE prompts, CI.'],
-    ['CLI reference', 'handbook/06-cli-reference.html', 'Commands, flags, exit codes.'],
-    ['Security, privacy, legal', 'handbook/07-security-privacy-legal.html', 'Model, license, disclaimers.'],
-    ['Testing and proof', 'handbook/08-testing-and-proof.html', 'Results, CI, evaluation, samples.'],
-    ['Rule catalog', 'handbook/12-rule-catalog.html', 'All 19 audit rules.'],
-    ['Trust and assurance', 'handbook/13-trust-and-assurance.html', 'Every trust gap and its status.'],
-    ['Real-world evaluation', 'handbook/14-real-world-evaluation.html', '52 repositories, labeled results.'],
-    ['Supply chain and release', 'handbook/15-supply-chain-and-release.html', 'SBOM, provenance, pinning.'],
-    ['Performance and quality', 'handbook/16-performance-and-quality-metrics.html', 'Speed, memory, coverage.'],
-  ].map(([t, h, d]) => `<a class="card link" href="${h}"><h3>${t}</h3><p>${d}</p></a>`).join('')}</div>
+  <p class="muted">"adapter" = files written to the vendor-documented layout; not yet smoke-tested in the live host. Install one host per project. <a href="handbook/09-compatibility-and-roadmap.html">Full matrix</a></p>
 </div></section>
-<section class="wrap faq"><h2>Frequently asked questions</h2>${faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}
+
+<section class="wrap"><h2>Find your way</h2>
+  <div class="cards">${[
+    ['I am new here', 'guides/getting-started.html', 'Five minutes to your first report.'],
+    ['I lead a team', 'handbook/01-executive-summary.html', 'Problem, value, risks, decisions.'],
+    ['I am an architect', 'handbook/04-architecture.html', 'C4 views, flows, trust boundaries.'],
+    ['I write code', 'handbook/03-technical-specification.html', 'Modules, algorithms, limits.'],
+    ['I review security', 'handbook/07-security-privacy-legal.html', 'Model, privacy, license, disclaimers.'],
+    ['I want a quick reference', 'guides/cheat-sheet.html', 'Commands, flags, exit codes, files.'],
+    ['I want to add CI', 'guides/ci-recipes.html', 'GitHub, GitLab, pre-commit, baselines.'],
+    ['I want to contribute', 'handbook/10-contributor-guide.html', 'Rules, agents, adapters, release.'],
+  ].map(([t, h, d]) => `<a class="card link" href="${h}"><h3>${t}</h3><p>${d}</p></a>`).join('')}</div>
+</section>
+
+<section class="band"><div class="wrap faq"><h2>Frequently asked questions</h2>${faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}
   <p class="muted"><a href="handbook/11-glossary-and-faq.html">More questions and a glossary</a></p>
-</section>`;
+</div></section>`;
+
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
 const swLd = { '@context': 'https://schema.org', '@type': 'SoftwareSourceCode', name: 'ArchSutra AI', description: 'Open-source software architecture audit, design and threat-modeling agent skills and offline CLI for Claude Code, Cursor, Codex, GitHub Copilot and Gemini CLI.', codeRepository: REPO, programmingLanguage: 'TypeScript', runtimePlatform: 'Node.js', license: 'https://www.apache.org/licenses/LICENSE-2.0', version: pkg.version, author: { '@type': 'Person', name: 'Vatsal Shah', url: 'https://shahvatsal.com' }, url: SITE };
 writeFileSync(path.join(DOCS, 'index.html'), shell({
@@ -350,6 +401,11 @@ writeFileSync(path.join(DOCS, 'index.html'), shell({
   jsonld: `<script type="application/ld+json">${JSON.stringify(swLd)}</script>\n<script type="application/ld+json">${JSON.stringify(faqLd)}</script>`,
 }));
 pages.unshift('index.html');
+
+// ---- real sample report served from the site ----
+import { cpSync } from 'node:fs';
+cpSync(path.join(ROOT, 'examples', 'brownfield-monolith', 'sample-output'), path.join(DOCS, 'sample-report'), { recursive: true });
+pages.push('sample-report/index.html', 'sample-report/audit-report.html', 'sample-report/current-state.html');
 
 // ---- sitemap, robots, assets ----
 const today = new Date().toISOString().slice(0, 10);

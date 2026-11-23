@@ -14,7 +14,9 @@
 ![Tests](https://img.shields.io/badge/tests-36%20passing-brightgreen)
 ![Coverage](https://img.shields.io/badge/coverage-92%25%20lines-brightgreen)
 
-[**Documentation site**](https://shahvatsalofficial.github.io/archsutra-ai/) &middot; [Handbook](docs/handbook/README.md) &middot; [**Trust and assurance register**](docs/handbook/13-trust-and-assurance.md) &middot; [Real-world evaluation](docs/handbook/14-real-world-evaluation.md) &middot; [Sample report](examples/brownfield-monolith/sample-output/audit-report.md)
+[**Documentation site**](https://shahvatsalofficial.github.io/archsutra-ai/) &middot; [**Get started in 5 minutes**](docs/guides/getting-started.md) &middot; [Real-world scenarios](docs/guides/real-world-scenarios.md) &middot; [Cheat sheet](docs/guides/cheat-sheet.md) &middot; [Handbook](docs/handbook/README.md) &middot; [Trust register](docs/handbook/13-trust-and-assurance.md)
+
+<img src="docs/assets/charts/pipeline.svg" alt="ArchSutra pipeline: the CLI measures your repository read-only and produces evidence; your IDE model, guided by ArchSutra skills, verifies it and writes the report" width="860">
 
 </div>
 
@@ -29,6 +31,40 @@ Created by **[Vatsal Shah](https://shahvatsal.com)**. Licensed under Apache-2.0.
 ## Contents
 
 [Why](#why-archsutra-ai) &middot; [60-second start](#60-second-start) &middot; [What you get](#what-you-get) &middot; [Proof](#proof-not-promises) &middot; [Sample output](#sample-output) &middot; [Supported IDEs](#supported-ai-ides) &middot; [Agents](#the-agent-team) &middot; [CLI](#cli-reference) &middot; [CI](#use-it-in-ci) &middot; [How it works](#how-it-works) &middot; [Security](#security-and-privacy) &middot; [Legal](#legal-and-trademarks) &middot; [Limitations](#limitations) &middot; [FAQ](#faq) &middot; [Roadmap](#roadmap) &middot; [Contribute](#contributing)
+
+## See it in action
+
+```text
+$ npx archsutra-ai audit . --output arch-report
+
+Files scanned: 7   Stack: TypeScript, Node.js
+Findings: 12  (critical 0, high 3, medium 7, low 2)
+
+HIGH    SQL built by string interpolation        src/services/user.ts:2   [observed]
+HIGH    Dynamic code or shell execution          src/services/user.ts:3   [observed]
+MEDIUM  Circular dependency (src/api <-> src/db) src/api/routes.ts:1      [observed]
+
+Security weak · Reliability not assessed · Cost not assessed
+Open arch-report/index.html in a browser.
+```
+
+That is real output for the sample project in this repository. The report opens as a web page with severity cards and a filter, and every report also exists as Markdown, JSON and SARIF. **[Open the real sample report](https://shahvatsalofficial.github.io/archsutra-ai/sample-report/audit-report.html)**.
+
+### Pick a story
+
+Seven realistic situations with commands, output, diagrams and the decision made. Start with the one closest to yours.
+
+| Scenario | Who | What you will see |
+|---|---|---|
+| [Day one on a legacy monolith](docs/guides/real-world-scenarios.md#1-day-one-on-a-legacy-monolith) | New tech lead | Audit, map, verify the highs, phased roadmap in two hours |
+| [Stop regressions at the door](docs/guides/real-world-scenarios.md#2-stop-regressions-at-the-door) | Platform engineer | A CI gate that fails only on **new** problems, plus accepted risks with reasons and expiry |
+| [A startup picks its architecture](docs/guides/real-world-scenarios.md#3-a-startup-picks-its-architecture) | Founder | Options scored with numbers, one ADR, a revisit trigger |
+| [The support bot that can issue refunds](docs/guides/real-world-scenarios.md#4-the-support-bot-that-can-issue-refunds) | Engineer shipping an AI agent | Threat model with prompt-injection controls and tests |
+| [The board asks "are we safe?"](docs/guides/real-world-scenarios.md#5-the-board-asks-are-we-safe) | Engineering manager | An honest one-paragraph answer from a scorecard that admits what it cannot see |
+| [A key leaked into git](docs/guides/real-world-scenarios.md#6-a-key-leaked-into-git) | On-call engineer | Rotate first, find the rest, add the gate, nothing printed twice |
+| [Strangler migration in six slices](docs/guides/real-world-scenarios.md#7-strangler-migration-in-six-slices) | Architect | Gantt, slice template, rollback and point of no return |
+
+New to the report itself? [Reading and triaging a report](docs/guides/reading-a-report.md). Need the commands on one page? [Cheat sheet](docs/guides/cheat-sheet.md). Want the pictures behind the design? [How it works](docs/guides/how-it-works.md).
 
 ## Why ArchSutra AI
 
@@ -89,6 +125,8 @@ Everything below is reproducible from a clean clone. The full, honest register o
 ### Accuracy on real code (the number that matters)
 
 The tool was run on **52 public repositories** (Express, Django, Flask, Vue, webpack, Juice Shop, WebGoat, ...). **98 findings were labeled by hand** by reading the cited code. Results by batch:
+
+<img src="docs/assets/charts/precision-by-batch.svg" alt="Bar chart: precision 50% at baseline, 69% and 95% on unseen batches; actionable 29%, 34%, 52%; with 95% intervals" width="760">
 
 | Batch | When | Precision (95% CI) | Actionable (95% CI) |
 |---|---|---|---|

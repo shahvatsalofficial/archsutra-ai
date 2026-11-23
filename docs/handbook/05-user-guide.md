@@ -2,6 +2,8 @@
 
 <!-- summary: Install, run your first audit, use the skills in your AI IDE, wire it into CI, and fix common problems. -->
 
+> **Short on time?** The illustrated [Get started in 5 minutes](../guides/getting-started.md) covers the same ground with diagrams, and [CI recipes](../guides/ci-recipes.md) has copy-paste pipelines for GitHub, GitLab and pre-commit.
+
 ## 1. Requirements
 
 - Node.js 20 or newer (`node -v`).

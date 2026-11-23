@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CI recipes | ArchSutra AI</title>
+<meta name="description" content="Copy-paste setups for GitHub Actions, GitLab CI, pre-commit and generic pipelines: a simple gate, a baseline for legacy code, SARIF upload, and report artifacts.">
+<link rel="canonical" href="https://shahvatsalofficial.github.io/archsutra-ai/guides/ci-recipes.html">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CI recipes | ArchSutra AI">
+<meta property="og:description" content="Copy-paste setups for GitHub Actions, GitLab CI, pre-commit and generic pipelines: a simple gate, a baseline for legacy code, SARIF upload, and report artifacts.">
+<meta property="og:url" content="https://shahvatsalofficial.github.io/archsutra-ai/guides/ci-recipes.html">
+<meta property="og:site_name" content="ArchSutra AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CI recipes | ArchSutra AI">
+<meta name="twitter:description" content="Copy-paste setups for GitHub Actions, GitLab CI, pre-commit and generic pipelines: a simple gate, a baseline for legacy code, SARIF upload, and report artifacts.">
+<meta name="author" content="Vatsal Shah">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<script>try{var t=localStorage.getItem('as-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"CI recipes","description":"Copy-paste setups for GitHub Actions, GitLab CI, pre-commit and generic pipelines: a simple gate, a baseline for legacy code, SARIF upload, and report artifacts.","author":{"@type":"Person","name":"Vatsal Shah","url":"https://shahvatsal.com"},"inLanguage":"en","isPartOf":{"@type":"WebSite","name":"ArchSutra AI","url":"https://shahvatsalofficial.github.io/archsutra-ai"}}</script>
+</head>
+<body class="doc" data-root="../">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="menu-btn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">Menu</button>
+    <a class="brand" href="../index.html" aria-label="ArchSutra AI home"><svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor" opacity=".12"/><path d="M6 24 16 7l10 17M10.5 18h11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ArchSutra <b>AI</b></span></a>
+    <nav class="top-links" aria-label="Primary"><a href="../guides/getting-started.html">Get started</a><a href="../guides/real-world-scenarios.html">Scenarios</a><a href="../handbook/index.html">Handbook</a><a href="../guides/evidence-at-a-glance.html">Proof</a><a href="https://github.com/shahvatsalofficial/archsutra-ai" rel="noopener">GitHub</a></nav>
+    <div class="search" role="search"><label class="sr-only" for="q">Search the documentation</label><input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-controls="results" aria-expanded="false"><ul id="results" class="results" role="listbox" hidden></ul></div>
+    <button class="theme-btn" type="button" aria-label="Toggle color theme"><span class="sun" aria-hidden="true">Light</span><span class="moon" aria-hidden="true">Dark</span></button>
+  </div>
+</header>
+<div class="layout">
+  <aside id="sidebar" class="sidebar" aria-label="Documentation"><div class="nav-group"><p class="nav-title">Start here</p><ul><li><a href="../guides/getting-started.html">Get started in 5 minutes</a></li><li><a href="../guides/real-world-scenarios.html">Real-world scenarios</a></li><li><a href="../guides/how-it-works.html">How it works, in pictures</a></li><li><a href="../guides/reading-a-report.html">Reading and triaging a report</a></li><li><a href="../guides/ci-recipes.html" aria-current="page">CI recipes</a></li><li><a href="../guides/cheat-sheet.html">Cheat sheet</a></li><li><a href="../guides/evidence-at-a-glance.html">Evidence at a glance</a></li></ul></div><div class="nav-group"><p class="nav-title">Handbook</p><ul><li><a href="../handbook/index.html">Overview</a></li><li><a href="../handbook/01-executive-summary.html">Executive summary</a></li><li><a href="../handbook/02-functional-specification.html">Functional specification</a></li><li><a href="../handbook/03-technical-specification.html">Technical specification</a></li><li><a href="../handbook/04-architecture.html">Architecture</a></li><li><a href="../handbook/05-user-guide.html">User guide</a></li><li><a href="../handbook/06-cli-reference.html">CLI reference</a></li><li><a href="../handbook/07-security-privacy-legal.html">Security, privacy and legal</a></li><li><a href="../handbook/08-testing-and-proof.html">Testing and proof</a></li><li><a href="../handbook/09-compatibility-and-roadmap.html">Compatibility and roadmap</a></li><li><a href="../handbook/10-contributor-guide.html">Contributor guide</a></li><li><a href="../handbook/11-glossary-and-faq.html">Glossary and FAQ</a></li><li><a href="../handbook/12-rule-catalog.html">Audit rule catalog</a></li><li><a href="../handbook/13-trust-and-assurance.html">Trust and assurance</a></li><li><a href="../handbook/14-real-world-evaluation.html">Real-world evaluation</a></li><li><a href="../handbook/15-supply-chain-and-release.html">Supply chain and release</a></li><li><a href="../handbook/16-performance-and-quality-metrics.html">Performance and quality metrics</a></li></ul></div><div class="nav-group"><p class="nav-title">Reference</p><ul><li><a href="../architecture/overview.html">Architecture overview</a></li><li><a href="../architecture/threat-model.html">Threat model (ArchSutra CLI and skills)</a></li><li><a href="../compatibility/matrix.html">Compatibility matrix</a></li><li><a href="../rfc/0001-archsutra-v0.1.html">RFC 0001: ArchSutra AI v0.1</a></li><li><a href="../decisions/ADR-0001-deterministic-cli-plus-ide-skills.html">ADR-0001: Deterministic CLI plus IDE-native skills</a></li><li><a href="../compatibility/smoke-tests/index.html">Live smoke tests</a></li><li><a href="../community/good-first-issues.html">Good first issues (ready to file)</a></li><li><a href="../legal/trademark-and-name-clearance.html">Name and trademark clearance</a></li><li><a href="../legal/legal-review-brief.html">Legal review brief</a></li><li><a href="../proof/accessibility.html">Accessibility audit of the documentation site</a></li></ul></div></aside>
+  <main id="main" class="content"><article class="prose"><p class="crumbs"><a href="../index.html">ArchSutra AI</a> / Start here</p><h1 id="ci-recipes">CI recipes</h1>
+<p class="lede">Copy-paste setups for GitHub Actions, GitLab CI, pre-commit and generic pipelines: a simple gate, a baseline for legacy code, SARIF upload, and report artifacts.</p><p class="meta">Version 0.1.5 &middot; Source: <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/docs/guides/ci-recipes.md" rel="noopener">docs/guides/ci-recipes.md</a></p>
+<p>ArchSutra's CLI is offline and deterministic, so it fits any pipeline: it needs only Node.js 20 or newer, no secrets and no network access to your code.</p>
+<h2 id="choose-a-strategy">Choose a strategy<a class="anchor" href="#choose-a-strategy" aria-label="Link to this section">#</a></h2>
+<figure class="diagram"><pre class="mermaid">flowchart TD
+  s([&quot;Adding ArchSutra to CI&quot;]) --&gt; q{&quot;Does the repository&lt;br/&gt;already have high findings?&quot;}
+  q -- No --&gt; g[&quot;Strategy A: simple gate&lt;br/&gt;audit --fail-on high&quot;]
+  q -- Yes --&gt; b[&quot;Strategy B: baseline&lt;br/&gt;drift --baseline findings.json --fail-on high&quot;]
+  g --&gt; r[&quot;Later: tighten to&lt;br/&gt;--fail-on medium&quot;]
+  b --&gt; f[&quot;Fix the backlog over time,&lt;br/&gt;refresh the baseline in the same PR&quot;]</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table 1: Choose a strategy"><table><thead><tr><th scope="col">Strategy</th><th scope="col">Fails when</th><th scope="col">Best for</th></tr></thead><tbody><tr><td>A. Simple gate</td><td>the repository has any finding at or above the level</td><td>new or clean projects</td></tr><tr><td>B. Baseline</td><td>a pull request <strong>adds</strong> a finding at or above the level</td><td>legacy codebases you are improving</td></tr></tbody></table></div>
+<h2 id="github-actions-simple-gate">GitHub Actions: simple gate<a class="anchor" href="#github-actions-simple-gate" aria-label="Link to this section">#</a></h2>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-yaml">name: architecture
+on: [pull_request]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npx --yes archsutra-ai@0.1.5 audit . --fail-on high</code></pre></div>
+<blockquote class="callout callout-tip"><strong>Tip.</strong> Pin the version (<code>@0.1.5</code>) so a new release cannot change your build overnight, and pin the actions to commit SHAs in production pipelines.</blockquote>
+<h2 id="github-actions-baseline-report-artifact-and-code-scanning-upload">GitHub Actions: baseline, report artifact and code-scanning upload<a class="anchor" href="#github-actions-baseline-report-artifact-and-code-scanning-upload" aria-label="Link to this section">#</a></h2>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-yaml">name: architecture
+on: [pull_request]
+permissions:
+  contents: read
+  security-events: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+
+      # Strategy B: fail only on NEW high or critical findings
+      - run: npx --yes archsutra-ai@0.1.5 drift . --baseline baseline/findings.json --fail-on high
+
+      # Always produce the readable report, even when the gate fails
+      - if: always()
+        run: npx --yes archsutra-ai@0.1.5 audit . --output arch-report
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: architecture-report, path: arch-report }
+
+      # Show findings in the GitHub Security tab
+      - if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        with: { sarif_file: arch-report/findings.sarif }</code></pre></div>
+<p>The reviewer downloads <code>architecture-report</code>, opens <code>index.html</code>, and sees the same readable report you saw locally.</p>
+<figure class="diagram"><pre class="mermaid">sequenceDiagram
+  participant Dev
+  participant GH as GitHub
+  participant Job as architecture job
+  Dev-&gt;&gt;GH: Push to a pull request
+  GH-&gt;&gt;Job: Run workflow
+  Job-&gt;&gt;Job: drift against baseline/findings.json
+  Job-&gt;&gt;Job: audit --output arch-report
+  Job-&gt;&gt;GH: Upload report artifact and SARIF
+  alt New high or critical finding
+    Job--&gt;&gt;GH: Check fails with the added findings
+  else Clean
+    Job--&gt;&gt;GH: Check passes
+  end</pre><figcaption>Diagram (Mermaid). If it does not render, the source is shown above.</figcaption></figure>
+<h2 id="refresh-the-baseline-the-ratchet">Refresh the baseline (the ratchet)<a class="anchor" href="#refresh-the-baseline-the-ratchet" aria-label="Link to this section">#</a></h2>
+<p>When a pull request fixes findings, record the better state in the same pull request so the bar only moves up:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-bash">npx archsutra-ai audit . --json &gt; baseline/findings.json
+git add baseline/findings.json</code></pre></div>
+<p><code>drift</code> also tells you what a change <em>removed</em>, which is a nice line for a pull-request description.</p>
+<h2 id="gitlab-ci">GitLab CI<a class="anchor" href="#gitlab-ci" aria-label="Link to this section">#</a></h2>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-yaml">architecture:
+  image: node:22
+  stage: test
+  script:
+    - npx --yes archsutra-ai@0.1.5 drift . --baseline baseline/findings.json --fail-on high
+    - npx --yes archsutra-ai@0.1.5 audit . --output arch-report
+  artifacts:
+    when: always
+    paths: [arch-report/]</code></pre></div>
+<h2 id="pre-commit-hook-local-fast">Pre-commit hook (local, fast)<a class="anchor" href="#pre-commit-hook-local-fast" aria-label="Link to this section">#</a></h2>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-bash">#!/usr/bin/env sh
+# .git/hooks/pre-commit  (chmod +x)
+npx --yes archsutra-ai@0.1.5 audit . --fail-on critical &gt;/dev/null || {
+  echo &quot;ArchSutra: critical finding. Run: npx archsutra-ai audit .&quot; &gt;&amp;2
+  exit 1
+}</code></pre></div>
+<p>Use <code>critical</code> locally so the hook stays quiet unless a secret or committed private key slipped in; run the stricter gate in CI.</p>
+<h2 id="any-other-ci-jenkins-azure-pipelines-circleci">Any other CI (Jenkins, Azure Pipelines, CircleCI)<a class="anchor" href="#any-other-ci-jenkins-azure-pipelines-circleci" aria-label="Link to this section">#</a></h2>
+<p>The contract is three lines: have Node 20 or newer, run the command, treat a non-zero exit as failure.</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy code">Copy</button><pre tabindex="0"><code class="language-bash">node --version
+npx --yes archsutra-ai@0.1.5 audit . --fail-on high</code></pre></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table 2: Any other CI (Jenkins, Azure Pipelines, CircleCI)"><table><thead><tr><th scope="col">Exit code</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td><code>0</code></td><td>Success, or no finding at or above <code>--fail-on</code></td></tr><tr><td><code>1</code></td><td>A finding at or above <code>--fail-on</code> (for <code>drift</code>: an <strong>added</strong> one) or an install conflict</td></tr><tr><td><code>2</code></td><td>Usage error (unknown command, bad flag value)</td></tr><tr><td><code>4</code></td><td><code>verify</code> found a problem</td></tr><tr><td><code>5</code></td><td>Internal error</td></tr></tbody></table></div>
+<h2 id="keep-ci-fast-and-safe">Keep CI fast and safe<a class="anchor" href="#keep-ci-fast-and-safe" aria-label="Link to this section">#</a></h2>
+<ul><li><strong>Time.</strong> Typical repositories take well under 10 seconds; the scan is capped at 5 000 files, so a monorepo should be audited per package.</li><li><strong>Secrets.</strong> The CLI needs none and sends nothing anywhere.</li><li><strong>Forks.</strong> Because nothing is sent out, it is safe on pull requests from forks.</li><li><strong>Pin.</strong> Pin the package version and the actions.</li></ul>
+<h2 id="next">Next<a class="anchor" href="#next" aria-label="Link to this section">#</a></h2>
+<ul><li>Understand what failed: <a href="reading-a-report.html">Reading and triaging a report</a></li><li>See it in a story: <a href="real-world-scenarios.html#2-stop-regressions-at-the-door">scenario 2</a></li></ul></article></main>
+  <aside class="rail"><nav class="toc" aria-label="On this page"><p class="nav-title">On this page</p><ul><li class="l2"><a href="#choose-a-strategy">Choose a strategy</a></li><li class="l2"><a href="#github-actions-simple-gate">GitHub Actions: simple gate</a></li><li class="l2"><a href="#github-actions-baseline-report-artifact-and-code-scanning-upload">GitHub Actions: baseline, report artifact and code-scanning upload</a></li><li class="l2"><a href="#refresh-the-baseline-the-ratchet">Refresh the baseline (the ratchet)</a></li><li class="l2"><a href="#gitlab-ci">GitLab CI</a></li><li class="l2"><a href="#pre-commit-hook-local-fast">Pre-commit hook (local, fast)</a></li><li class="l2"><a href="#any-other-ci-jenkins-azure-pipelines-circleci">Any other CI (Jenkins, Azure Pipelines, CircleCI)</a></li><li class="l2"><a href="#keep-ci-fast-and-safe">Keep CI fast and safe</a></li><li class="l2"><a href="#next">Next</a></li></ul></nav></aside>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <p><strong>ArchSutra AI</strong> v0.1.5. Design. Audit. Evolve. Created by <a href="https://shahvatsal.com" rel="noopener">Vatsal Shah</a>. Licensed under <a href="https://github.com/shahvatsalofficial/archsutra-ai/blob/main/LICENSE" rel="noopener">Apache-2.0</a>.</p>
+    <p class="fine">Review aid only. Not a certification, compliance attestation, security guarantee or legal advice. Not affiliated with Anthropic, OpenAI, Cursor, GitHub or Google; product names belong to their owners. <a href="../handbook/07-security-privacy-legal.html">Legal details</a>.</p>
+  </div>
+</footer>
+<script src="../assets/site.js" type="module"></script>
+</body>
+</html>

@@ -64,7 +64,8 @@
     "coverage": "npm run build && node --test --experimental-test-coverage --test-coverage-include=\"dist/**\"",
     "eval": "node scripts/eval.mjs",
     "bench": "npm run build && node scripts/bench.mjs",
-    "docs": "node scripts/build-docs.mjs"
+    "docs": "node scripts/build-charts.mjs && node scripts/build-docs.mjs",
+    "charts": "node scripts/build-charts.mjs"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",
